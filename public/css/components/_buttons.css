@@ -1,0 +1,16 @@
+button {
+  border-radius: 0rem !important;
+}
+.button-r {
+  background: var(--color-azul);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button-r > a {
+  color: white;
+}

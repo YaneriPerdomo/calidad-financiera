@@ -1,0 +1,55 @@
+.ornament {
+  position: absolute;
+  top: 30px;
+  right: -9px;
+  height: 130px;
+  border-radius: 0.2rem;
+  background: green;
+  background-image: none;
+  width: 10px;
+  background-image: linear-gradient(
+    360deg,
+    rgb(43, 108, 131) 25%,
+    rgb(42, 117, 144) 25% 50%,
+    rgb(53, 134, 164) 50% 75%,
+    rgb(60, 154, 188) 75% 100%
+  );
+}
+
+main {
+  flex-grow: 2;
+}
+
+.main--content-login,.main--content-create {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-login__title, .form-create__title {
+  color: var(--color-negro);
+  text-align: center;
+}
+
+.form-login__content ,.form-create__content {
+  padding: 0.5rem 1rem 1rem 1rem;
+}
+
+.form-login__button-send, .form-create__button-send {
+  margin-top: 1rem;
+}
+
+ 
+.form--login__link-text,.form--create__link-text {
+  color: var(--color-azul);
+}
+
+.form-login , .form-create{
+  position: relative;
+  padding: 1rem;
+  background: white !important;
+  border-radius: 1rem;
+  border-radius: 1rem;
+  border: solid 1px #e8d8ff;
+}
