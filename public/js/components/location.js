@@ -2,6 +2,7 @@ import { url } from "../variables.js";
 
 const $SIDEBAR_ITEM_LINKS = document.querySelectorAll('.sidebar__menu-item >a');
 
+console.log(url);
 if (url.href.includes('dashboard') == true) {
     $SIDEBAR_ITEM_LINKS[0].classList.add('sidebar__menu-item--selected');
 } else if (url.href.includes('guest') == true) {

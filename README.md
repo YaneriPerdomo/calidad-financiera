@@ -10,4 +10,4 @@ El Sistema de Gestión de Finanzas Personales ayuda a los usuarios a gestionar s
 
 ## Instalación
 1. Descarga el archivo y pégalo en tu servidor local y si tienes xampp dentro de la misma carpeta tienes que copiarlo en la carpeta htdocs
-1. Instalar dependencias: En su terminal tiene que ejecutar este comando "composer install"
+1. Instala dependencias: En su terminal tiene que ejecutar este comando "composer install"
