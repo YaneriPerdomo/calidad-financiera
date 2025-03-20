@@ -13,20 +13,31 @@ class CreateAccountController extends Controller
       return $this->view('create-account', ['title' => 'Login']);
    }
 
+   public function probando($id)
+   {
+
+      echo $id;
+      return $this->view('create-account', ['style' => '../']);
+   }
    public function add()
    {
-      $user = $_POST['user'];
-      $email = $_POST['email'];
-      $actividad = $_POST['actividad'];
-      $password = $_POST['password'];
+      $name = trim($_POST['name']);
+      $lastname = trim($_POST['lastname']);
+      $user = trim($_POST['user']);
+      $email = trim($_POST['email']);
+      $id_actividad = trim($_POST['actividad']);
+      $password = trim($_POST['password']);
 
       $model = new createAccountModel();
       $model->create([
+         'name' => $name,
+         'lastname' => $lastname,
          'user' => $user,
          'email' => $email,
-         'actividad' => $actividad,
+         'id_actividad' => $id_actividad,
          'password' => $password
       ]);
+
 
       return $model->status == false
          ? '<script>alert("Sucedio un error"); location.href = "./create-account"</script>'

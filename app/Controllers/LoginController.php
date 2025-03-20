@@ -29,11 +29,12 @@ class LoginController extends Controller
 
         if ($authentication->status == true) {
             session_start(); // Inicia la sesión
-            $_SESSION['usuario'] = $authentication->user;
-            $_SESSION['id_usuario'] = $authentication->user->id_usuario;
-            $_SESSION['correo_electronico'] = $authentication->user->correo_electronico;
-            var_dump($authentication->user);
-            switch ($authentication->user->id_rol) {
+            $_SESSION['usuario'] = $authentication->user['usuario'] ?? false;
+            $_SESSION['id_usuario'] = $authentication->user['id_usuario'] ?? false;
+            $_SESSION['correo_electronico'] = $authentication->user['correo_electronico'] ?? false;
+            $_SESSION['nombre'] = $authentication->user['nombre'];
+            $_SESSION['apellido'] = $authentication->user['apellido'];
+            switch ($authentication->user['id_rol']) {
                 case 1:
                     header('Location: ./user/dashboard',  true, 301);
                     break;
@@ -52,7 +53,6 @@ class LoginController extends Controller
             echo 'Bienvenido';
         }
 
-        //  header('Location: ./admin/dashboard',  true, 301);
-        exit();
+         exit();
     }
 }

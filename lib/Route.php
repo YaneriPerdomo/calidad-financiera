@@ -1,6 +1,6 @@
 <?php
  namespace Lib;
-
+ use lib\trim;
 class Route
 {
     private static $routes = [

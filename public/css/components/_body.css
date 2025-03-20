@@ -1,0 +1,8 @@
+body {
+  display: block;
+  height: 100%;
+  background: #e8e8e8 !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

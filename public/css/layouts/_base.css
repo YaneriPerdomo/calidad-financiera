@@ -1,10 +1,14 @@
 body {
   display: block;
   height: 100%;
-  background: #e8e8e8 !important; 
+  background: #e8e8e8 !important;
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+main {
+  flex-grow: 2 !important;
 }
 
 .full-heigh {
@@ -15,4 +19,8 @@ body {
   --color-azul: rgb(56, 141, 172);
   --color-rosado: rgb(236, 49, 95);
   --color-negro: rgb(47, 47, 47);
+}
+
+.text-black {
+  color: var(--color-negro) ;
 }

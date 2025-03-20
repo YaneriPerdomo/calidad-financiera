@@ -14,24 +14,15 @@
     <link rel="stylesheet" href="../public/css/layouts/_base.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-       
+
     </style>
 
 </head>
 
 <body>
-    <header class="header-index">
-        <div class="logo">
-            Logo
-        </div>
-        <div>
-            <nav>
-                <button class="btn button-r font-bold">
-                    <a href="" class="text-decoration-none">COMENZAR</a>
-                </button>
-            </nav>
-        </div>
-    </header>
+    <?php
+    include '../resources/views/components/header.php';
+    ?>
     <main class="main main--content-login">
         <form action="login" method="post" class="form-login">
 
@@ -69,14 +60,9 @@
             </div>
         </form>
     </main>
-    <footer class="py-2">
-        <div>
-            <div class="mt-3 text-center">
-                <p class="text-white">© 2025 Sonidos de habla | Todos los derechos reservados | Política de privacidad | Aviso
-                    legal | Política de cookies | Contacto</p>
-            </div>
-        </div>
-    </footer>
+    <?php
+    include '../resources/views/components/footer.php';
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

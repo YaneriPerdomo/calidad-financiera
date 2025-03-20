@@ -7,28 +7,20 @@
     <title>Crear una cuenta | Calidad financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../public/css/components/_buttons.css">
-    <link rel="stylesheet" href="../public/css/components/_footer.css">
-    <link rel="stylesheet" href="../public/css/components/_header.css">
-    <link rel="stylesheet" href="../public/css/pages/_login-createAccount.css">
-    <link rel="stylesheet" href="../public/css/utilities.css">
-    <link rel="stylesheet" href="../public/css/layouts/_base.css">
+    <link rel="stylesheet" href="../<?php echo $style ?? '' ?>public/css/components/_buttons.css">
+    <link rel="stylesheet" href="../<?php echo $style ?? '' ?>public/css/components/_footer.css">
+    <link rel="stylesheet" href="../<?php echo $style ?? '' ?>public/css/components/_header.css">
+    <link rel="stylesheet" href="../<?php echo $style ?? '' ?>public/css/pages/_login-createAccount.css">
+    <link rel="stylesheet" href="../<?php echo $style ?? '' ?>public/css/utilities.css">
+    <link rel="stylesheet" href="../<?php echo $style ?? '' ?>public/css/layouts/_base.css">
 
 </head>
 
 <body>
-    <header class="header-index">
-        <div class="logo">
-            Logo
-        </div>
-        <div>
-            <nav>
-                <button class="btn button-r font-bold">
-                    <a href="" class="text-decoration-none">COMENZAR</a>
-                </button>
-            </nav>
-        </div>
-    </header>
+    <?php
+    include '../resources/views/components/header.php';
+    ?>
+
     <main class="main main--content-create">
         <form action="create-account" method='POST' class="form-create">
 
@@ -37,6 +29,22 @@
             <p class="title-green p-0 m-2">Regístrate en minutos y comienza a alcanzar tus objetivos</p>
             <div class="form-create__content">
                 <div class="form-create__item">
+                    <label for="name" class="form-create__label">Nombre</label><br>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                        <input type="text" name="name" id="name" class="form-control form--login__input" placeholder="Introduzca el usuario"
+                            aria-label="Username" aria-describedby="basic-addon1" autofocus="true">
+                    </div>
+                </div>
+                <div class="form-create__item">
+                    <label for="lastname" class="form-create__label">Apellido</label><br>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                        <input type="text" name="lastname" id="lastname" class="form-control form--login__input" placeholder="Introduzca el usuario"
+                            aria-label="Username" aria-describedby="basic-addon1" autofocus="true">
+                    </div>
+                </div>
+                <div class="form-create__item">
                     <label for="user" class="form-create__label">Usuario</label><br>
                     <div class="input-group mb-2">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
@@ -44,7 +52,7 @@
                             aria-label="Username" aria-describedby="basic-addon1" autofocus="true">
                     </div>
                 </div>
-                
+
                 <div class="form-create__item">
                     <label for="email" class="form-create__label">Correo electrónico</label><br>
                     <div class="input-group mb-2">
@@ -65,6 +73,7 @@
                             <option value="4">Profesional</option>
                             <option value="5">Docente</option>
                             <option value="6">Estudiante</option>
+                            <option value="7">Otro</option>
                         </select>
                     </div>
 
@@ -97,14 +106,9 @@
             </div>
         </form>
     </main>
-    <footer class="py-2">
-        <div>
-            <div class="mt-3 text-center">
-                <p class="text-white">© 2025 Sonidos de habla | Todos los derechos reservados | Política de privacidad | Aviso
-                    legal | Política de cookies | Contacto</p>
-            </div>
-        </div>
-    </footer>
+    <?php
+    include '../resources/views/components/footer.php';
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

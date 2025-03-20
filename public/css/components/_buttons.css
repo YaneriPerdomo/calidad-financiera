@@ -14,3 +14,18 @@ button {
 .button-r > a {
   color: white;
 }
+
+.button--back {
+  background: none;
+  border: none;
+}
+
+.form__button--submit {
+  background: var(--color-azul);
+}
+
+[type="submit"] {
+  padding: 0.5rem 2rem;
+  color: white;
+  border: 0rem;
+}

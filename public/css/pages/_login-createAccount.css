@@ -16,10 +16,6 @@
   );
 }
 
-main {
-  flex-grow: 2;
-}
-
 .main--content-login,.main--content-create {
   width: 100%;
   display: flex;

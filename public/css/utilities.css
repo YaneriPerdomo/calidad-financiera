@@ -2,10 +2,25 @@
   font-weight: bold;
 }
 
-.text-decoration-none {
+.text-decoration-none , .nav__link{
   text-decoration: none;
 }
 
-.title-green{
-    color:rgb(95, 95, 95);
+.title-green {
+  color: rgb(95, 95, 95);
+}
+
+.h-100-p {
+  height: 100%;
+}
+
+.flex-center-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.obligatio::before {
+  content: "*";
+  color: #ff5d5d;
 }

@@ -1,0 +1,22 @@
+.configuration-profile__content,
+.form--profile,
+.functionality {
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: solid 1px #e8d8ff;
+}
+
+[name] {
+  max-width: 50%;
+}
+
+.configuration-profile__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav__link {
+  color: var(--color-black);
+}

@@ -1,0 +1,26 @@
+.sidebar {
+  background: rgb(48, 48, 48);
+}
+
+.sidebar__menu {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-around;
+  padding: 0rem 0.5rem;
+  align-items: center;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.sidebar__menu-item {
+  list-style: none;
+}
+
+.sidebar__menu-item > a {
+  color: white;
+}
+
+.sidebar__menu-item--selected {
+  color: var(--color-azul) !important;
+  font-weight: bold !important;
+}

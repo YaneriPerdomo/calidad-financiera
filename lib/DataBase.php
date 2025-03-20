@@ -7,7 +7,7 @@ use Exception;
 class Database{
     protected $pdo;
     private $host = 'localhost';
-    private $dbNombre = 'gestion_finanzas_personales';
+    private $dbNombre = 'calidad_financiera';
     private $usuario = 'root';
     private $clave = '';
     public $stmt;
