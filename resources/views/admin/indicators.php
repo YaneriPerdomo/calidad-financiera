@@ -21,11 +21,11 @@
 
 <body>
     <?php
-    include '../resources/views/components/user/header.php';
+    include '../resources/views/components/admin/header.php';
     ?>
     <main class="main main--content-login">
         <?php
-            include '../resources/views/components/user/sidebar.php';
+            include '../resources/views/components/admin/sidebar.php';
         ?>
     </main>
     <?php

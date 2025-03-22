@@ -10,7 +10,7 @@
             </button>
             <ul class="dropdown-menu p-3">
                 <li class="flex-center-full flex-column dropdown-menu__information">
-                    <span class="dropdown-menu__information-email"> <?php echo $_SESSION['correo_electronico'] ?? '' ?> </span>
+                  
                     <img src=" " class="dropdown-menu__img" alt="">
                     <h2> <?php echo  '¡Hola, ' . $_SESSION['usuario'] . '!' ??  '' ?></h2>
                 </li>

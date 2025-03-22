@@ -9,7 +9,7 @@ use PDOException;
 class CreateAccountModel extends Database
 {
 
-  public $status;
+  public $status = false;
   function __construct()
   {
     parent::__construct();

@@ -9,6 +9,7 @@ use App\Controllers\IndicatorsController;
 use App\Controllers\LoginController;
 use App\Controllers\CreateAccountController;
 use App\Controllers\GuestsController;
+use App\Controllers\ProfileAdminController;
 use App\Controllers\ProfileController;
 use App\Controllers\SignOutController;
 use App\Controllers\UserController;
@@ -46,6 +47,15 @@ Route::get('/user/about', [AboutController::class, 'index']);
 
 // Rutas de administrador (con autenticación)
 Route::get('/admin/dashboard', [AdminController::class, 'index']);
+Route::get('/admin/profile', [ProfileAdminController::class, 'index']);
+Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
+Route::post('/admin/changes-password', [ChangesPasswordController::class, 'updatePassword']);
+Route::get('/admin/changes-password', [ProfileAdminController::class, 'ShowChangesPassword']);
+Route::get('/admin/indicators', [IndicatorsController::class, 'index']);
+Route::get('/admin/add-indicator', [IndicatorsController::class, 'showAddForm']);
+Route::post('/admin/add-indicator', [IndicatorsController::class, 'AddIndicator']);
+
+
 
 Route::dispatch();
 

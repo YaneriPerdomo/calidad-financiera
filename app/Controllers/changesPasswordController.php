@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Controllers\AuthController;
+use App\Models\ProfileAdminModel;
 use App\Models\ProfileModel;
  
 class ChangesPasswordController extends Controller
@@ -18,7 +19,7 @@ class ChangesPasswordController extends Controller
    }
    
     public function updatePassword(){
-        $updatePassword = new ProfileModel();
+        $updatePassword = new ProfileAdminModel();
         $updatePassword->updatePassword([
          'old-password' =>  $_POST['old-password'],
          'new-password' => $_POST['new-password'],

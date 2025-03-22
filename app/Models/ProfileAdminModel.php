@@ -8,7 +8,7 @@ use PDO;
 use PDOException;
 use RuntimeException;
 
-class ProfileModel extends Database{
+class ProfileAdminModel extends Database{
 
     public $data = [];
     public $status = false;
@@ -22,13 +22,9 @@ class ProfileModel extends Database{
             throw new InvalidArgumentException("El ID de usuario no es válido."); //Indicar que un argumento pasado a una función o método no es válido.
         }
         $get_data_query = 'SELECT 
-                                usuario , correo_electronico, id_actividad, nombre, apellido
+                                usuario 
                             FROM 
                                 usuarios 
-                            INNER JOIN 
-                                personas 
-                            ON 
-                                usuarios.id_usuario = personas.id_usuario 
                             WHERE 
                                 usuarios.id_usuario = :id_user';
         try {
@@ -54,15 +50,7 @@ class ProfileModel extends Database{
             $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
             $update_user_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
             $update_user_stmt->execute();
-            $update_person_query = 'UPDATE personas SET nombre =:nombre, apellido =:apellido, correo_electronico =:correo_electronico, id_actividad =:id_actividad WHERE id_usuario =:id_usuario';
-            $update_person_stmt = $this->pdo->prepare($update_person_query);
-            $update_person_stmt->bindParam('nombre', $POST['nombre'], PDO::PARAM_STR);
-            $update_person_stmt->bindParam('apellido', $POST['apellido'], PDO::PARAM_STR);
-            $update_person_stmt->bindParam('correo_electronico', $POST['correo_electronico'], PDO::PARAM_STR);
-            $update_person_stmt->bindParam('id_actividad', $POST['id_actividad'], PDO::PARAM_INT);
-            $update_person_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
-            
-            if($update_user_stmt->execute() && $update_person_stmt->execute()){
+            if($update_user_stmt->execute()){
                 return $this->status = true;
             }
         } catch (PDOException $ex) {
