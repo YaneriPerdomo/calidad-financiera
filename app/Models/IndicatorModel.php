@@ -10,7 +10,7 @@ class indicatorModel extends Database
 {
 
 
-  public $status = false;
+   public $status = false;
 
   public $data;
   function __construct()
@@ -19,6 +19,29 @@ class indicatorModel extends Database
   }
 
 
+  public function ShowIndicator($id, $type){
+    switch ($type) {
+      case 'ingreso':
+            $this->data =$this->FindOneDate('ingresos', $id, 'id_ingreso', ['ingreso']);
+      break;
+      case 'egreso':
+            $this->data =$this->FindOneDate('egresos', $id, 'id_egreso', ['egreso']);
+      break;
+      default:
+        echo 'No se encontro el tipo de indicador';
+      break;
+    }
+  }
+
+  public function FindOneDate($table, $id, $id_field,  array $fields = ['*']){
+    $fieldsString = implode(',', $fields);
+    $find_query = "SELECT {$fieldsString} FROM {$table} WHERE {$id_field} = :id";
+    $find_stmt = $this->pdo->prepare($find_query);
+    $find_stmt->bindParam('id', $id, PDO::PARAM_INT);
+    $find_stmt->execute();
+    $result = $find_stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
   public function ShowGraduationCategories()
   {
 
