@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-03-2025 a las 18:48:39
+-- Tiempo de generación: 24-03-2025 a las 02:59:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -60,6 +60,18 @@ CREATE TABLE `categorias_egreso` (
   `categoria` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `categorias_egreso`
+--
+
+INSERT INTO `categorias_egreso` (`id_categoria_egreso`, `categoria`) VALUES
+(3, 'Comida'),
+(6, 'Deudas'),
+(5, 'Entretenimiento '),
+(4, 'Otros'),
+(2, 'Servicios'),
+(1, 'Vivienda');
+
 -- --------------------------------------------------------
 
 --
@@ -70,8 +82,22 @@ DROP TABLE IF EXISTS `egresos`;
 CREATE TABLE `egresos` (
   `id_egreso` int(10) NOT NULL,
   `id_categoria_egreso` int(10) NOT NULL,
-  `egresos` varchar(40) NOT NULL
+  `egreso` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `egresos`
+--
+
+INSERT INTO `egresos` (`id_egreso`, `id_categoria_egreso`, `egreso`) VALUES
+(1, 3, 'Comida basura'),
+(2, 6, 'probandoex'),
+(3, 1, ' dsfwetrew'),
+(4, 1, ' probando43+'),
+(5, 1, ' probando4'),
+(6, 1, 're'),
+(7, 1, 'dsad'),
+(8, 2, ' dsad');
 
 -- --------------------------------------------------------
 
@@ -84,6 +110,18 @@ CREATE TABLE `ingresos` (
   `id_ingreso` int(10) NOT NULL,
   `ingreso` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ingresos`
+--
+
+INSERT INTO `ingresos` (`id_ingreso`, `ingreso`) VALUES
+(1, 'Sueldo'),
+(2, 'Bonod'),
+(3, 'Negocio'),
+(4, 'Emprendimiento'),
+(5, ' dsad'),
+(6, 'dsad');
 
 -- --------------------------------------------------------
 
@@ -204,8 +242,8 @@ INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `usuario`, `clave`, `ultimo_acce
 (64, 3, ' htrh', '$2y$10$CPpAFA2ZdbSZeOb5EjNsdeQKZ4wBUApTHfiLAdTSSg9vjWWDVKcQW', NULL),
 (66, 3, 'u65u', '$2y$10$NDsHPnxOxkRXyPxU/q0mG.FROD2blSuqoHV5muX21yu39mjCvIyy2', NULL),
 (68, 3, '33 dsadsa', '$2y$10$yiEpk99EpyG6.f28syRUI.eXbCaEbWnxaOBubPa0VRxtvSVXZj0WO', NULL),
-(73, 2, 'admin', '$2y$10$E1n9CYVK84p3QMyhhi1ucOn9qiLVDZWmjYdxk1VLf5dCH0c/7QNli', '2025-03-20 11:31:27'),
-(75, 1, 'diaman2024', '$2y$10$MqHQx6VUPJOUMVALCp6yRumCS/Z50rYL4liWnYMy777tuJ8d63vzK', '2025-03-20 09:25:38'),
+(73, 2, 'Admin', '$2y$10$.fHcxIKy5X.LfCOlaQoNTOIGHg8bPHkq.j/gP3E6c/hXDSlMAdVCy', '2025-03-23 17:46:29'),
+(75, 1, 'diaman2024', '$2y$10$MqHQx6VUPJOUMVALCp6yRumCS/Z50rYL4liWnYMy777tuJ8d63vzK', '2025-03-20 18:43:07'),
 (76, 1, 'leonard', '$2y$10$GvH2TmP2UiR4S4ObZo0LBuNwXRT9hdy6xC4RAMPx/SstKhRXy/kKC', '2025-03-20 11:47:46');
 
 --
@@ -284,19 +322,19 @@ ALTER TABLE `actividades`
 -- AUTO_INCREMENT de la tabla `categorias_egreso`
 --
 ALTER TABLE `categorias_egreso`
-  MODIFY `id_categoria_egreso` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_categoria_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `id_ingreso` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ingreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `invitados`

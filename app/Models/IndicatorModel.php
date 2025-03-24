@@ -25,7 +25,7 @@ class indicatorModel extends Database
             $this->data =$this->FindOneDate('ingresos', $id, 'id_ingreso', ['ingreso']);
       break;
       case 'egreso':
-            $this->data =$this->FindOneDate('egresos', $id, 'id_egreso', ['egreso']);
+            $this->data =$this->FindOneDate('egresos', $id, 'id_egreso', ['id_categoria_egreso','egreso']);
       break;
       default:
         echo 'No se encontro el tipo de indicador';
@@ -53,6 +53,39 @@ class indicatorModel extends Database
     } catch (PDOException $ex) {
       echo  $ex->getMessage();
     }
+  }
+
+  public function UpdateIndicator($POST = []){
+     
+      
+      if (is_array($POST) ) {
+        switch ($POST['type-indicator']) {
+          case '1':
+             $update_income_query = 'UPDATE ingresos SET ingreso = :ingreso WHERE id_ingreso = :id_ingreso';    
+             $update_income_stmt = $this->pdo->prepare($update_income_query);
+             $update_income_stmt->bindParam('ingreso', $POST['income'], PDO::PARAM_STR);
+             $update_income_stmt->bindParam('id_ingreso', $POST['id'], PDO::PARAM_INT);
+             $update_income_stmt->execute();
+            
+             if($update_income_stmt->rowCount()> 0){
+               return $this->status = true;
+             }    
+          break;
+          case '2':
+            $update_graduation_query = 'UPDATE egresos SET egreso = :egreso WHERE id_egreso = :id_egreso';    
+            $update_graduation_stmt = $this->pdo->prepare($update_graduation_query);
+            $update_graduation_stmt->bindParam('egreso', $POST['graduation'], PDO::PARAM_STR);
+            $update_graduation_stmt->bindParam('id_egreso', $POST['id'], PDO::PARAM_INT);
+            $update_graduation_stmt->execute();
+            if($update_graduation_stmt->rowCount()> 0){
+              return $this->status = true;
+            }  
+            break;
+          
+        }
+        
+      }
+  
   }
 
   public function AddIndicator($POST = [])

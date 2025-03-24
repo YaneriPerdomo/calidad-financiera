@@ -53,10 +53,12 @@ Route::post('/admin/changes-password', [ChangesPasswordController::class, 'updat
 Route::get('/admin/changes-password', [ProfileAdminController::class, 'ShowChangesPassword']);
 Route::get('/admin/indicators', [IndicatorsController::class, 'index']);
 Route::get('/admin/add-indicator', [IndicatorsController::class, 'showAddForm']);
+Route::post('/admin/indicator/add', [IndicatorsController::class, 'AddIndicator']);
+Route::get('/admin/indicator/add', [IndicatorsController::class, 'create']);
 Route::get('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, 'Modify']);
 Route::get('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class, 'Modify']);
-Route::post('/admin/indicator/add', [IndicatorsController::class, 'add']);
-Route::get('/admin/indicator/add', [IndicatorsController::class, 'create']);
+Route::post('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, 'Operation']);
+Route::post('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class, 'Operation']);
 
 
 
