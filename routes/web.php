@@ -52,7 +52,7 @@ Route::get('/admin/profile', [ProfileAdminController::class, 'index']);
 Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
 Route::post('/admin/changes-password', [ChangesPasswordController::class, 'updatePassword']);
 Route::get('/admin/changes-password', [ProfileAdminController::class, 'ShowChangesPassword']);
-Route::get('/admin/indicators', [IndicatorsController::class, 'index']);
+Route::get('/admin/indicators/:pageE/:pageI', [IndicatorsController::class, 'index']);
 Route::get('/admin/add-indicator', [IndicatorsController::class, 'showAddForm']);
 Route::post('/admin/indicator/add', [IndicatorsController::class, 'AddIndicator']);
 Route::get('/admin/indicator/add', [IndicatorsController::class, 'create']);

@@ -34,8 +34,10 @@ class Database{
     }
  
    */
-    public function pdoNull(){
-        $this->pdo = null;
+   
+    public function __destruct()
+    {
+      $this->pdo = null;
     }
 
 }

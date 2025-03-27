@@ -19,9 +19,9 @@ class GuestsController extends Controller
       return $this->view('guest.dashboard');       
    }
 
-   public function show($id){
+   public function show($page){
       $show_guests = new GuestModel();
-      $show_guests->show($id, $_SESSION['id_persona']);
+      $show_guests->show($page, $_SESSION['id_persona']);
 
       
       return $this->view('user.guests',[ 'HTML' => $show_guests->HTML, 'main_jump' => '../', 'header_break' => '../']); 

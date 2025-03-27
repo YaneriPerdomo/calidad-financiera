@@ -1,0 +1,33 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(0, 0, 0, 0.5);
+}
+
+.modal__content {
+  max-width: 500px;
+  background: white;
+  min-width: 200px;
+}
+
+.modal__title {
+  padding: 1rem;
+  color: white;
+}
+
+.modal__title--delete {
+  background: #ff4b4b;
+}
+
+.modal__text {
+  padding: 0.5rem;
+  margin: 0rem;
+}
+
+.modal__form {
+  padding: 1rem;
+}

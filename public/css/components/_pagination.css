@@ -1,0 +1,19 @@
+.page__link {
+  text-decoration: none;
+  color: black;
+}
+
+.page__link--selected {
+  background: var(--color-azul);
+  padding: 0.3rem;
+  color: white;
+}
+
+.navegation {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pagination{
+  gap:0.4rem;
+}

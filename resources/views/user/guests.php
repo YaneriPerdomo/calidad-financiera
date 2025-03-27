@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="../../public/../css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/../css/components/_footer.css">
     <link rel="stylesheet" href="../../public/../css/components/_header.css">
+
+    <link rel="stylesheet" href="../../public/../css/components/_table.css">
+    <link rel="stylesheet" href="../../public/../css/components/_body.css">
     <link rel="stylesheet" href="../../public/../css/components/_body.css">
     <link rel="stylesheet" href="../../public/../css/components/_sidebar.css">
     <link rel="stylesheet" href="../../public/../css/pages/_about.css">
@@ -19,209 +22,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
-        .dataTable {
-            display: block;
-            width: 100%;
-            margin: 1em 0;
-        }
-
-        .dataTable thead,
-        .dataTable tbody,
-        .dataTable thead tr,
-        .dataTable th {
-            display: block;
-        }
-
-        .contentTableC {
-            display: flex;
-            padding: 0.5rem;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dataTable thead {
-            float: left;
-        }
-
-        .dataTable tbody {
-            width: auto;
-            position: relative;
-            overflow-x: auto;
-        }
-
-        .dataTable td,
-        .dataTable th {
-            padding: .625em;
-            line-height: 1.5em;
-            border-bottom: 1px dashed #ccc;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        .dataTable th {
-            text-align: left;
-            background: rgba(0, 0, 0, 0.14);
-            border-bottom: 1px dashed #aaa;
-        }
-
-        .dataTable tbody tr {
-            display: table-cell;
-
-        }
+      
+        
 
 
-        thead>tr {
-            background: var(--color-azul) !important;
-            color: white !important;
-        }
 
-        .dataTable tbody td {
-            display: block;
-        }
+    
+       
 
-        .dataTable tr:nth-child(odd) {
-            background: rgba(0, 0, 0, 0.07);
-        }
+ 
+     
 
-        @media screen and (min-width: 992px) {
-
-            .dataTable {
-                display: table;
-            }
-
-            .dataTable thead {
-                display: table-header-group;
-                float: none;
-            }
-
-            .dataTable tbody {
-                display: table-row-group;
-            }
-
-            .dataTable thead tr,
-            .dataTable tbody tr {
-                display: table-row;
-            }
-
-            .dataTable th,
-            .dataTable tbody td {
-                display: table-cell;
-            }
-
-            .dataTable td,
-            .dataTable th {
-                width: auto;
-            }
-
-
-        }
-
-        .style-border {
-            background: white;
-            padding: 1rem;
-            border-radius: 1rem;
-            border: solid 1px #e8d8ff;
-            margin: 1rem;
-        }
-
-        .flex-space-between {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            align-items: center;
-
-        }
-
-        .button--azul {
-            background: var(--color-azul);
-            padding: 0.5rem 1.5rem;
-            color: white;
-            border: 0rem;
-        }
-
-        .button--orange {
-
-            background: #A58F47;
-            padding: 0.5rem 1.5rem;
-            color: white;
-            border: 0rem;
-        }
-
-        .operation-pagitation>a {
-            text-decoration: none;
-            color: black;
-        }
-
-        .operation-pagitation>a>b {
-            background: var(--color-azul);
-            padding: 0.3rem;
-            color: white;
-        }
-
-        .button--delete {
-            background: #ff4b4b;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-        }
-
-        .button--modify {
-            background: #4aa448;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-        }
-
-
-        .modal {
-            width: 100vw;
-            height: 100vh;
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            background: green;
-            align-items: center;
-            background: rgb(0, 0, 0, 0.5);
-        }
-
-        .modal__content {
-            max-width: 500px;
-            background: white;
-            min-width: 200px;
-
-        }
-
-        .modal__title {
-            padding: 1rem;
-            color: white;
-        }
-
-        .modal__title--delete {
-            background: #ff4b4b;
-
-        }
-
-        .modal__text {
-            padding: 0.5rem;
-            margin: 0rem;
-        }
-
-        .modal__form {
-            padding: 1rem;
-        }
-
-        .button--cancel {
-            background: #565d62;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-        }
-
-        .flex-end-full{
-            display: flex;
-            justify-content: end;
-        }
+    
     </style>
 </head>
 

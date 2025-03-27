@@ -147,7 +147,7 @@
                 <div class="flex-center-full form__actions gap-3">
                     <button class="form__button button--back" type="button">
 
-                        <a href="<?php echo isset($indicator) ? '../../' : '../' ?>indicators" class="text-black text-decoration-none"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
+                        <a href="<?php echo $jump_indicators?>indicators/1/1" class="text-black text-decoration-none"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
                     </button>
                     <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
                 </div>

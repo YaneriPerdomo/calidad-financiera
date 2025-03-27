@@ -31,6 +31,48 @@ button {
   border: 0rem;
 }
 
-.button--azul{
+.button--azul {
   background: var(--color-azul);
+}
+
+.button--azul {
+  background: var(--color-azul);
+  padding: 0.5rem 1.5rem;
+  color: white;
+  border: 0rem;
+}
+
+.button--black {
+  background: var(--color-negro);
+  padding: 0.5rem 1.5rem;
+  color: white;
+  border: 0rem;
+}
+
+.button--orange {
+  background: #a58f47;
+  padding: 0.5rem 1.5rem;
+  color: white;
+  border: 0rem;
+}
+
+.button--delete {
+  background: #ff4b4b;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+}
+
+.button--modify {
+  background: #4aa448;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+}
+
+.button--cancel {
+  background: #565d62;
+  color: white;
+  border: none;
+  padding: 0.5rem;
 }

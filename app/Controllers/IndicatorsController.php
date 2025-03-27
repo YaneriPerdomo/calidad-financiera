@@ -14,11 +14,16 @@ class IndicatorsController extends Controller
       AuthController::checkSession();
    }
 
-   public function index()
+   public function index($page_e = 1, $page_i = 1)
    {
+      $show_indicators = new indicatorModel();
+      $show_indicators->show($page_e, $page_i);
 
-      return $this->view('admin.indicators');
+      
+      return $this->view('admin.indicators', ['HTML_graduantion' => $show_indicators->HTML_graduantion,
+             'HTML_insome' => $show_indicators->HTML_insome]);
    }
+
 
    public function Show() {}
 
@@ -26,8 +31,9 @@ class IndicatorsController extends Controller
    {
       $get_graduation_categories = new indicatorModel();
       $get_graduation_categories->ShowGraduationCategories();
-
-      return $this->view('admin.indicator', ['data' => $get_graduation_categories->data]);
+   
+      return $this->view('admin.indicator', ['data' => $get_graduation_categories->data, 
+      'jump_indicators' => '../']);
    }
 
    public function Operation()
@@ -61,7 +67,8 @@ class IndicatorsController extends Controller
 
 
       return $this->view('admin.indicator', ['data' => $get_graduation_categories->data, 'indicator' =>
-      $get_indicator->data, 'type' => $type_indicator, 'id' => $id,  'type_indicator']);
+      $get_indicator->data, 'type' => $type_indicator, 'id' => $id,  'type_indicator', 
+      'jump_indicators' => '../../']);
 
       /*
       $get_indicator = new indicatorModel();

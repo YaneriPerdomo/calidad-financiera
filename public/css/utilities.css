@@ -2,7 +2,8 @@
   font-weight: bold;
 }
 
-.text-decoration-none , .nav__link{
+.text-decoration-none,
+.nav__link {
   text-decoration: none;
 }
 
@@ -23,4 +24,29 @@
 .obligatio::before {
   content: "*";
   color: #ff5d5d;
+}
+
+.style-border {
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: solid 1px #e8d8ff;
+  margin: 1rem;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.flex-end-full {
+  display: flex;
+  justify-content: end;
+}
+
+.flex-end-full {
+  display: flex;
+  justify-content: end;
 }
