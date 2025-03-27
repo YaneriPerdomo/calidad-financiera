@@ -12,7 +12,7 @@ class UserController extends Controller
 
    public function index()
    {
-      return $this->view('user.dashboard');
+      return $this->view('user.dashboard', [ 'main_jump' => './']);
    }
    
     

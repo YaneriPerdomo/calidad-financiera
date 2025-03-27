@@ -37,11 +37,11 @@ class LoginModel extends Database
                 $update_last_access_stmt->execute();
                 if ($this->user['id_rol'] == 1) {
                     $get_person_query = 'SELECT 
-                                    id_actividad, nombre, apellido, correo_electronico 
-                                    FROM 
-                                        personas 
-                                    WHERE 
-                                        id_usuario = :id_user';
+                                            id_persona, id_actividad, nombre, apellido, correo_electronico 
+                                            FROM 
+                                                personas 
+                                            WHERE 
+                                                id_usuario = :id_user';
                     $get_persona_stmt = $this->pdo->prepare($get_person_query);
                     $get_persona_stmt->bindParam('id_user',   $this->user['id_usuario'], PDO::PARAM_INT);
                     $get_persona_stmt->execute();

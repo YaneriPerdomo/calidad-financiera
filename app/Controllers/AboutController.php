@@ -12,11 +12,17 @@ class AboutController extends Controller
 
    public function index()
    {
-    
-      return $this->view('user.about');
-   }
+      if(preg_match('/admin/', $_SERVER['REQUEST_URI'], $rol)){
+        
+         return $this->view('admin.about');
+      }else if(preg_match('/user/', $_SERVER['REQUEST_URI'], $rol)){
    
+         return $this->view('user.about');
+      }
     
+   }
+    
+     
     
  
 }

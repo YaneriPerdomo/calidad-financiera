@@ -8,8 +8,7 @@ const $SIDEBAR_ITEM_LINKS = document.querySelectorAll('.sidebar__menu-item >a');
     $SIDEBAR_ITEM_LINKS[2].classList.add('sidebar__menu-item--selected');
 }
 else if (url.href.includes('about') == true) {
-    console.info( $SIDEBAR_ITEM_LINKS[3])
-    $SIDEBAR_ITEM_LINKS[4].classList.add('sidebar__menu-item--selected');
+     $SIDEBAR_ITEM_LINKS[4].classList.add('sidebar__menu-item--selected');
 } else if (url.href.includes('indicators') == true || url.href.includes('add-indicator') == true) {
     console.info( $SIDEBAR_ITEM_LINKS[1])
     console.warn(false)

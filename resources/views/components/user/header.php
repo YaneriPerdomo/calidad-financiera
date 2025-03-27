@@ -15,7 +15,7 @@
                     <h2> <?php echo  '¡Hola, ' . $_SESSION['usuario'] . '!' ??  '' ?></h2>
                 </li>
                 <li class="text-center">
-                    <a href="./profile" class="text-decoration-none text__blue"><button class="dropdown-item" type="button">Administrar tu cuenta</button></a>
+                    <a href="<?php echo $header_break ?? './'?>profile" class="text-decoration-none text__blue"><button class="dropdown-item" type="button">Administrar tu cuenta</button></a>
                 </li>
                 <li clasS="text-center">
                     <button class="dropdown-item" type="button">

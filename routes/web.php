@@ -29,11 +29,11 @@ Route::get('/signOut', [SignOutController::class, 'signOut']);
 
 // Rutas de usuario (con autenticación)
 Route::get('/user/dashboard', [UserController::class, 'index']);
-Route::get('/user/guests', [GuestsController::class, 'index']);
+Route::get('/user/guests/:page', [GuestsController::class, 'show']);
 Route::get('/user/add-guest', [GuestsController::class, 'showAddForm']);
 Route::post('/user/add-guest', [GuestsController::class, 'addData']);
 Route::post('/user/guest', [GuestsController::class, 'operationData']);
-Route::get('/user/guest/add', [GuestsController::class, 'showAddForm']);
+Route::get('/user/guest/add', [GuestsController::class, 'create']);
 Route::get('/user/guest/:id/modify', [GuestsController::class, 'showData']);
 
 Route::get('/user/profile', [ProfileController::class, 'index']);
@@ -47,6 +47,7 @@ Route::get('/user/about', [AboutController::class, 'index']);
 
 // Rutas de administrador (con autenticación)
 Route::get('/admin/dashboard', [AdminController::class, 'index']);
+Route::get('/admin/about', [AboutController::class, 'index']);
 Route::get('/admin/profile', [ProfileAdminController::class, 'index']);
 Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
 Route::post('/admin/changes-password', [ChangesPasswordController::class, 'updatePassword']);
@@ -61,6 +62,8 @@ Route::post('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, 
 Route::post('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class, 'Operation']);
 
 
+//Rutas de invitado (con autenticacion)
+Route::get('./guest/dashboard' , [GuestsController::class, 'index']);
 
 Route::dispatch();
 

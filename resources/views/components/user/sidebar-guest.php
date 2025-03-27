@@ -5,7 +5,7 @@
                 <a href="<?php echo empty(!$data) ? '../../' : '../' ?>dashboard" id="start" class="text-decoration-none">Inicio</a>
             </li>
             <li class="sidebar__menu-item">
-                <a href="<?php echo empty(!$data) ? '../../' : '../' ?>data" id="data" class="text-decoration-none">Datos</a>
+                <a href="<?php echo empty(!$data) ? '../' : '../../' ?>data" id="data" class="text-decoration-none">Datos</a>
             </li>
             <li class="sidebar__menu-item">
                 <a href="<?php echo empty(!$data) ? '../../' : '../' ?>guests" id="guest" class="text-decoration-none">Invitados</a>

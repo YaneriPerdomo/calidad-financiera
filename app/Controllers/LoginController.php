@@ -49,7 +49,7 @@ class LoginController extends Controller
             switch ($authentication->user['id_rol']) {
                 case 1:
                     echo 'hola';
-                    echo $_SESSION['usuario'];
+                    $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';                    
                     header('Location: ./user/dashboard', true, 301);
                     break;
                 case 2:

@@ -22,13 +22,13 @@
 
 <body>
     <?php
-    include '../resources/views/components/user/header.php';
+    include '../resources/views/components/admin/header.php';
     ?>
     <main class="main">
         <div class="row p-2">
             <div class="col-12 col-lg-3 configuration-profile h-100">
                 <?php
-                include '../resources/views/components/user/profile-nav.php';
+                include '../resources/views/components/admin/profile-nav.php';
                 ?>
             </div>
             <div class="col-12 col-lg-9">

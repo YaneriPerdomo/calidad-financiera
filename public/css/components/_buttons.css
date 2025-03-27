@@ -1,5 +1,6 @@
 button {
   border-radius: 0rem !important;
+  background: none;
 }
 .button-r {
   background: var(--color-azul);
@@ -28,4 +29,8 @@ button {
   padding: 0.5rem 2rem;
   color: white;
   border: 0rem;
+}
+
+.button--azul{
+  background: var(--color-azul);
 }
