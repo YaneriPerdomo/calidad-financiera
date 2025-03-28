@@ -16,7 +16,8 @@ class GuestsController extends Controller
    // Mostrar la vista principal del modulo invitados
    public function index()
    { 
-      return $this->view('guest.dashboard');       
+   
+      return $this->view('guest.dashboard', ['main_jump' => '../']);       
    }
 
    public function show($page){

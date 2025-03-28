@@ -63,7 +63,10 @@ Route::post('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class,
 
 
 //Rutas de invitado (con autenticacion)
-Route::get('./guest/dashboard' , [GuestsController::class, 'index']);
+Route::get('/guest/dashboard' , [GuestsController::class, 'index']);
+Route::get('/guest/profile' , [ProfileController::class, 'index']);
+Route::get('/guest/about' , [AboutController::class, 'index']);
+
 
 Route::dispatch();
 
