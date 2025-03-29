@@ -76,3 +76,10 @@ button {
   border: none;
   padding: 0.5rem;
 }
+
+.button--progress{
+  background-color: var(--color-azul);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+}

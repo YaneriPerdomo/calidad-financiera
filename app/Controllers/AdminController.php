@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
- 
+use App\Models\AdminModel;
+
 class AdminController extends Controller
 {
 
@@ -11,11 +12,17 @@ class AdminController extends Controller
 
        AuthController::checkSession();
    }
-   public function index(){
-    
-      return $this->view('admin.dashboard');
+   public function index($page){
+      
+
+      $show_users = new AdminModel();
+      $show_users->ShowUsers($page);
+      return $this->view('admin.dashboard', ['HTML' => $show_users->HTML]);
    }
 
-    
+   //Mostrar de manera detalladamente a sus usuarios
+   public function show(){
+      
+   }
      
 }

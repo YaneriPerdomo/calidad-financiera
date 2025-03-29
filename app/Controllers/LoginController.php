@@ -53,11 +53,11 @@ class LoginController extends Controller
                     header('Location: ./user/dashboard', true, 301);
                     break;
                 case 2:
-                    header('Location: ./admin/dashboard', true, 301);
+                    header('Location: ./admin/dashboard/1', true, 301);
                     break;
                 case 3:
                     $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';
-                    header('Location: ./guest/dashboard', true, 301);
+                    header('Location: ./guest/dashboard/1', true, 301);
                     break;
                 default:
                     // Handle unknown roles (optional)

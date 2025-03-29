@@ -165,7 +165,8 @@ class indicatorModel extends Database
                             <button class='button--modify'>
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
-                        </a>";
+                        </a>
+                        ";
         $this->HTML_graduantion .=  "</td>";
         $this->HTML_graduantion .=  "</tr>";
       }
