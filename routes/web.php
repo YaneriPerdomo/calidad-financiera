@@ -60,6 +60,9 @@ Route::get('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, '
 Route::get('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class, 'Modify']);
 Route::post('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, 'Operation']);
 Route::post('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class, 'Operation']);
+Route::get('/admin/:id-user/modify', [UserController::class, 'edit']);
+Route::post('/admin/:id-user/modify', [UserController::class, 'update']);
+Route::get('/admin/user/:id/progress', [IndicatorsController::class, 'Operation']);
 
 
 //Rutas de invitado (con autenticacion)

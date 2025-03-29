@@ -24,7 +24,7 @@ class Database{
         
     }
 
-   /*
+   
     public function prepare($query, $bindParam = []){ 
         $this->stmt = $this->pdo->prepare($query);
         foreach ($bindParam as $key => $value) {
@@ -33,8 +33,11 @@ class Database{
         $this->stmt;
     }
  
-   */
+    public function PreparePasswordUpdate($old_password, $new_password){
+        
+    }
    
+    
     public function __destruct()
     {
       $this->pdo = null;

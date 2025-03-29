@@ -38,6 +38,7 @@ class AdminModel extends Database
                             actividades
                         ON
                             personas.id_actividad = actividades.id_actividad
+                        ORDER BY usuarios.id_usuario DESC
                         LIMIT 
                             :inicio, :registros_por_pagina';
     $start = ($current_page - 1) * $records_page;
@@ -62,7 +63,7 @@ class AdminModel extends Database
         $this->HTML .= "<button class='  button--delete'>
                            <i class='bi bi-trash js-open-modal-delete'   data-id_user='" . $row['id_usuario'] . "'></i>  
                         </button>";
-        $this->HTML .= "<a href='../../user/" . $row['id_usuario'] . "/modify'>
+        $this->HTML .= "<a href='../../admin/" . $row['id_usuario'] . "-user/modify'>
                             <button class='button--modify'>
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
@@ -103,15 +104,15 @@ class AdminModel extends Database
                                         <span class='show_quantity__message'> " . $display_log_message . "</span></span><nav
                                         class='navigation--egress navigation '><ul class='pagination'>";
       if ($current_page > 1) {
-        $this->HTML .= "<li class='page__item '><a href='./" . ($current_page - 1) . "' class='page__link page__link--graduantion'>Anterior</a></li> ";
+        $this->HTML .= "<li class='page__item '><a href='./" . ($current_page - 1) . "' class='page__link '>Anterior</a></li> ";
       }
       for ($i = 1; $i <= $total_pages; $i++) {
         $this->HTML .= "<li class='page__item'>
-                                            <a href='./" . $i . "' class='page__link page__link--graduantion'>" . ($i == $current_page ? '<b class="page__link--selected">' . $i . '</b>' : $i) . "</a>
+                                            <a href='./" . $i . "' class='page__link '>" . ($i == $current_page ? '<b class="page__link--selected">' . $i . '</b>' : $i) . "</a>
                                         </li>";
       }
       if ($current_page < $total_pages) {
-        $this->HTML .= "<li class='page__item'><a href='./" . ($current_page + 1) . "' class='page__link page__link--graduantion'>Siguiente</a>
+        $this->HTML .= "<li class='page__item'><a href='./" . ($current_page + 1) . "' class='page__link '>Siguiente</a>
                                             </li>
                                         </ul>
                                     </nav>";

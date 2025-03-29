@@ -54,7 +54,12 @@ class ProfileModel extends Database{
             $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
             $update_user_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
             $update_user_stmt->execute();
-            $update_person_query = 'UPDATE personas SET nombre =:nombre, apellido =:apellido, correo_electronico =:correo_electronico, id_actividad =:id_actividad WHERE id_usuario =:id_usuario';
+            $update_person_query = 'UPDATE 
+                                        personas 
+                                    SET 
+                                        nombre =:nombre, apellido =:apellido, correo_electronico =:correo_electronico, id_actividad =:id_actividad 
+                                    WHERE 
+                                        id_usuario =:id_usuario';
             $update_person_stmt = $this->pdo->prepare($update_person_query);
             $update_person_stmt->bindParam('nombre', $POST['nombre'], PDO::PARAM_STR);
             $update_person_stmt->bindParam('apellido', $POST['apellido'], PDO::PARAM_STR);
