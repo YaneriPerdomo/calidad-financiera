@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\AuthController;
 use App\Models\ProfileGuestModel;
 use App\Models\ProfileModel;
+use App\Models\UserModel;
 
 class ProfileController extends Controller
 {
@@ -20,33 +21,31 @@ class ProfileController extends Controller
       $url = $_SERVER['REQUEST_URI'];
       if (strpos($url, 'user')) {
          $type_rol =  'user';
-
-         $show_data_profile = new ProfileModel();
-         $show_data_profile->showData($_SESSION['id_usuario']);
-         return $this->view('guest.profile', ['data' => $show_data_profile->data]);
+         $show_data_profile = new UserModel();
+         $show_data_profile->edit($_SESSION['id_usuario']);
+         return $this->view('user.profile', ['data' => $show_data_profile->data]);
       } else if (strpos($url, 'admin')) {
          $type_rol =  'admin';
       } else if (strpos($url, 'guest')) {
-       
+
          $show_data_profile = new ProfileGuestModel();
          $show_data_profile->ShowData(68);
          $type_rol = 'guest';
          return $this->view('guest.profile', ['data' => $show_data_profile->data]);
-
       }
 
       echo $type_rol;
    }
 
-   public function updateData()
+   public function update()
    {
       if (empty($_POST)) {
          echo '<script>alert("No se han recibido datos para actualizar")
          location.href = "./profile"
          </script>';
       }
-      $update_data_profile = new ProfileModel();
-      $update_data_profile->updateData([
+      $update_data_profile = new UserModel();
+      $update_data_profile->update([
          'id_usuario' => $_SESSION['id_usuario'],
          'usuario' => $_POST['user'],
          'correo_electronico' => $_POST['email'],

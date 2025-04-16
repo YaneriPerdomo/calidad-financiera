@@ -133,7 +133,7 @@
                                     <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
                                     <input
                                         type="text"
-                                        name="password"
+                                        name="new-password"
                                         class="form__input form__input--item form-control"
                                         placeholder="Usuario"
                                         aria-label="Username"

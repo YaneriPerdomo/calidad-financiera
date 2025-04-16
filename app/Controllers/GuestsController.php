@@ -24,7 +24,6 @@ class GuestsController extends Controller
       $show_guests = new GuestModel();
       $show_guests->show($page, $_SESSION['id_persona']);
 
-      
       return $this->view('user.guests',[ 'HTML' => $show_guests->HTML, 'main_jump' => '../', 'header_break' => '../']); 
    
    }

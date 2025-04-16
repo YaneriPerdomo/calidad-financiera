@@ -18,6 +18,19 @@ class indicatorModel extends Database
 
   public $HTML_insome;
   public $data_insome;
+
+  public $graduantion = [
+    1 => [], 
+    2 => [],
+    3 => [],
+    4 => [],
+    5 => [],
+    6 => []
+  ];
+
+  public $accommodation;
+
+
   function __construct()
   {
     parent::__construct();
@@ -248,13 +261,53 @@ class indicatorModel extends Database
   {
 
     try {
-      $get_graduation_categories_query = 'SELECT * FROM `categorias_egreso` ORDER BY IF(id_categoria_egreso = 4, 1, 0), id_categoria_egreso; ';
+      $get_graduation_categories_query = 'SELECT * FROM `categorias_egreso` ORDER BY  id_categoria_egreso; ';
       $get_graduation_categories_stmt = $this->pdo->prepare($get_graduation_categories_query);
       $get_graduation_categories_stmt->execute();
       $this->data = $get_graduation_categories_stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $ex) {
       echo  $ex->getMessage();
     }
+  }
+
+  public function GetGraduation(){
+
+    $get_all_data_accommodation_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =1 ';
+    $get_all_data_accommodation_category_stmt = $this->pdo->prepare($get_all_data_accommodation_category_query);
+    $get_all_data_accommodation_category_stmt->execute();
+
+    $this->graduantion[1]= $get_all_data_accommodation_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $get_all_data_services_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =2 ';
+    $get_all_data_services_category_stmt = $this->pdo->prepare($get_all_data_services_category_query);
+    $get_all_data_services_category_stmt->execute();
+
+    $this->graduantion[2]= $get_all_data_services_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $get_all_data_meal_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =3 ';
+    $get_all_data_meal_category_stmt = $this->pdo->prepare($get_all_data_meal_category_query);
+    $get_all_data_meal_category_stmt->execute();
+
+    $this->graduantion[3]= $get_all_data_meal_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $get_all_data_others_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =4 ';
+    $get_all_data_others_category_stmt = $this->pdo->prepare($get_all_data_others_category_query);
+    $get_all_data_others_category_stmt->execute();
+
+    $this->graduantion[4]= $get_all_data_others_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $get_all_data_entertainment_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =5 ';
+    $get_all_data_entertainment_category_stmt = $this->pdo->prepare($get_all_data_entertainment_category_query);
+    $get_all_data_entertainment_category_stmt->execute();
+
+    $this->graduantion[5]= $get_all_data_entertainment_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $get_all_data_debts_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =6 ';
+    $get_all_data_debts_category_stmt = $this->pdo->prepare($get_all_data_debts_category_query);
+    $get_all_data_debts_category_stmt->execute();
+
+    $this->graduantion[6]= $get_all_data_debts_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+  
   }
 
   public function UpdateIndicator($POST = [])
@@ -321,5 +374,12 @@ class indicatorModel extends Database
     $add_graduation_stmt->execute();
     return $add_graduation_stmt->rowCount() > 0 ? true : false;
   }
- 
+  public function getInsome()
+  {
+    $get_insome_query = 'SELECT * FROM ingresos';
+    $get_insome_stmt = $this->pdo->prepare($get_insome_query);
+    $get_insome_stmt->execute();
+
+    return $this->data_insome = $get_insome_stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

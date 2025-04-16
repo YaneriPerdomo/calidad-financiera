@@ -12,6 +12,7 @@ use App\Controllers\GuestsController;
 use App\Controllers\ProfileAdminController;
 use App\Controllers\ProfileController;
 use App\Controllers\SignOutController;
+use App\Controllers\TransactionController;
 use App\Controllers\UserController;
 use Lib\Route;
 
@@ -39,9 +40,11 @@ Route::get('/user/guest/:id/modify', [GuestsController::class, 'showData']);
 Route::get('/user/profile', [ProfileController::class, 'index']);
 Route::post('/user/profile', [ProfileController::class, 'updateData']);
 Route::get('/user/changes-password', [ChangesPasswordController::class, 'index']);
-Route::post('/user/changes-password', [ChangesPasswordController::class, 'updatePassword']);
+Route::post('/user/changes-password', [ChangesPasswordController::class, 'update']);
 Route::get('/user/account', [AccountController::class, 'index']);
 Route::get('/user/data', [DataController::class, 'index']);
+Route::post('/user/data', [DataController::class, 'store']);
+Route::get('/user/add-transaction', [TransactionController::class, 'index']);
 Route::get('/user/indicators', [IndicatorsController::class, 'index']);
 Route::get('/user/about', [AboutController::class, 'index']);
 
@@ -50,8 +53,8 @@ Route::get('/admin/dashboard/:page', [AdminController::class, 'index']);
 Route::get('/admin/about', [AboutController::class, 'index']);
 Route::get('/admin/profile', [ProfileAdminController::class, 'index']);
 Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
-Route::post('/admin/changes-password', [ChangesPasswordController::class, 'updatePassword']);
-Route::get('/admin/changes-password', [ProfileAdminController::class, 'ShowChangesPassword']);
+Route::post('/admin/changes-password', [ChangesPasswordController::class, 'update']);
+Route::get('/admin/changes-password', [ChangesPasswordController::class, 'index']);
 Route::get('/admin/indicators/:pageE/:pageI', [IndicatorsController::class, 'index']);
 Route::get('/admin/add-indicator', [IndicatorsController::class, 'showAddForm']);
 Route::post('/admin/indicator/add', [IndicatorsController::class, 'AddIndicator']);
@@ -64,12 +67,10 @@ Route::get('/admin/:id-user/modify', [UserController::class, 'edit']);
 Route::post('/admin/:id-user/modify', [UserController::class, 'update']);
 Route::get('/admin/user/:id/progress', [IndicatorsController::class, 'Operation']);
 
-
 //Rutas de invitado (con autenticacion)
 Route::get('/guest/dashboard' , [GuestsController::class, 'index']);
 Route::get('/guest/profile' , [ProfileController::class, 'index']);
 Route::get('/guest/about' , [AboutController::class, 'index']);
-
 
 Route::dispatch();
 

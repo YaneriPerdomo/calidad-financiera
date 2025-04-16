@@ -15,11 +15,6 @@ class ProfileAdminController extends Controller{
       $show_data_profile->showData($_SESSION['id_usuario']);
       return $this->view('admin.profile' , ['data' => $show_data_profile->data]);
    }
-
-
-   public function ShowChangesPassword(){
-      return $this->view('admin.changes-password' );      
-   }
    
    public function updateData(){
       if(empty($_POST)){
