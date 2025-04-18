@@ -17,7 +17,10 @@ class AdminController extends Controller
 
       $show_users = new AdminModel();
       $show_users->ShowUsers($page);
-      return $this->view('admin.dashboard', ['HTML' => $show_users->HTML]);
+      return $this->view('admin.dashboard', ['HTML' => $show_users->HTML,
+         'header_jump'=> '../',
+         'sidebar_jump' => '../'
+      ]);
    }
 
    //Mostrar de manera detalladamente a sus usuarios

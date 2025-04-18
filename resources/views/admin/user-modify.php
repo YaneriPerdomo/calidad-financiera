@@ -24,7 +24,7 @@
 
 <body>
     <?php
-    include '../resources/views/components/user/header.php';
+    include '../resources/views/components/admin/header.php';
     ?>
     <main class="main main--content-login">
         <?php

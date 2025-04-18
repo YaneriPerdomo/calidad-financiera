@@ -21,7 +21,7 @@ class IndicatorsController extends Controller
 
       
       return $this->view('admin.indicators', ['HTML_graduantion' => $show_indicators->HTML_graduantion,
-             'HTML_insome' => $show_indicators->HTML_insome]);
+             'HTML_insome' => $show_indicators->HTML_insome, 'sidebar_jump' => '../../', 'header_jump'=> '../../']);
    }
 
 
@@ -32,7 +32,8 @@ class IndicatorsController extends Controller
       $get_graduation_categories = new indicatorModel();
       $get_graduation_categories->ShowGraduationCategories();
    
-      return $this->view('admin.indicator', ['data' => $get_graduation_categories->data, 
+      return $this->view('admin.indicator', ['data' => $get_graduation_categories->data,
+      'sidebar_jump' => '../', 'header_jump'=> '../' , 'js_jump' => '../../',
       'jump_indicators' => '../']);
    }
 
@@ -68,7 +69,7 @@ class IndicatorsController extends Controller
 
       return $this->view('admin.indicator', ['data' => $get_graduation_categories->data, 'indicator' =>
       $get_indicator->data, 'type' => $type_indicator, 'id' => $id,  'type_indicator', 
-      'jump_indicators' => '../../']);
+      'jump_indicators' => '../../', 'sidebar_jump' => '../../', 'header_jump'=> '../../', 'js_jump' => '../../../']);
 
       /*
       $get_indicator = new indicatorModel();

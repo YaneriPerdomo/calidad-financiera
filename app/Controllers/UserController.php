@@ -31,7 +31,9 @@ class UserController extends Controller
       $get_user = new UserModel();
       $get_user->edit($id);
 
-      return $this->view('admin.user-modify', ['data' => $get_user->data]);
+      return $this->view('admin.user-modify', ['data' => $get_user->data, 
+      'header_jump' => '../', 'sidebar_jump' => '../'
+   ]);
    }
 
    public function update()

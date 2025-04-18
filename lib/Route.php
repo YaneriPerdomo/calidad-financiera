@@ -54,8 +54,8 @@ class Route
                 return;
             }
         }
-        
-        echo '404 - Not Found';
+        include '../resources/views/404.php';
+        //header("HTTP/1.0 404 Not Found");
     }
 
 

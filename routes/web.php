@@ -51,7 +51,7 @@ Route::get('/user/about', [AboutController::class, 'index']);
 // Rutas de administrador (con autenticación)
 Route::get('/admin/dashboard/:page', [AdminController::class, 'index']);
 Route::get('/admin/about', [AboutController::class, 'index']);
-Route::get('/admin/profile', [ProfileAdminController::class, 'index']);
+Route::get('/admin/profile', [ProfileController::class, 'index']);
 Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
 Route::post('/admin/changes-password', [ChangesPasswordController::class, 'update']);
 Route::get('/admin/changes-password', [ChangesPasswordController::class, 'index']);

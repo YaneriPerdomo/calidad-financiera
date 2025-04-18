@@ -48,6 +48,7 @@
                                     <th>Concepto</th>
                                     <th>Monto</th>
                                     <th>Fecha</th>
+                                    <th>Observaciones</th>
                                 </tr>
                             </thead>
                             <?php
@@ -56,7 +57,18 @@
                 </div>
                 <div class="col-6">
                     <div class="main__budget ">
+                    <div class="flex-space-between ">
                         <h2><b>Presupuesto</b></h2>
+                        <div class="meta meta--budget-year">
+                            <span class="meta__title">
+                                Año: <?php
+                                //fecha actual
+                                $ano_actual = date('Y');
+                                echo $ano_actual
+                                ?>
+                            </span>
+                        </div>
+                    </div>
                         <section class='table'>
                             <table class='dataTable'>
                                 <thead>

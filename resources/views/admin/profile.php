@@ -77,7 +77,7 @@
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
 
-                            <a href="./dashboard" class="text-decoration-none text-black"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
+                            <a href="./dashboard/1" class="text-decoration-none text-black"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
                         </button>
                         <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
                     </div>

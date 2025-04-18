@@ -34,7 +34,6 @@
                             echo empty(!$data) ? '../../guest' : '../guest' ?>" method="post" class="form form--guest">
                 <input type="hidden" name="operation" value="<?php echo $operation ?>">
                 <?php
-
                 if (!is_array($data)) {
                     echo '<input type="hidden" name="id_user" value="' . $data['id_usuario'] . '">';
                 }
@@ -148,7 +147,7 @@
    
 
 
-    <script src="<?php echo empty(!$data) ? '../../../' : '../../' ?>js/components/location.js" type="module"></script>
+    <script src="<?php echo $js_jump ?>js/components/location.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 

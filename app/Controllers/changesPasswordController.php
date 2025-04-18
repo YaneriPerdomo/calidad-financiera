@@ -23,7 +23,9 @@ class ChangesPasswordController extends Controller
       if (strpos($url, 'user')) {
          return $this->view('user.profile');
       } else if (strpos($url, 'admin')) {
-         return $this->view('admin.changes-password');
+         return $this->view('admin.changes-password' , [
+            'header_jump' => './'
+         ]);
       }
    }
 

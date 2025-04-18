@@ -10,12 +10,6 @@ class ProfileAdminController extends Controller{
       AuthController::checkSession();
    }
 
-   public function index(){
-      $show_data_profile = new ProfileAdminModel();
-      $show_data_profile->showData($_SESSION['id_usuario']);
-      return $this->view('admin.profile' , ['data' => $show_data_profile->data]);
-   }
-   
    public function updateData(){
       if(empty($_POST)){
          echo '<script>alert("No se han recibido datos para actualizar")

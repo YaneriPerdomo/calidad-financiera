@@ -24,7 +24,8 @@ class GuestsController extends Controller
       $show_guests = new GuestModel();
       $show_guests->show($page, $_SESSION['id_persona']);
 
-      return $this->view('user.guests',[ 'HTML' => $show_guests->HTML, 'main_jump' => '../', 'header_break' => '../']); 
+      return $this->view('user.guests',[ 'HTML' => $show_guests->HTML, 
+      'sidebar_jump' => '../', 'header_break' => '../']); 
    
    }
 
@@ -32,7 +33,9 @@ class GuestsController extends Controller
    public function create()
    {
 
-      return $this->view('user.guest', ['main_jump' => '../',  'header_break' => '../', 'button_back' => '../','style_jump' => '../../',
+      return $this->view('user.guest', 
+      ['sidebar_jump' => '../',  'header_break' => '../', 'button_back' => '../','style_jump' => '../../',
+      'js_jump' => '../../',
       'operation' => 'add',
       'title' => 'Agregar']);
    }
@@ -80,8 +83,9 @@ class GuestsController extends Controller
       $get_data_guest = new GuestModel();
       $get_data_guest->showData($id);
       return $this->view('user.guest', ['data' => $get_data_guest->data ,
-      'main_jump' => '../../',
+      'sidebar_jump' => '../../',
       'header_break' => '../../',  'button_back' => '../../',
+      'js_jump' => '../../../',
           'style_jump' => '../../../',  'title' => 'Modificar', 'operation' => 'update']);
    }
    public function AddData()

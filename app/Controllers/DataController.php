@@ -67,8 +67,9 @@ class DataController extends Controller
             'others' => $get_graduation_categories->graduantion[4],
             'entertainment' => $get_graduation_categories->graduantion[5],
             'debts' => $get_graduation_categories->graduantion[6],
-            'HTML' => $get_transaction->HTML
-
+            'HTML' => $get_transaction->HTML,
+            'sidebar_jump' => '../',
+            'header_break' => '../'
         ]);
     }
 }

@@ -15,11 +15,11 @@
                     <h2> <?php echo  '¡Hola, ' . $_SESSION['usuario'] . '!' ??  '' ?></h2>
                 </li>
                 <li class="text-center">
-                    <a href="./profile" class="text-decoration-none text__blue"><button class="dropdown-item" type="button">Administrar tu cuenta</button></a>
+                    <a href="<?php echo $header_jump?>profile" class="text-decoration-none text__blue"><button class="dropdown-item" type="button">Administrar tu cuenta</button></a>
                 </li>
                 <li clasS="text-center">
                     <button class="dropdown-item" type="button">
-                        <a href="../signOut" class="text-decoration-none text__grey">Cerrar sesion</a>
+                        <a href="<?php echo $header_jump ?>../signOut" class="text-decoration-none text__grey">Cerrar sesion</a>
                     </button>
                 </li>
             </ul>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\AuthController;
+use App\Models\ProfileAdminModel;
 use App\Models\ProfileGuestModel;
 use App\Models\ProfileModel;
 use App\Models\UserModel;
@@ -26,6 +27,11 @@ class ProfileController extends Controller
          return $this->view('user.profile', ['data' => $show_data_profile->data]);
       } else if (strpos($url, 'admin')) {
          $type_rol =  'admin';
+         $show_data_profile = new ProfileAdminModel();
+         $show_data_profile->showData($_SESSION['id_usuario']);
+         return $this->view('admin.profile' , ['data' => $show_data_profile->data,
+            'header_jump'=> './'
+      ]);
       } else if (strpos($url, 'guest')) {
 
          $show_data_profile = new ProfileGuestModel();
