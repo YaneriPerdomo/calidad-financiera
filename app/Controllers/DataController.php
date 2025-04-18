@@ -45,7 +45,7 @@ class DataController extends Controller
         }
     }
 
-    public function index()
+    public function index($page_number)
     {
         $get_graduation_categories = new indicatorModel();
         $get_graduation_categories->ShowGraduationCategories();
@@ -53,6 +53,8 @@ class DataController extends Controller
         $get_insome = new indicatorModel();
         $get_insome->getInsome();
 
+        $get_transaction = new dataModel();
+        $get_transaction->showTransaction($page_number);
         $get_budget = new BudgetModel();
         $get_budget->budgetEachMonth();
         return $this->view('user.data', [
@@ -65,6 +67,7 @@ class DataController extends Controller
             'others' => $get_graduation_categories->graduantion[4],
             'entertainment' => $get_graduation_categories->graduantion[5],
             'debts' => $get_graduation_categories->graduantion[6],
+            'HTML' => $get_transaction->HTML
 
         ]);
     }

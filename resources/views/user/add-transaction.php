@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../public/css/components/_table.css">
     <link rel="stylesheet" href="../../public/css/components/_header.css">
+    <link rel="stylesheet" href="../../public/css/components/_form.css">
     <link rel="stylesheet" href="../../public/css/components/_body.css">
     <link rel="stylesheet" href="../../public/css/components/_sidebar.css">
     <link rel="stylesheet" href="../../public/css/pages/_about.css">

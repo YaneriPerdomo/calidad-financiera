@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-03-2025 a las 02:59:05
+-- Tiempo de generación: 18-04-2025 a las 02:08:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -90,14 +90,8 @@ CREATE TABLE `egresos` (
 --
 
 INSERT INTO `egresos` (`id_egreso`, `id_categoria_egreso`, `egreso`) VALUES
-(1, 3, 'Comida basura'),
-(2, 6, 'probandoex'),
-(3, 1, ' dsfwetrew'),
-(4, 1, ' probando43+'),
-(5, 1, ' probando4'),
-(6, 1, 're'),
-(7, 1, 'dsad'),
-(8, 2, ' dsad');
+(9, 1, 'Departamento'),
+(11, 4, 'hola');
 
 -- --------------------------------------------------------
 
@@ -144,13 +138,16 @@ CREATE TABLE `invitados` (
 --
 
 INSERT INTO `invitados` (`id_invitado`, `id_usuario`, `id_persona`, `nombre`, `apellido`, `correo_electronico`) VALUES
-(1, 58, 9, 'dasdas', 'ra', 'dasd'),
+(1, 58, 9, 'dasdas dsadsad ', 'ra', 'dasd  '),
 (3, 60, 9, '3234', '324', 'fsfsdp'),
 (4, 61, 9, 'Glisdaly', 'perdomo', 'perdomo@gmail.comds'),
-(5, 62, 9, ' dasdas', 'dsad', ' dasd'),
+(5, 62, 9, ' dasdas dsad', 'dsad', ' dasd '),
 (6, 64, 9, ' dsadddd', 'dsaddghtr', ' sdsa'),
 (7, 66, 9, '65u65u6', 'u65u65', ' u65u6'),
-(8, 68, 9, ' 65652                     ', 'u65u', ' 65u65                     ');
+(8, 68, 9, ' 65652                     ', 'u65u', ' 65u65                     '),
+(11, 77, 9, 'Migelina', 'Salazar ', 'mimama@gmail.com'),
+(12, 78, 9, ' dsadsad', 'dsad', ' dsadas@fasda'),
+(13, 79, 9, 'modifcado', 'ds', ' dss  ');
 
 -- --------------------------------------------------------
 
@@ -173,17 +170,39 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id_persona`, `id_actividad`, `id_usuario`, `nombre`, `apellido`, `correo_electronico`) VALUES
-(1, 3, 32, 'Yaneri', 'Perdomo', 'perdomopaolabrriosw@gmail.com'),
-(2, 5, 35, 'Paola', 'Yaneri3', 'dustin@gmail.com'),
+(1, 7, 32, 'Yaneri    ', 'Perdomo', 'perdomopaolabrriosw@gmail.com    '),
+(2, 6, 35, 'Paola ', 'Yaneri3', 'dustin@gmail.com '),
 (3, 6, 36, 'Yaireli', 'Perdomo', 'yayiperdomo@gmail.com'),
-(4, 2, 38, 'Antonio', 'Perdomo', 'tonoperdomo@gmail.com'),
-(5, 2, 42, 'Antonio332', 'Perdomo', 'tonoperdo32m3o@gmail.com'),
-(6, 2, 43, 'Antonio3332', 'Perdomo', 'tonoperdo323m3o@gmail.com'),
-(7, 2, 53, 'Emily', 'perdomo', 'emilytia4@gmas'),
-(8, 2, 54, 'diaman', 'perdomo', 'diamancito@gmail.com'),
-(9, 3, 55, 'Fanny', 'Perdomo', 'fannyperdomo@gmail.com'),
+(4, 6, 38, 'Antonio  ', 'Perdomo', 'tonoperdomo@gmail.com  '),
+(5, 7, 42, 'Antonio332 ', 'Perdomo', 'tonoperdo32m3o@gmail.com '),
+(6, 6, 43, 'toño2024 ', 'Perdomo', 'tonoperdo323m3o@gmail.com   '),
+(7, 5, 53, 'Emily ', 'perdomo', 'emilytia4@gmas '),
+(8, 6, 54, 'diaman ', 'perdomo', 'diamancito@gmail.com '),
+(9, 7, 55, 'Fanny ', 'Perdomo', 'fannyperdomo@gmail.com '),
 (14, 5, 75, 'diaman', 'diaman', 'diaman@gmail.comd'),
-(15, 1, 76, 'leonard', 'perdomo', 'leonadbarroso@gmail.com');
+(15, 4, 76, 'leonard3', 'perdomodsa', 'leonadbarroso@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `presupuestos`
+--
+
+DROP TABLE IF EXISTS `presupuestos`;
+CREATE TABLE `presupuestos` (
+  `id_presupuesto` int(10) NOT NULL,
+  `id_persona` int(10) DEFAULT NULL,
+  `monto_total` decimal(10,2) DEFAULT NULL,
+  `fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `presupuestos`
+--
+
+INSERT INTO `presupuestos` (`id_presupuesto`, `id_persona`, `monto_total`, `fecha`) VALUES
+(1, 9, 83.00, '2025-04-08'),
+(2, 9, 332.00, '2025-02-11');
 
 -- --------------------------------------------------------
 
@@ -209,6 +228,40 @@ INSERT INTO `roles` (`id_rol`, `rol`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `transacciones`
+--
+
+DROP TABLE IF EXISTS `transacciones`;
+CREATE TABLE `transacciones` (
+  `id_transaccion` int(10) NOT NULL,
+  `id_persona` int(10) DEFAULT NULL,
+  `id_egreso` int(10) DEFAULT NULL,
+  `id_ingreso` int(10) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `valor_bs` decimal(10,2) DEFAULT 0.00,
+  `notas` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `transacciones`
+--
+
+INSERT INTO `transacciones` (`id_transaccion`, `id_persona`, `id_egreso`, `id_ingreso`, `fecha`, `valor_bs`, `notas`) VALUES
+(21, 9, NULL, 2, '2025-04-15', 23.00, ''),
+(22, 9, NULL, 2, '2025-04-15', 23.00, ''),
+(28, 9, 9, NULL, '2025-04-15', 23.00, ''),
+(29, 9, 11, NULL, '2025-04-16', 23.00, ''),
+(30, 9, NULL, 1, '2025-04-16', 32.00, ''),
+(31, 9, NULL, 2, '2025-04-16', 332.00, ''),
+(32, 9, 9, NULL, '2025-04-16', 323.00, ''),
+(33, 9, NULL, 3, '2025-04-16', 230.00, ''),
+(34, 9, NULL, 4, '2025-04-16', 50.00, ''),
+(35, 9, 9, NULL, '2025-04-16', 323.00, ''),
+(36, 9, NULL, 1, '2025-04-16', 30.30, '');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -226,25 +279,28 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `usuario`, `clave`, `ultimo_acceso`) VALUES
-(32, 1, 'Yaneri33', '123', NULL),
-(35, 1, 'taka', '123', NULL),
-(36, 1, 'Yayi3', '$2y$10$jCqMpx2jzeI.0/kx5RHaHOj7pFFZ5Tt4lyWYZ7DVeJ9hsXNs.OSqC', '2025-03-20 09:19:03'),
-(38, 1, 'Toño', '$2y$10$.G3bvMekQMoS1/uKKQruxOIBCaey6IwKIe95H3CXNABcv74Xj.qRO', '2025-03-20 09:16:09'),
-(42, 1, 'Toño3', '$2y$10$zziLpSWqSaLDRAybmGLdCeoOXWyb.uDVzvFPRzA.Njj2uzP29o31u', NULL),
-(43, 1, 'Toño33', '$2y$10$qLyMeEGO7lTDTCzbA20Hw.ZaT229ysmbWhF7WCFCP/93mukkemsjy', NULL),
-(53, 1, 'emilita', '$2y$10$KcULseyUE7LQgipggGctquAUKDE1baLyIvjJRm8UJ.phH6HMUZLei', NULL),
-(54, 1, 'diaman', '$2y$10$cgpJcAtg6Ytkyhml6DyLFOE2j03/sIq2SEQt3jVlxjie8jm014z4K', NULL),
-(55, 1, 'Fanny3', '$2y$10$S/5M.Hpptg9C/HsonF4W3uAB.WZcbuHPpWqV28VTxpznBtxLJl85u', '2025-03-20 09:17:27'),
-(58, NULL, NULL, '$2y$10$C1rN4PVwKaCyl07LifDlSufg05AYSpr4N4G7ojUE9QhP9.CNarI5S', NULL),
+(32, 1, 'Yaneri33    ', '123', NULL),
+(35, 1, 'taka ', '123', NULL),
+(36, 1, 'Yayi3', '$2y$10$jCqMpx2jzeI.0/kx5RHaHOj7pFFZ5Tt4lyWYZ7DVeJ9hsXNs.OSqC', '2025-04-14 15:48:48'),
+(38, 1, 'Toño  ', '$2y$10$.G3bvMekQMoS1/uKKQruxOIBCaey6IwKIe95H3CXNABcv74Xj.qRO', '2025-03-20 09:16:09'),
+(42, 1, 'Toño3 ', '$2y$10$zziLpSWqSaLDRAybmGLdCeoOXWyb.uDVzvFPRzA.Njj2uzP29o31u', NULL),
+(43, 1, 'Toño33   ', '$2y$10$qLyMeEGO7lTDTCzbA20Hw.ZaT229ysmbWhF7WCFCP/93mukkemsjy', NULL),
+(53, 1, 'emilita ', '$2y$10$KcULseyUE7LQgipggGctquAUKDE1baLyIvjJRm8UJ.phH6HMUZLei', NULL),
+(54, 1, 'diaman ', '$2y$10$cgpJcAtg6Ytkyhml6DyLFOE2j03/sIq2SEQt3jVlxjie8jm014z4K', NULL),
+(55, 1, 'Fanny3 ', '$2y$10$S/5M.Hpptg9C/HsonF4W3uAB.WZcbuHPpWqV28VTxpznBtxLJl85u', '2025-04-17 17:52:46'),
+(58, NULL, '  dsadsadd', '$2y$10$C1rN4PVwKaCyl07LifDlSufg05AYSpr4N4G7ojUE9QhP9.CNarI5S', NULL),
 (60, 3, 'rwerwe', '$2y$10$FQMnx/MmGS15KfX6m7ij9OBI19/eA80d7EsCSHbgPHMtFLQpFbp1G', NULL),
-(61, 3, 'glisday', '$2y$10$/uJXZRv4U0AaatjAp2jr7O/gD/MC90Pv9A.Ouj6CJA6zLxg/MqgFS', '2025-03-20 09:18:28'),
-(62, 3, 'dsad', '$2y$10$iAVhedtJD1luai38W1AO/uA2BEtLdkIznwbtknNFqBDIEy3DkDVoW', NULL),
+(61, 3, 'glisdaly', '$2y$10$/uJXZRv4U0AaatjAp2jr7O/gD/MC90Pv9A.Ouj6CJA6zLxg/MqgFS', '2025-03-28 18:44:09'),
+(62, 3, 'dsad ', '$2y$10$iAVhedtJD1luai38W1AO/uA2BEtLdkIznwbtknNFqBDIEy3DkDVoW', NULL),
 (64, 3, ' htrh', '$2y$10$CPpAFA2ZdbSZeOb5EjNsdeQKZ4wBUApTHfiLAdTSSg9vjWWDVKcQW', NULL),
 (66, 3, 'u65u', '$2y$10$NDsHPnxOxkRXyPxU/q0mG.FROD2blSuqoHV5muX21yu39mjCvIyy2', NULL),
 (68, 3, '33 dsadsa', '$2y$10$yiEpk99EpyG6.f28syRUI.eXbCaEbWnxaOBubPa0VRxtvSVXZj0WO', NULL),
-(73, 2, 'Admin', '$2y$10$.fHcxIKy5X.LfCOlaQoNTOIGHg8bPHkq.j/gP3E6c/hXDSlMAdVCy', '2025-03-23 17:46:29'),
+(73, 2, 'Admin3', '$2y$10$3j/DtKoI4PYjEySkTgB2U.55vVYdcRC5DE3QxxCulDDrIwUVuGfty', '2025-04-16 19:16:57'),
 (75, 1, 'diaman2024', '$2y$10$MqHQx6VUPJOUMVALCp6yRumCS/Z50rYL4liWnYMy777tuJ8d63vzK', '2025-03-20 18:43:07'),
-(76, 1, 'leonard', '$2y$10$GvH2TmP2UiR4S4ObZo0LBuNwXRT9hdy6xC4RAMPx/SstKhRXy/kKC', '2025-03-20 11:47:46');
+(76, 1, 'leonard', '$2y$10$4fok0YS63WSlhnq4XS9cGul/4rugwolh15lWRK1mg6WNDcKrn74y.', '2025-03-20 11:47:46'),
+(77, 3, 'Mimama', '$2y$10$LXOHsFbkFlWPIFJMgba0r.mAshUpHIf8e1qmoIwlCNmix8lcSCRz.', NULL),
+(78, 3, ' dsad', '$2y$10$7.2Pq/WSpvn5RldI.FsPJuOMgoLrvg1H9UNgUo/b7nLjjNwdbueym', NULL),
+(79, 3, 'sdasd  ', '$2y$10$vy8Hjhb/f85RW0Lw.5m0e.Tk8N6ssbRIGPSgo.P8Cs6o.at3iNhLu', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -295,10 +351,26 @@ ALTER TABLE `personas`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
+-- Indices de la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  ADD PRIMARY KEY (`id_presupuesto`),
+  ADD KEY `id_persona` (`id_persona`);
+
+--
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id_rol`);
+
+--
+-- Indices de la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  ADD PRIMARY KEY (`id_transaccion`),
+  ADD KEY `id_persona` (`id_persona`),
+  ADD KEY `transacciones_ibfk_2` (`id_egreso`),
+  ADD KEY `transacciones_ibfk_01` (`id_ingreso`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -328,7 +400,7 @@ ALTER TABLE `categorias_egreso`
 -- AUTO_INCREMENT de la tabla `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
@@ -340,7 +412,7 @@ ALTER TABLE `ingresos`
 -- AUTO_INCREMENT de la tabla `invitados`
 --
 ALTER TABLE `invitados`
-  MODIFY `id_invitado` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_invitado` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
@@ -349,16 +421,28 @@ ALTER TABLE `personas`
   MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT de la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  MODIFY `id_presupuesto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id_rol` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- Restricciones para tablas volcadas
@@ -383,6 +467,21 @@ ALTER TABLE `invitados`
 ALTER TABLE `personas`
   ADD CONSTRAINT `personas_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividades` (`id_actividad`),
   ADD CONSTRAINT `personas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+
+--
+-- Filtros para la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  ADD CONSTRAINT `presupuestos_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`);
+
+--
+-- Filtros para la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  ADD CONSTRAINT `transacciones_ibfk_01` FOREIGN KEY (`id_ingreso`) REFERENCES `ingresos` (`id_ingreso`) ON DELETE SET NULL,
+  ADD CONSTRAINT `transacciones_ibfk_2` FOREIGN KEY (`id_egreso`) REFERENCES `egresos` (`id_egreso`) ON DELETE SET NULL,
+  ADD CONSTRAINT `transacciones_ibfk_3` FOREIGN KEY (`id_egreso`) REFERENCES `egresos` (`id_egreso`) ON DELETE SET NULL,
+  ADD CONSTRAINT `transacciones_ibfk_5` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`

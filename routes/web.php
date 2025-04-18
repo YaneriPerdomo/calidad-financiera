@@ -42,7 +42,7 @@ Route::post('/user/profile', [ProfileController::class, 'updateData']);
 Route::get('/user/changes-password', [ChangesPasswordController::class, 'index']);
 Route::post('/user/changes-password', [ChangesPasswordController::class, 'update']);
 Route::get('/user/account', [AccountController::class, 'index']);
-Route::get('/user/data', [DataController::class, 'index']);
+Route::get('/user/data/:page', [DataController::class, 'index']);
 Route::post('/user/data', [DataController::class, 'store']);
 Route::get('/user/add-transaction', [TransactionController::class, 'index']);
 Route::get('/user/indicators', [IndicatorsController::class, 'index']);
