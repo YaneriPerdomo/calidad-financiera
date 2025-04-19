@@ -15,29 +15,37 @@ class GuestsController extends Controller
 
    // Mostrar la vista principal del modulo invitados
    public function index()
-   { 
-   
-      return $this->view('guest.dashboard', ['main_jump' => '../']);       
+   {
+      return $this->view('guest.dashboard', ['sidebar_jump' => './']);
    }
 
-   public function show($page){
+   public function show($page)
+   {
       $show_guests = new GuestModel();
       $show_guests->show($page, $_SESSION['id_persona']);
 
-      return $this->view('user.guests',[ 'HTML' => $show_guests->HTML, 
-      'sidebar_jump' => '../', 'header_break' => '../']); 
-   
+      return $this->view('user.guests', [
+         'HTML' => $show_guests->HTML,
+         'sidebar_jump' => '../',
+         'header_break' => '../'
+      ]);
    }
 
    // Mostrar la vista para que el usuario pueda agregar un invitado
    public function create()
    {
-
-      return $this->view('user.guest', 
-      ['sidebar_jump' => '../',  'header_break' => '../', 'button_back' => '../','style_jump' => '../../',
-      'js_jump' => '../../',
-      'operation' => 'add',
-      'title' => 'Agregar']);
+      return $this->view(
+         'user.guest',
+         [
+            'sidebar_jump' => '../',
+            'header_break' => '../',
+            'button_back' => '../',
+            'style_jump' => '../../',
+            'js_jump' => '../../',
+            'operation' => 'add',
+            'title' => 'Agregar'
+         ]
+      );
    }
 
 
@@ -58,7 +66,7 @@ class GuestsController extends Controller
          location.href = "./guest"
          </script>';
       }
- 
+
       $add_data_guest = new GuestModel();
       $add_data_guest->UpdateData([
          'id_user' => $_POST['id_user'],
@@ -73,8 +81,8 @@ class GuestsController extends Controller
       echo $add_data_guest->data;
 
       return ($add_data_guest->status == 1)
-      ? '<script>alert("Error al agregar registro"); location.href = "./guest"</script>'
-      : '<script>alert("Datos registrados correctamente"); location.href = "./guests/1"</script>';
+         ? '<script>alert("Error al agregar registro"); location.href = "./guest"</script>'
+         : '<script>alert("Datos registrados correctamente"); location.href = "./guests/1"</script>';
    }
 
    public function showData($id)
@@ -82,11 +90,16 @@ class GuestsController extends Controller
 
       $get_data_guest = new GuestModel();
       $get_data_guest->showData($id);
-      return $this->view('user.guest', ['data' => $get_data_guest->data ,
-      'sidebar_jump' => '../../',
-      'header_break' => '../../',  'button_back' => '../../',
-      'js_jump' => '../../../',
-          'style_jump' => '../../../',  'title' => 'Modificar', 'operation' => 'update']);
+      return $this->view('user.guest', [
+         'data' => $get_data_guest->data,
+         'sidebar_jump' => '../../',
+         'header_break' => '../../',
+         'button_back' => '../../',
+         'js_jump' => '../../../',
+         'style_jump' => '../../../',
+         'title' => 'Modificar',
+         'operation' => 'update'
+      ]);
    }
    public function AddData()
    {

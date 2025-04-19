@@ -47,6 +47,40 @@ class DataController extends Controller
 
     public function index($page_number)
     {
+        
+      $type_rol = '';
+      $url = $_SERVER['REQUEST_URI'];
+    if (strpos($url, 'user')) {
+         $type_rol =  'user';
+        
+         $get_graduation_categories = new indicatorModel();
+         $get_graduation_categories->ShowGraduationCategories();
+         $get_graduation_categories->GetGraduation();
+         $get_insome = new indicatorModel();
+         $get_insome->getInsome();
+ 
+         $get_transaction = new dataModel();
+         $get_transaction->showTransaction($page_number);
+         $get_budget = new BudgetModel();
+         $get_budget->budgetEachMonth('user');
+         return $this->view('user.data', [
+             'data' => $get_graduation_categories->data,
+             'all_insome' => $get_insome->data_insome,
+             'budget' => $get_budget->data,
+             'accommodation' => $get_graduation_categories->graduantion[1],
+             'services' => $get_graduation_categories->graduantion[2],
+             'meal' => $get_graduation_categories->graduantion[3],
+             'others' => $get_graduation_categories->graduantion[4],
+             'entertainment' => $get_graduation_categories->graduantion[5],
+             'debts' => $get_graduation_categories->graduantion[6],
+             'HTML' => $get_transaction->HTML,
+             'sidebar_jump' => '../',
+             'header_break' => '../'
+         ]);         
+     
+      } else if (strpos($url, 'guest')) {
+        $type_rol =  'guest';
+        
         $get_graduation_categories = new indicatorModel();
         $get_graduation_categories->ShowGraduationCategories();
         $get_graduation_categories->GetGraduation();
@@ -54,10 +88,10 @@ class DataController extends Controller
         $get_insome->getInsome();
 
         $get_transaction = new dataModel();
-        $get_transaction->showTransaction($page_number);
+        $get_transaction->showTransaction($page_number, $type_rol);
         $get_budget = new BudgetModel();
-        $get_budget->budgetEachMonth();
-        return $this->view('user.data', [
+        $get_budget->budgetEachMonth($type_rol);
+        return $this->view('guest.data', [
             'data' => $get_graduation_categories->data,
             'all_insome' => $get_insome->data_insome,
             'budget' => $get_budget->data,
@@ -70,6 +104,8 @@ class DataController extends Controller
             'HTML' => $get_transaction->HTML,
             'sidebar_jump' => '../',
             'header_break' => '../'
-        ]);
+        ]);     
+      }
+
     }
 }

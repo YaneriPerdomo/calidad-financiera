@@ -79,15 +79,19 @@ class dataModel extends Database
     }
   }
 
-  public function showTransaction($page_number = 1)
+  public function showTransaction($page_number = 1, $type_rol ='user')
   {
 
-    $get_id_person_query = 'SELECT id_persona FROM personas WHERE id_usuario = :id_usuario';
+    if($type_rol == 'user'){
+      $get_id_person_query = 'SELECT id_persona FROM personas WHERE id_usuario = :id_usuario';
     $get_id_person_stmt = $this->pdo->prepare($get_id_person_query);
     $get_id_person_stmt->bindParam('id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
     $get_id_person_stmt->execute();
     $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
     $id_person = $row_id_person['id_persona'];
+    }else{
+      $id_person = $_SESSION['id_persona'];
+    }
 
     $current_page =  $page_number;
     $count_transaction_query = 'SELECT COUNT(*) as total_ingresos FROM transacciones';

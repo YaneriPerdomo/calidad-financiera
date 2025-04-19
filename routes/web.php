@@ -71,6 +71,7 @@ Route::get('/admin/user/:id/progress', [IndicatorsController::class, 'Operation'
 Route::get('/guest/dashboard' , [GuestsController::class, 'index']);
 Route::get('/guest/profile' , [ProfileController::class, 'index']);
 Route::get('/guest/about' , [AboutController::class, 'index']);
+Route::get('/guest/data/:page', [DataController::class, 'index']);
 
 Route::dispatch();
 
