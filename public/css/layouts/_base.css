@@ -19,6 +19,8 @@ main {
   --color-azul: rgb(56, 141, 172);
   --color-rosado: rgb(236, 49, 95);
   --color-negro: rgb(47, 47, 47);
+  --color-verde: #2fac2f;
+  --color-rojo:rgb(242, 69, 69);
 }
 
 .text-black {

@@ -109,7 +109,7 @@
                                     <label for="insome" class="form__label form__label--required">Ingreso</label><br>
                                     <div class="input-group mb-3">
                                         <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                        <select id="id_insome" name="id_insome" class="form-control form__select" required>
+                                        <select id="id_insome" name="id_insome" class="form-control form__select" >
                                             <?php
                                             foreach ($all_insome as $value) { //Ahora voy a hacer bucle
                                                 $id_insome = $value['id_ingreso']; //Almacenar la variable

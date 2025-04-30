@@ -103,6 +103,7 @@
 
                                 if ($budget != '') {
                                     foreach ($budget as  $value) {
+                                        echo $value['mes'];
                                         $mes = $value['mes']; // Asume que $value['mes'] es un número (0-11)
                                         if (isset($presupuesto[$mes])) { // Verifica si la clave existe
                                             $presupuesto[$mes] = $value['monto_total'];

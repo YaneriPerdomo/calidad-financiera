@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\AuthController;
+use App\Models\DashboardModel;
 use App\Models\ProfileModel;
 use App\Models\UserModel;
 
@@ -14,9 +15,31 @@ class UserController extends Controller
       AuthController::checkSession();
    }
 
-   public function index()
+   public function index( $month,$year)
    {
-      return $this->view('user.dashboard', ['main_jump' => './']);
+     
+      $GetTotalIncome = new DashboardModel();
+      $GetTotalIncome->GetTotalIncome($month, $year, 'user');
+      $GetTotalIncome->GetTotalGraduation($month, $year, 'user');
+      $GetTotalIncome->GetAllIncomeNameValue($month, $year, 'user');
+      $GetTotalIncome->GetTotalQuote($month, $year, 'user');
+      $GetTotalIncome->GetEachMonthTotalIncome($year, 'user');
+      $GetTotalIncome->GetEachMonthTotalGraduation($year, 'user');
+      $GetTotalIncome->GetTotalAnnualIncome($year, 'user');
+      $GetTotalIncome->GetTotalAnnualExpenses($year, 'user');
+      $GetTotalIncome->GetAnnualBudget($year, 'user');
+      return $this->view('user.dashboard', ['main_jump' => './', 
+      'total_income' => $GetTotalIncome->data_total_income ,
+      'total_graduation' => $GetTotalIncome->data_total_graduation,
+      'total_quote' => $GetTotalIncome->data_total_quote, 
+      'each_month_total_income' => $GetTotalIncome->data_each_month_total_income,
+      'each_month_total_graduation' => $GetTotalIncome->data_each_month_total_graduation, 
+      'all_income_name_value' => $GetTotalIncome->data_all_income_name_value,
+      'total_annual_income_stmt' => $GetTotalIncome->data_total_annual_income_stmt, 
+      'total_annual_expenses' => $GetTotalIncome->data_total_annual_expenses, 
+      'annual_budget' => $GetTotalIncome->data_annual_budget,
+      'year' => $year
+   ]);
    }
 
    //Muestra los detalles de un usuario el formulario para editar un usuario
@@ -31,9 +54,11 @@ class UserController extends Controller
       $get_user = new UserModel();
       $get_user->edit($id);
 
-      return $this->view('admin.user-modify', ['data' => $get_user->data, 
-      'header_jump' => '../', 'sidebar_jump' => '../'
-   ]);
+      return $this->view('admin.user-modify', [
+         'data' => $get_user->data,
+         'header_jump' => '../',
+         'sidebar_jump' => '../'
+      ]);
    }
 
    public function update()

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-04-2025 a las 02:08:05
+-- Tiempo de generación: 20-04-2025 a las 21:00:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -51,6 +51,28 @@ INSERT INTO `actividades` (`id_actividad`, `actividad`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `auditoria_egresos`
+--
+
+DROP TABLE IF EXISTS `auditoria_egresos`;
+CREATE TABLE `auditoria_egresos` (
+  `id_auditoria_egreso` int(10) NOT NULL,
+  `egreso` varchar(40) DEFAULT NULL,
+  `fecha` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `auditoria_egresos`
+--
+
+INSERT INTO `auditoria_egresos` (`id_auditoria_egreso`, `egreso`, `fecha`) VALUES
+(1, '1', '2025-04-20'),
+(2, 'Departamento', '2025-04-20'),
+(3, 'd', '2025-04-20');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `categorias_egreso`
 --
 
@@ -90,8 +112,27 @@ CREATE TABLE `egresos` (
 --
 
 INSERT INTO `egresos` (`id_egreso`, `id_categoria_egreso`, `egreso`) VALUES
-(9, 1, 'Departamento'),
-(11, 4, 'hola');
+(12, 4, 'Probando ');
+
+--
+-- Disparadores `egresos`
+--
+DROP TRIGGER IF EXISTS `trigger_agregar_auditoria_egreso`;
+DELIMITER $$
+CREATE TRIGGER `trigger_agregar_auditoria_egreso` AFTER DELETE ON `egresos` FOR EACH ROW insert into auditoria_egresos(
+egreso, fecha
+) VALUES (OLD.egreso , now())
+$$
+DELIMITER ;
+DROP TRIGGER IF EXISTS `trigger_egreso_eliminado_transacciones_actualizar`;
+DELIMITER $$
+CREATE TRIGGER `trigger_egreso_eliminado_transacciones_actualizar` BEFORE DELETE ON `egresos` FOR EACH ROW BEGIN
+    UPDATE transacciones
+    SET id_egreso = 12
+    WHERE id_egreso = OLD.id_egreso;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -110,12 +151,20 @@ CREATE TABLE `ingresos` (
 --
 
 INSERT INTO `ingresos` (`id_ingreso`, `ingreso`) VALUES
-(1, 'Sueldo'),
-(2, 'Bonod'),
-(3, 'Negocio'),
-(4, 'Emprendimiento'),
-(5, ' dsad'),
-(6, 'dsad');
+(7, 'Otros');
+
+--
+-- Disparadores `ingresos`
+--
+DROP TRIGGER IF EXISTS `trigger_ingreso_eliminado_transacciones_actualizar`;
+DELIMITER $$
+CREATE TRIGGER `trigger_ingreso_eliminado_transacciones_actualizar` BEFORE DELETE ON `ingresos` FOR EACH ROW BEGIN
+    UPDATE transacciones
+    SET id_ingreso = 7
+    WHERE id_ingreso = OLD.id_ingreso;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -178,7 +227,7 @@ INSERT INTO `personas` (`id_persona`, `id_actividad`, `id_usuario`, `nombre`, `a
 (6, 6, 43, 'toño2024 ', 'Perdomo', 'tonoperdo323m3o@gmail.com   '),
 (7, 5, 53, 'Emily ', 'perdomo', 'emilytia4@gmas '),
 (8, 6, 54, 'diaman ', 'perdomo', 'diamancito@gmail.com '),
-(9, 7, 55, 'Fanny ', 'Perdomo', 'fannyperdomo@gmail.com '),
+(9, 7, 55, 'Fanny', 'Perdomo', 'fannyperdomo@gmail.com'),
 (14, 5, 75, 'diaman', 'diaman', 'diaman@gmail.comd'),
 (15, 4, 76, 'leonard3', 'perdomodsa', 'leonadbarroso@gmail.com');
 
@@ -192,7 +241,7 @@ DROP TABLE IF EXISTS `presupuestos`;
 CREATE TABLE `presupuestos` (
   `id_presupuesto` int(10) NOT NULL,
   `id_persona` int(10) DEFAULT NULL,
-  `monto_total` decimal(10,2) DEFAULT NULL,
+  `monto_total` decimal(10,3) DEFAULT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -201,8 +250,8 @@ CREATE TABLE `presupuestos` (
 --
 
 INSERT INTO `presupuestos` (`id_presupuesto`, `id_persona`, `monto_total`, `fecha`) VALUES
-(1, 9, 83.00, '2025-04-08'),
-(2, 9, 332.00, '2025-02-11');
+(1, 9, 83.000, '2025-04-08'),
+(2, 9, 332.000, '2025-02-11');
 
 -- --------------------------------------------------------
 
@@ -238,7 +287,7 @@ CREATE TABLE `transacciones` (
   `id_egreso` int(10) DEFAULT NULL,
   `id_ingreso` int(10) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `valor_bs` decimal(10,2) DEFAULT 0.00,
+  `valor_bs` decimal(10,3) DEFAULT 0.000,
   `notas` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -247,17 +296,7 @@ CREATE TABLE `transacciones` (
 --
 
 INSERT INTO `transacciones` (`id_transaccion`, `id_persona`, `id_egreso`, `id_ingreso`, `fecha`, `valor_bs`, `notas`) VALUES
-(21, 9, NULL, 2, '2025-04-15', 23.00, ''),
-(22, 9, NULL, 2, '2025-04-15', 23.00, ''),
-(28, 9, 9, NULL, '2025-04-15', 23.00, ''),
-(29, 9, 11, NULL, '2025-04-16', 23.00, ''),
-(30, 9, NULL, 1, '2025-04-16', 32.00, ''),
-(31, 9, NULL, 2, '2025-04-16', 332.00, ''),
-(32, 9, 9, NULL, '2025-04-16', 323.00, ''),
-(33, 9, NULL, 3, '2025-04-16', 230.00, ''),
-(34, 9, NULL, 4, '2025-04-16', 50.00, ''),
-(35, 9, 9, NULL, '2025-04-16', 323.00, ''),
-(36, 9, NULL, 1, '2025-04-16', 30.30, '');
+(38, 3, 12, NULL, '2025-04-08', 230.000, NULL);
 
 -- --------------------------------------------------------
 
@@ -287,15 +326,15 @@ INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `usuario`, `clave`, `ultimo_acce
 (43, 1, 'Toño33   ', '$2y$10$qLyMeEGO7lTDTCzbA20Hw.ZaT229ysmbWhF7WCFCP/93mukkemsjy', NULL),
 (53, 1, 'emilita ', '$2y$10$KcULseyUE7LQgipggGctquAUKDE1baLyIvjJRm8UJ.phH6HMUZLei', NULL),
 (54, 1, 'diaman ', '$2y$10$cgpJcAtg6Ytkyhml6DyLFOE2j03/sIq2SEQt3jVlxjie8jm014z4K', NULL),
-(55, 1, 'Fanny3 ', '$2y$10$S/5M.Hpptg9C/HsonF4W3uAB.WZcbuHPpWqV28VTxpznBtxLJl85u', '2025-04-17 17:52:46'),
+(55, 1, 'Fanny', '$2y$10$S/5M.Hpptg9C/HsonF4W3uAB.WZcbuHPpWqV28VTxpznBtxLJl85u', '2025-04-20 09:32:13'),
 (58, NULL, '  dsadsadd', '$2y$10$C1rN4PVwKaCyl07LifDlSufg05AYSpr4N4G7ojUE9QhP9.CNarI5S', NULL),
 (60, 3, 'rwerwe', '$2y$10$FQMnx/MmGS15KfX6m7ij9OBI19/eA80d7EsCSHbgPHMtFLQpFbp1G', NULL),
-(61, 3, 'glisdaly', '$2y$10$/uJXZRv4U0AaatjAp2jr7O/gD/MC90Pv9A.Ouj6CJA6zLxg/MqgFS', '2025-03-28 18:44:09'),
+(61, 3, 'glisdaly', '$2y$10$/uJXZRv4U0AaatjAp2jr7O/gD/MC90Pv9A.Ouj6CJA6zLxg/MqgFS', '2025-04-19 08:18:06'),
 (62, 3, 'dsad ', '$2y$10$iAVhedtJD1luai38W1AO/uA2BEtLdkIznwbtknNFqBDIEy3DkDVoW', NULL),
 (64, 3, ' htrh', '$2y$10$CPpAFA2ZdbSZeOb5EjNsdeQKZ4wBUApTHfiLAdTSSg9vjWWDVKcQW', NULL),
 (66, 3, 'u65u', '$2y$10$NDsHPnxOxkRXyPxU/q0mG.FROD2blSuqoHV5muX21yu39mjCvIyy2', NULL),
 (68, 3, '33 dsadsa', '$2y$10$yiEpk99EpyG6.f28syRUI.eXbCaEbWnxaOBubPa0VRxtvSVXZj0WO', NULL),
-(73, 2, 'Admin3', '$2y$10$3j/DtKoI4PYjEySkTgB2U.55vVYdcRC5DE3QxxCulDDrIwUVuGfty', '2025-04-16 19:16:57'),
+(73, 2, 'Admin', '$2y$10$jFgigwyDB9FTys56BRaaPOYVxeJK3LkbzPzmY/B3WkBHAiVdnSjn2', '2025-04-19 16:34:14'),
 (75, 1, 'diaman2024', '$2y$10$MqHQx6VUPJOUMVALCp6yRumCS/Z50rYL4liWnYMy777tuJ8d63vzK', '2025-03-20 18:43:07'),
 (76, 1, 'leonard', '$2y$10$4fok0YS63WSlhnq4XS9cGul/4rugwolh15lWRK1mg6WNDcKrn74y.', '2025-03-20 11:47:46'),
 (77, 3, 'Mimama', '$2y$10$LXOHsFbkFlWPIFJMgba0r.mAshUpHIf8e1qmoIwlCNmix8lcSCRz.', NULL),
@@ -311,6 +350,12 @@ INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `usuario`, `clave`, `ultimo_acce
 --
 ALTER TABLE `actividades`
   ADD PRIMARY KEY (`id_actividad`);
+
+--
+-- Indices de la tabla `auditoria_egresos`
+--
+ALTER TABLE `auditoria_egresos`
+  ADD PRIMARY KEY (`id_auditoria_egreso`);
 
 --
 -- Indices de la tabla `categorias_egreso`
@@ -391,6 +436,12 @@ ALTER TABLE `actividades`
   MODIFY `id_actividad` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `auditoria_egresos`
+--
+ALTER TABLE `auditoria_egresos`
+  MODIFY `id_auditoria_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `categorias_egreso`
 --
 ALTER TABLE `categorias_egreso`
@@ -400,13 +451,13 @@ ALTER TABLE `categorias_egreso`
 -- AUTO_INCREMENT de la tabla `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `id_ingreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_ingreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `invitados`
@@ -436,7 +487,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
-  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -479,6 +530,7 @@ ALTER TABLE `presupuestos`
 --
 ALTER TABLE `transacciones`
   ADD CONSTRAINT `transacciones_ibfk_01` FOREIGN KEY (`id_ingreso`) REFERENCES `ingresos` (`id_ingreso`) ON DELETE SET NULL,
+  ADD CONSTRAINT `transacciones_ibfk_03` FOREIGN KEY (`id_ingreso`) REFERENCES `ingresos` (`id_ingreso`) ON DELETE SET NULL,
   ADD CONSTRAINT `transacciones_ibfk_2` FOREIGN KEY (`id_egreso`) REFERENCES `egresos` (`id_egreso`) ON DELETE SET NULL,
   ADD CONSTRAINT `transacciones_ibfk_3` FOREIGN KEY (`id_egreso`) REFERENCES `egresos` (`id_egreso`) ON DELETE SET NULL,
   ADD CONSTRAINT `transacciones_ibfk_5` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`) ON DELETE CASCADE;

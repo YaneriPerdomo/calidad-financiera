@@ -29,7 +29,7 @@ Route::get('/create-account/:id', [CreateAccountController::class, 'probando']);
 Route::get('/signOut', [SignOutController::class, 'signOut']);
 
 // Rutas de usuario (con autenticación)
-Route::get('/user/dashboard', [UserController::class, 'index']);
+Route::get('/user/dashboard/:month/:year', [UserController::class, 'index']);
 Route::get('/user/guests/:page', [GuestsController::class, 'show']);
 Route::get('/user/add-guest', [GuestsController::class, 'showAddForm']);
 Route::post('/user/add-guest', [GuestsController::class, 'addData']);
