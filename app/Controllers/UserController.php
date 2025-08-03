@@ -38,7 +38,8 @@ class UserController extends Controller
       'total_annual_income_stmt' => $GetTotalIncome->data_total_annual_income_stmt, 
       'total_annual_expenses' => $GetTotalIncome->data_total_annual_expenses, 
       'annual_budget' => $GetTotalIncome->data_annual_budget,
-      'year' => $year
+      'year' => $year,
+      'sidebar_jump' => '../../'
    ]);
    }
 

@@ -17,7 +17,10 @@
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/pages/_guest.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/utilities.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/layouts/_base.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>/img/logo.ico">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
         .hidden {
@@ -44,24 +47,26 @@
         ?>
 
         <div class="flex-center-full w-100">
-            <form action="<?php echo isset($indicator) ? "../$id-{$type}/modify" : '../indicator/add' ?>" method="POST" class="form form--guest">
-                <input type="hidden" name="operation" value="<?php echo empty($indicator) ?  'add' : 'update'  ?>">
+            <form action="<?php echo isset($indicator) ? "../$id-{$type}/modify" : '../indicator/add' ?>" method="POST"
+                class="form form--guest">
+                <input type="hidden" name="operation" value="<?php echo empty($indicator) ? 'add' : 'update' ?>">
                 <input type="hidden" name="id" value="<?php echo $id ?? '' ?>">
                 <input type="hidden" name="type_indicator" value="<?php
-                                                                    if (isset($indicator)) {
-                                                                        if ($type == 'ingreso') {
-                                                                            echo  'ingreso';
-                                                                        } else if ($type == 'egreso') {
-                                                                            echo  'egreso';
-                                                                        } else {
-                                                                            echo '';
-                                                                        }
-                                                                    }
-                                                                    ?>">
+                if (isset($indicator)) {
+                    if ($type == 'ingreso') {
+                        echo 'ingreso';
+                    } else if ($type == 'egreso') {
+                        echo 'egreso';
+                    } else {
+                        echo '';
+                    }
+                }
+                ?>">
                 <legend class="form__title">
                     <h1><b> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> indicador</b></h1>
                 </legend>
-                <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes actualizar tu perfil en cualquier momento. </p>
+                <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
+                    actualizar tu perfil en cualquier momento. </p>
                 <hr class="form__separator">
                 <div class="form__data">
                     <div class="row form__row">
@@ -71,73 +76,74 @@
                         <div class="col-12 col-lg-8 form__col form__col--inputs">
                             <label for="name" class="form__label form__label--required">Tipo de indicador</label><br>
                             <div class="input-group mb-3">
-                                <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                <select id="type-indicator" name="type-indicator" class="form-control form__select" required>
+                                <span class="input-group-text form__icon" id="basic-addon1"><i
+                                        class="bi bi-tag"></i></span>
+                                <select id="type-indicator" name="type-indicator" class="form-control form__select"
+                                    required>
                                     <option value="" selected disabled>Seleccione una opción</option>
                                     <?php
                                     if (isset($indicator)) {
                                         if ($type == 'ingreso') {
-                                            echo  '<option value="1" selected>Ingreso</option>
-                                                    <option value="2" disabled>Egreso</option>';
+                                            echo '<option value="1" selected>Ingreso</option>
+                                    <option value="2" disabled>Egreso</option>';
                                         } else {
-                                            echo  '<option value="1" disabled>Ingreso</option>
-                                                    <option value="2" selected >Egreso</option>';
+                                            echo '<option value="1" disabled>Ingreso</option>
+                                    <option value="2" selected >Egreso</option>';
                                         }
                                     } else {
                                         echo '<option value="1">Ingreso</option>
-                                            <option value="2">Egreso</option>';
+                                <option value="2">Egreso</option>';
                                     }
                                     ?>
                                 </select>
                             </div>
                             <div class="graduation-group hidden">
-                                <label for="name" class="form__label form__label--required">Categoria de egreso</label><br>
+                                <label for="name" class="form__label form__label--required">Categoría de
+                                    egreso</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                    <select id="id_graduation-category" name="id_graduation-category" class="form-control form__select" required>
+                                    <span class="input-group-text form__icon" id="basic-addon1"><i
+                                            class="bi bi-cash-stack"></i></span>
+                                    <select id="id_graduation-category" name="id_graduation-category"
+                                        class="form-control form__select" required>
                                         <?php
 
-                                        if (isset($indicator['id_categoria_egreso'])) { //Si existe la variable indicator
-                                            $selectedCategoryId = $indicator['id_categoria_egreso']; //Voy a guardarla
+                                        if (isset($indicator['id_categoria_egreso'])) {
+                                            $selectedCategoryId = $indicator['id_categoria_egreso'];
                                         } else {
-                                            echo '<option value="0" disabled selected>Seleccione una opción</option>'; //Sino existe entonces voy a mostrar el html 
-                                            $selectedCategoryId = null;   //Pero de igual manera voy a guardarla como null
+                                            echo '<option value="0" disabled selected>Seleccione una opción</option>';
+                                            $selectedCategoryId = null;
                                         }
 
-                                        foreach ($data as $value) { //Ahora voy a hacer bucle
-                                            $categoryId = $value['id_categoria_egreso']; //Almacenar la variable
+                                        foreach ($data as $value) {
+                                            $categoryId = $value['id_categoria_egreso'];
                                             $categoryName = $value['categoria'];
+                                            $selected = ($categoryId == $selectedCategoryId) ? 'selected' : '';
 
-                                            $selected = ($categoryId == $selectedCategoryId) ? 'selected' : ''; 
-                                            
                                             echo '<option value="' . $categoryId . '" ' . $selected . '> ' . $categoryName . '</option>';
                                         }
-
-
                                         ?>
                                     </select>
                                 </div>
                                 <label for="graduation" class="form__label form__label--required">Egreso</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                    <input type="text" name="graduation" class="form__input form__input--item form-control"
-                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        value=" <?php
-                                                echo $indicator['egreso'] ?? '';
-                                                ?>">
+                                    <span class="form__icon input-group-text" id="basic-addon1"><i
+                                            class="bi bi-cash-coin"></i></span>
+                                    <input type="text" name="graduation"
+                                        class="form__input form__input--item form-control"
+                                        placeholder="Nombre del egreso (ej. Pago de alquiler de oficina)"
+                                        aria-label="Indicador de egreso" aria-describedby="basic-addon1"
+                                        value="<?php echo trim($indicator['egreso'] ?? ''); ?>">
                                 </div>
                             </div>
                             <div class="income hidden">
                                 <label for="income" class="form__label form__label--required">Ingreso</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                    <span class="form__icon input-group-text" id="basic-addon1"><i
+                                            class="bi bi-currency-dollar"></i></span>
                                     <input type="text" name="income" class="form__input form__input--item form-control"
-                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
+                                        placeholder="Nombre del ingreso (ej. Sueldo)" aria-label="Indicador de ingreso"
                                         aria-describedby="basic-addon1"
-                                        value="<?php
-                                                echo $indicator['ingreso'] ?? '';
-                                                ?>">
+                                        value="<?php echo $indicator['ingreso'] ?? ''; ?>">
                                 </div>
                             </div>
                         </div>
@@ -146,8 +152,8 @@
                 <hr class="form__separator">
                 <div class="flex-center-full form__actions gap-3">
                     <button class="form__button button--back" type="button">
-
-                        <a href="<?php echo $jump_indicators?>indicators/1/1" class="text-black text-decoration-none"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
+                        <a href="<?php echo $jump_indicators ?>indicators/1/1" class="text-black text-decoration-none">
+                            <i class="bi bi-arrow-left-square"></i> Regresar</a>
                     </button>
                     <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
                 </div>
@@ -186,7 +192,9 @@
         })
     </script>
     <script src="<?php echo $js_jump ?>js/components/location.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

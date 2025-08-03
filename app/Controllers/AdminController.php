@@ -13,13 +13,13 @@ class AdminController extends Controller
        AuthController::checkSession();
    }
    public function index($page){
-      
-
       $show_users = new AdminModel();
       $show_users->ShowUsers($page);
       return $this->view('admin.dashboard', ['HTML' => $show_users->HTML,
          'header_jump'=> '../',
-         'sidebar_jump' => '../'
+         'sidebar_jump' => '../',
+         'header_break' => './',
+          'header_break_login' => './'
       ]);
    }
 

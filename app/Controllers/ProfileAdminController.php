@@ -11,6 +11,7 @@ class ProfileAdminController extends Controller{
    }
 
    public function updateData(){
+       
       if(empty($_POST)){
          echo '<script>alert("No se han recibido datos para actualizar")
          location.href = "./profile"

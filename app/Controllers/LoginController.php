@@ -36,21 +36,17 @@ class LoginController extends Controller
     
         // Check if login was successful
         if ($authentication->status == true) {
-            // Start the session
-    
-            // Store user data in the session
-            session_start(); // Start the session
+     
+            session_start();  
             $_SESSION['id_usuario'] = $authentication->user['id_usuario'] ?? '';
             $_SESSION['usuario'] = $authentication->user['usuario']  ;
             $_SESSION['correo_electronico'] = $authentication->user['correo_electronico'] ?? '';
             $_SESSION['nombre'] = $authentication->user['nombre'] ?? '';
-            // Redirect based on user role
-            echo $authentication->user['id_rol'];
             switch ($authentication->user['id_rol']) {
                 case 1:
                     echo 'hola';
                     $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';                    
-                    header('Location: ./user/dashboard', true, 301);
+                    header('Location: ./user/dashboard/'.Date('m/Y'), true, 301);
                     break;
                 case 2:
                     header('Location: ./admin/dashboard/1', true, 301);
@@ -60,13 +56,11 @@ class LoginController extends Controller
                     header('Location: ./guest/dashboard/1', true, 301);
                     break;
                 default:
-                    // Handle unknown roles (optional)
-                    header('Location: ./login', true, 301);
+                     header('Location: ./login', true, 301);
                     break;
             }
             exit();
         } else {
-            // Login failed: Show error message and redirect to login page
             echo '<script>alert("Usuario o contraseña incorrecta.");
                   location.href = "./login";</script>';
             exit();

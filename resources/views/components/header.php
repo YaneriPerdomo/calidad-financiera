@@ -1,6 +1,6 @@
 <header class="header-index">
     <div class="logo">
-        Logo
+        Calidad Financiera
     </div>
     <div>
         <nav>

@@ -20,7 +20,8 @@ function fc_number_format($number)
     <link rel="stylesheet" href="../../../../public/css/pages/_about.css">
     <link rel="stylesheet" href="../../../../public/css/utilities.css">
     <link rel="stylesheet" href="../../../../public/css/layouts/_base.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
         .monthly-data-total__block:nth-child(3) {
@@ -71,9 +72,11 @@ function fc_number_format($number)
                     <div class="row flex-center-full">
                         <div class="col-6">
                             <div class="month">
-                                <span for="month" class="form__label form__label--required"><i>Mes selecionado</i></span><br>
+                                <span for="month" class="form__label form__label--required"><i>Mes
+                                        seleccionado</i></span><br>
                                 <div class="input-group mb-3">
-                                    <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                    <span class="form__icon input-group-text" id="basic-addon1"><i
+                                            class="bi bi-calendar-date"></i></span>
                                     <select select id="month" name="month" class="form-control form__select" required>
                                         <?php
                                         $months = array(
@@ -85,7 +88,7 @@ function fc_number_format($number)
                                             6 => 'Junio',
                                             7 => 'Julio',
                                             8 => 'Agosto',
-                                            9  => 'Septiembre',
+                                            9 => 'Septiembre',
                                             10 => 'Octubre',
                                             11 => 'Noviembre',
                                             12 => 'Diciembre'
@@ -94,9 +97,9 @@ function fc_number_format($number)
                                         $month_now = str_replace('0', '', $month_now);
                                         foreach ($months as $key => $value) {
                                             if ($key == $month_now) {
-                                                echo '<option value="' . $value . '" selected> ' . $value . '</option>';
+                                                echo '<option value="' . $key . '" selected> ' . $value . '</option>';
                                             } else {
-                                                echo '<option value="' . $value . '"> ' . $value . '</option>';
+                                                echo '<option value="' . $key . '"> ' . $value . '</option>';
                                             }
                                         }
                                         ?>
@@ -105,30 +108,27 @@ function fc_number_format($number)
                             </div>
                             <div class="year">
                                 <div class="input-group mb-3">
-                                    <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                    <span class="form__icon input-group-text" id="basic-addon1"><i
+                                            class="bi bi-calendar-check"></i></span>
                                     <select select id="month" name="month" class="form-control form__select" required>
                                         <?php
                                         $old_year_for = 20;
                                         $start_year = 2020;
-                                        $current_year  = substr(date('Y'), 2);
+                                        $current_year = substr(date('Y'), 2);
                                         $url = $_SERVER['REQUEST_URI'];
-                                        $year_selected = substr($url,  -4);
-                                        echo $year_selected;
+                                        $year_selected = substr($url, -4);
+
                                         for ($i = $old_year_for; $i <= $current_year; $i++) {
-                                            
-                                            $selected = $old_year_for.$i == $year_selected ? 'selected' : '';
-                                            echo '<option value="20' . $i . '" ' . $selected . ' > 20'. $i. '</option>';
+
+                                            $selected = $old_year_for . $i == $year_selected ? 'selected' : '';
+                                            echo '<option value="20' . $i . '" ' . $selected . ' > 20' . $i . '</option>';
                                         }
                                         ?>
                                     </select>
-
                                 </div>
                                 <?php
-
                                 $url = $_SERVER['REQUEST_URI'];
-                                $year_selected = substr($url,  -4);
-                                echo $year_selected;
-
+                                $year_selected = substr($url, -4);
                                 ?>
                             </div>
                         </div>
@@ -139,28 +139,33 @@ function fc_number_format($number)
                     <hr>
                     <div class="d-flex monthly-data-total flex-space-between">
                         <div class="monthly-data-total__block monthly-data-total--income">
-                            <span class="text-blue monthly-data-total__title fs-4"><b>Ingresos <i class="bi bi-caret-up-fill text-green"></i></b></span>
+                            <span class="text-blue monthly-data-total__title fs-4"><b>Ingresos <i
+                                        class="bi bi-caret-up-fill text-green"></i></b></span>
                             <p class="monthly-data-total__description">Total ingresos mensual</p>
                             <?php
-                            $total_income = fc_number_format($total_income['Ingresos']);
-
-                            echo '<data value="' . $total_income . '" class="text-green fs-3 monthly-data-total__value--income"><b>' . $total_income . ' Bs</b></data>';
+                            $total_income_ = fc_number_format($total_income['Ingresos']);
+                            echo '<data value="' . $total_income_ . '" class="text-green fs-3 monthly-data-total__value--income"><b>' . $total_income_ . ' Bs</b></data>';
                             ?>
                         </div>
                         <div class="monthly-data-total__block">
-                            <span class="text-blue fs-4"><b>Egresos <i class="bi bi-caret-down-fill text-red"></i></b></span>
+                            <span class="text-blue fs-4"><b>Egresos <i
+                                        class="bi bi-caret-down-fill text-red"></i></b></span>
                             <p>Total egresos mensual</p>
                             <?php
-                            $total_graduation = fc_number_format($total_graduation['Egresos']);
-                            echo '<data value="' . $total_graduation . '" class="text-red fs-3 monthly-data-total__value--budget"><b>' . $total_graduation . ' Bs</b></data>';
+                            $total_graduation_ = fc_number_format($total_graduation['Egresos']);
+                            echo '<data value="' . $total_graduation_ . '" class="text-red fs-3 monthly-data-total__value--budget"><b>' . $total_graduation_ . ' Bs</b></data>';
                             ?>
                         </div>
                         <div class="monthly-data-total__block">
-                            <span class="monthly-data-total__title"> <i class="bi bi-briefcase-fill fs-2"> </i><b>Saldo mensual</b></span><br>
+                            <span class="monthly-data-total__title"> <i class="bi bi-briefcase-fill fs-2"> </i><b>Saldo
+                                    mensual</b></span><br>
 
                             <?php
-                            $total_quote =  fc_number_format($total_quote['monto_total']);
-                            echo '<data value="' . $total_quote . '" class="fs-4"><b>' . $total_quote . ' Bs </b></data>';
+
+
+                            $total_quote = fc_number_format($total_quote['monto_total'] ?? 0);
+                            echo fc_number_format($total_income['Ingresos'] - $total_graduation['Egresos']);
+                            //echo '<data value="' . $total_quote . '" class="fs-4"><b>' . $total_quote . ' Bs </b></data>';
                             ?>
                         </div>
                     </div>
@@ -176,7 +181,7 @@ function fc_number_format($number)
                                 <?php
 
                                 echo '<div style="display:none">';
-                                foreach ($all_income_name_value as  $value) {
+                                foreach ($all_income_name_value as $value) {
                                     echo '<span data-value-bs-all-income="' . $value['valor_total_bs'] . '">' . $value['ingreso'] . '</span>';
                                 }
                                 echo '</div>';
@@ -191,39 +196,45 @@ function fc_number_format($number)
                         <div>
                             <span class="fs-3 text-white"><b>Ingresos</b></span>
                             <p class="text-white">Ingresos Anual total</p>
-                            <data value="<?php echo fc_number_format($total_annual_income_stmt['total_ingresos_anuales']); ?>" class="text-white fs-3">
+                            <data
+                                value="<?php echo fc_number_format($total_annual_income_stmt['total_ingresos_anuales']); ?>"
+                                class="text-white fs-3">
                                 <b> <?php
-                                    echo fc_number_format($total_annual_income_stmt['total_ingresos_anuales']);
+                                echo fc_number_format($total_annual_income_stmt['total_ingresos_anuales']);
 
-                                    ?> Bs</b></data>
+                                ?> Bs</b></data>
                         </div>
                         <div>
                             <span class="fs-3 text-white"><b>Egresos</b></span>
                             <p class="text-white">Egresos Anual total</p>
                             <data value="<?php
-                                            echo fc_number_format($total_annual_expenses['total_egresos_anuales']);
-                                            ?>" class="text-white fs-3">
+                            echo fc_number_format($total_annual_expenses['total_egresos_anuales']);
+                            ?>" class="text-white fs-3">
                                 <b> <?php
-                                    echo fc_number_format($total_annual_expenses['total_egresos_anuales']);
+                                echo fc_number_format($total_annual_expenses['total_egresos_anuales']);
 
-                                    ?> Bs</b></data>
+                                ?> Bs</b></data>
                         </div>
                         <div>
                             <span class="fs-3 text-white"><b>Presupuesto</b></span>
                             <p class="text-white">Presupuesto anual total</p>
-                            <data value="<?php echo fc_number_format($annual_budget['monto_total']);  ?>" class="text-white fs-3">
+                            <data value="<?php echo fc_number_format($annual_budget['monto_total']); ?>"
+                                class="text-white fs-3">
                                 <b> <?php
-                                    echo fc_number_format($annual_budget['monto_total']);
-                                    ?> Bs</b></data>
+                                echo fc_number_format($annual_budget['monto_total']);
+                                ?> Bs</b></data>
                         </div>
                     </div>
                     <div class="expenses-income__every-month w-100">
                         <hr>
                         <div>
-                            <span for="month" class="form__label form__label--required fs-3 text-blue"><b>Resumen de ingresos o egresos anual</b></span><br>
+                            <span for="month" class="form__label form__label--required fs-3 text-blue"><b>Resumen de
+                                    ingresos o egresos anual</b></span><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                <select id="month" name="month" class="form-control form__select form__select--bar" required>
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
+                                <select id="month" name="month" class="form-control form__select form__select--bar"
+                                    required>
                                     <option value="1">Ingresos</option>
                                     <option value="2">Egresos</option>
                                 </select>
@@ -329,10 +340,12 @@ function fc_number_format($number)
     ?>
 
 
-    <script src="../js/components/location.js" type="module"></script>
+    <script src="../../../js/components/location_user.js" type="module"></script>
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -381,7 +394,7 @@ function fc_number_format($number)
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             const label = context.label || ''; // "Ingresos" o "Egresos"
                             const value = context.raw || 0; // El valor numérico (ej: 40)
                             return ` ${value.toFixed(2)}%`; // Formato: "Ingresos: 40.00%"
@@ -412,21 +425,21 @@ function fc_number_format($number)
             datasets: [{
                 label: 'Resumen de ingresos anual', // Puedes cambiar la etiqueta
                 data: [$data_month[0].textContent,
-                    $data_month[1].textContent,
-                    parseFloat($data_month[2].textContent),
-                    $data_month[3].textContent,
-                    $data_month[4].textContent,
-                    $data_month[5].textContent,
-                    $data_month[6].textContent,
-                    $data_month[7].textContent,
-                    $data_month[8].textContent,
-                    $data_month[9].textContent,
-                    $data_month[10].textContent,
-                    $data_month[11].textContent,
+                $data_month[1].textContent,
+                parseFloat($data_month[2].textContent),
+                $data_month[3].textContent,
+                $data_month[4].textContent,
+                $data_month[5].textContent,
+                $data_month[6].textContent,
+                $data_month[7].textContent,
+                $data_month[8].textContent,
+                $data_month[9].textContent,
+                $data_month[10].textContent,
+                $data_month[11].textContent,
 
                 ], // Aquí van tus datos
-                backgroundColor: ['#2fac2f', ], // Color de las barras
-                borderColor: ['#2fac2f', ], // Color del borde de las barras
+                backgroundColor: ['#2fac2f',], // Color de las barras
+                borderColor: ['#2fac2f',], // Color del borde de las barras
                 borderWidth: 2
             }]
         },
@@ -439,7 +452,7 @@ function fc_number_format($number)
                         text: 'Cantidad' // Etiqueta del eje Y
                     },
                     ticks: {
-                        callback: function(value, index, values) {
+                        callback: function (value, index, values) {
                             return value.toLocaleString('es-VE', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
@@ -478,17 +491,17 @@ function fc_number_format($number)
             datasets: [{
                 label: 'Resumen de egresos mensual', // Puedes cambiar la etiqueta
                 data: [$data_month_graduation[0].textContent,
-                    $data_month_graduation[1].textContent,
-                    parseFloat($data_month_graduation[2].textContent),
-                    $data_month_graduation[3].textContent,
-                    $data_month_graduation[4].textContent,
-                    $data_month_graduation[5].textContent,
-                    $data_month_graduation[6].textContent,
-                    $data_month_graduation[7].textContent,
-                    $data_month_graduation[8].textContent,
-                    $data_month_graduation[9].textContent,
-                    $data_month_graduation[10].textContent,
-                    $data_month_graduation[11].textContent,
+                $data_month_graduation[1].textContent,
+                parseFloat($data_month_graduation[2].textContent),
+                $data_month_graduation[3].textContent,
+                $data_month_graduation[4].textContent,
+                $data_month_graduation[5].textContent,
+                $data_month_graduation[6].textContent,
+                $data_month_graduation[7].textContent,
+                $data_month_graduation[8].textContent,
+                $data_month_graduation[9].textContent,
+                $data_month_graduation[10].textContent,
+                $data_month_graduation[11].textContent,
 
                 ], // Aquí van tus datos
                 backgroundColor: ['rgb(242, 69, 69)',
@@ -509,7 +522,7 @@ function fc_number_format($number)
                         text: 'Cantidad' // Etiqueta del eje Y
                     },
                     ticks: {
-                        callback: function(value, index, values) {
+                        callback: function (value, index, values) {
                             return value.toLocaleString('es-VE', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2

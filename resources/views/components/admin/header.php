@@ -1,8 +1,9 @@
 <header class="header-index">
     <div class="logo">
-        Logos
+         Calidad <br> Financiera
     </div>
     <div class="profile">
+        <span><?php echo  '¡Hola, ' . $_SESSION['usuario'] . '!' ??  '' ?></span>
         <div class="btn-group dropstart">
             <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown"
                 data-bs-display="static" aria-expanded="false">
@@ -15,7 +16,7 @@
                     <h2> <?php echo  '¡Hola, ' . $_SESSION['usuario'] . '!' ??  '' ?></h2>
                 </li>
                 <li class="text-center">
-                    <a href="<?php echo $header_jump?>profile" class="text-decoration-none text__blue"><button class="dropdown-item" type="button">Administrar tu cuenta</button></a>
+                    <a href="<?php echo $header_jump?>admin/profile" class="text-decoration-none text__blue"><button class="dropdown-item" type="button">Administrar tu cuenta</button></a>
                 </li>
                 <li clasS="text-center">
                     <button class="dropdown-item" type="button">

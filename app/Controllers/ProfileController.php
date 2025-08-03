@@ -21,17 +21,24 @@ class ProfileController extends Controller
       $type_rol = '';
       $url = $_SERVER['REQUEST_URI'];
       if (strpos($url, 'user')) {
-         $type_rol =  'user';
+         $type_rol = 'user';
          $show_data_profile = new UserModel();
          $show_data_profile->edit($_SESSION['id_usuario']);
-         return $this->view('user.profile', ['data' => $show_data_profile->data]);
+         return $this->view('user.profile', [
+            'data' => $show_data_profile->data,
+            'sidebar_jump' => './'
+         ]);
       } else if (strpos($url, 'admin')) {
-         $type_rol =  'admin';
+         $type_rol = 'admin';
          $show_data_profile = new ProfileAdminModel();
          $show_data_profile->showData($_SESSION['id_usuario']);
-         return $this->view('admin.profile' , ['data' => $show_data_profile->data,
-            'header_jump'=> './'
-      ]);
+         return $this->view('admin.profile', [
+            'data' => $show_data_profile->data,
+            'header_jump' => '../',
+            'sidebar_jump' => '../',
+            'header_break' => './../../',
+            'header_break_login' => './../../'
+         ]);
       } else if (strpos($url, 'guest')) {
 
          $show_data_profile = new ProfileGuestModel();

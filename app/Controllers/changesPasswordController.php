@@ -21,10 +21,12 @@ class ChangesPasswordController extends Controller
    {
       $url = $_SERVER['REQUEST_URI'];
       if (strpos($url, 'user')) {
-         return $this->view('user.profile');
+         return $this->view('user.changes-password');
       } else if (strpos($url, 'admin')) {
          return $this->view('admin.changes-password' , [
-            'header_jump' => './'
+             'sidebar_jump' => './',
+                'header_break' => './',
+                'header_break_login' => './'
          ]);
       }
    }

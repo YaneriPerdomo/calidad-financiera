@@ -157,7 +157,8 @@ class dataModel extends Database
           $this->HTML .= "<td> No disponible</td>";
         }
 
-        $value_bs =   $type_indicator == 'Ingreso' ? '+'.$row['valor_bs']  : '-'.$row['valor_bs'] ;
+        $monto =$monto = number_format($row['valor_bs'], 2, ',', '.');
+        $value_bs =   $type_indicator == 'Ingreso' ? '+'. $monto  : '-'.$monto;
         $this->HTML .= "<td>" . $value_bs . " Bs.</td>";
         $this->HTML .= "<td>" . $row['fecha'] . "</td>";
         $this->HTML .= "<td>" . $row['notas'] . "</td>";

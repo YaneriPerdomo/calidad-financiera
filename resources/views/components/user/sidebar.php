@@ -2,7 +2,7 @@
     <nav class="w-100 sidebar__nav">
         <ul class="sidebar__menu">
             <li class="sidebar__menu-item">
-                <a href="<?php echo $sidebar_jump ?? '/'?>dashboard" id="start" class="text-decoration-none">Inicio</a>
+                <a href="<?php echo $sidebar_jump ?? '/'?>dashboard/<?php echo Date('m/Y') ?> " id="start" class="text-decoration-none">Inicio</a>
             </li>
             <li class="sidebar__menu-item">
                 <a href="<?php echo $sidebar_jump ?? './'?>data/1" id="data" class="text-decoration-none">Datos</a>

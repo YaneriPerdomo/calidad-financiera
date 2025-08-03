@@ -51,6 +51,7 @@ class ProfileAdminModel extends Database{
             $update_user_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
             $update_user_stmt->execute();
             if($update_user_stmt->execute()){
+                $_SESSION['usuario'] = $POST['usuario'];
                 return $this->status = true;
             }
         } catch (PDOException $ex) {

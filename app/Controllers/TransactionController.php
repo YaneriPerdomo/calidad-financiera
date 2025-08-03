@@ -5,6 +5,13 @@ namespace App\Controllers;
 use App\Models\indicatorModel;
 
 class TransactionController  extends Controller{
+
+    
+    public function __construct()
+    {
+        AuthController::checkSession();
+    }
+
     public function index(){
         $get_graduation_categories = new indicatorModel();
         $get_graduation_categories->ShowGraduationCategories();

@@ -1,6 +1,6 @@
 <header class="header-index">
     <div class="logo">
-        Logos
+         Calidad Financiera
     </div>
     <div class="profile">
         <div class="btn-group dropstart">

@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="../../public/css/pages/_profile.css">
     <link rel="stylesheet" href="../../public/css/utilities.css">
     <link rel="stylesheet" href="../../public/css/layouts/_base.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="../../public/img/logo.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 
@@ -25,7 +27,10 @@
     include '../resources/views/components/admin/header.php';
     ?>
     <main class="main">
-        <div class="row p-2">
+        <?php
+        include '../resources/views/components/admin/sidebar.php';
+        ?>
+        <div class="row p-2 m-0">
             <div class="col-12 col-lg-3 configuration-profile h-100">
                 <?php
                 include '../resources/views/components/admin/profile-nav.php';
@@ -33,39 +38,45 @@
             </div>
             <div class="col-12 col-lg-9">
                 <form action="./changes-password" method="post" class="form form--profile">
+
                     <legend class="form__title form__title--profile"><b>Cambiar contraseña</b></legend>
-                    <p class="form__description form__description--profile"> Controla tu información protegiendo tu privacidad y recuerda que puedes actualizar tu perfil en cualquier momento. </p>
+                    <p class="form__description form__description--profile"> Protege tu cuenta actualizando tu
+                        contraseña de forma segura. </p>
                     <hr class="form__separator">
-                    <label for="name" class="form__label form__label--required">Contraseña actual</label><br>
+
+                    <label for="old-password" class="form__label form__label--required">Contraseña actual</label><br>
                     <div class="input-group mb-3">
-                        <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                        <input type="password" name="old-password" class="form-control form__input form__input--item "
-                            placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            autocomplete='off'
-                            value="">
+                        <span class="input-group-text form__icon" id="old-password-icon"><i
+                                class="bi bi-lock"></i></span>
+                        <input type="password" name="old-password" class="form-control form__input form__input--item"
+                            placeholder="Ingresa tu contraseña actual" aria-label="Contraseña actual"
+                            aria-describedby="old-password-icon" autocomplete='off' value="">
                     </div>
-                    <label for="name" class="form__label form__label--required">Contraseña nueva</label><br>
+
+                    <label for="new-password" class="form__label form__label--required">Nueva contraseña</label><br>
                     <div class="input-group mb-3">
-                        <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                        <input type="password" name="new-password" class="form-control form__input form__input--item "
-                            placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            autocomplete='off'
-                            value="">
+                        <span class="input-group-text form__icon" id="new-password-icon"><i
+                                class="bi bi-key"></i></span>
+                        <input type="password" name="new-password" class="form-control form__input form__input--item"
+                            placeholder="Ingresa tu nueva contraseña" aria-label="Nueva contraseña"
+                            aria-describedby="new-password-icon" autocomplete='off' value="">
                     </div>
-                    <label for="name" class="form__label form__label--required">Confirmar contraseña</label><br>
+
+                    <label for="confirm-password" class="form__label form__label--required">Confirmar nueva
+                        contraseña</label><br>
                     <div class="input-group mb-3">
-                        <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                        <input type="password" name="confirm-password" class="form-control form__input form__input--item "
-                            placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            autocomplete='off'
-                            value="">
+                        <span class="input-group-text form__icon" id="confirm-password-icon"><i
+                                class="bi bi-shield-lock"></i></span>
+                        <input type="password" name="confirm-password"
+                            class="form-control form__input form__input--item"
+                            placeholder="Confirma tu nueva contraseña" aria-label="Confirmar nueva contraseña"
+                            aria-describedby="confirm-password-icon" autocomplete='off' value="">
                     </div>
+
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
-                            <a href="./dashboard/1" class="text-decoration-none text-black"><i class="bi bi-arrow-left-square"></i> Regresar</a>
+                            <a href="./dashboard/1" class="text-decoration-none text-black"><i
+                                    class="bi bi-arrow-left-square"></i> Regresar</a>
                         </button>
                         <button class="form__button form__button--submit" type="submit">Cambiar contraseña</button>
                     </div>
@@ -81,7 +92,9 @@
     <script src="../js/components/location.js" type="module"></script>
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
