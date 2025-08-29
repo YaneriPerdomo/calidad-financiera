@@ -1,0 +1,30 @@
+.monthly-data-total__block:nth-child(3) {
+  padding: 1rem;
+  background: var(--color-verde);
+  color: white;
+}
+
+.text-blue {
+  color: var(--color-azul);
+}
+
+.text-red {
+  color: var(--color-rojo);
+}
+
+.text-green {
+  color: var(--color-verde);
+}
+
+.charts {
+  max-width: 100%;
+  gap: 1rem;
+}
+
+p {
+  margin: 0;
+}
+
+.bg-blue {
+  background-color: var(--color-azul);
+}

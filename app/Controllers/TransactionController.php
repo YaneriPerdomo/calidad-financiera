@@ -29,6 +29,9 @@ class TransactionController  extends Controller{
             'others' => $get_graduation_categories->graduantion[4],
             'entertainment' => $get_graduation_categories->graduantion[5],
             'debts' => $get_graduation_categories->graduantion[6],
+                        'sidebar_jump' => '',
+                        'header_break_login' => '../',
+                        'header_break' => './'
 
         ]);
     }

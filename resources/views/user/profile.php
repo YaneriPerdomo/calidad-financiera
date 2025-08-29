@@ -12,10 +12,13 @@
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../public/css/components/_header.css">
     <link rel="stylesheet" href="../../public/css/components/_body.css">
+    <link rel="stylesheet" href="../../public/css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="../../public/css/components/_sidebar.css">
-    <link rel="stylesheet" href="../../public/css/pages/_profile.css">
     <link rel="stylesheet" href="../../public/css/utilities.css">
     <link rel="stylesheet" href="../../public/css/layouts/_base.css">
+    <link rel="stylesheet" href="../../public/css/pages/_profile.css">
+    <link rel="stylesheet" href="../../public/css/layouts/_ico.css">
+    <link rel="icon" type="image/x-icon" href="../../public/img/logo.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -82,23 +85,15 @@
                                     <span class="input-group-text form__icon"><i class="bi bi-briefcase"></i></span>
                                     <select id="actividad" name="id_actividad"
                                         class=" form-control form__input form__input--select" required>
+                                        <option value="" disabled>
+                                            Seleccione una opcion
+                                        </option>
                                         <?php
 
-                                        $todas_actividades = array(
-                                            0 => 'Seleccione una opción',
-                                            1 => 'Propietario o Socio',
-                                            2 => 'Gerente o Supervisor',
-                                            3 => 'Empleado',
-                                            4 => 'Profesional',
-                                            5 => 'Docente',
-                                            6 => 'Estudiante',
-                                            7 => 'Otro'
-                                        );
 
-                                        foreach ($todas_actividades as $key => $value) {
-                                            $disabled = ($key == 0) ? 'disabled' : '';
-                                            $selected = ($key == $data['id_actividad']) ? 'selected' : '';
-                                            echo '<option value ="' . $key . '" ' . $disabled . ' ' . $selected . ' > ' . $value . ' </option>';
+                                        foreach ($todas_actividades as $value) {
+                                            $selected = ($value['id_actividad'] == $data['id_actividad']) ? 'selected' : '';
+                                            echo '<option value ="' . $value['id_actividad'] . '" ' . $selected . ' > ' . $value['actividad'] . ' </option>';
                                         }
                                         ?>
                                     </select>
@@ -116,10 +111,10 @@
                                     <span class="input-group-text form__icon" id="basic-addon1"><i
                                             class="bi bi-person-circle"></i></span>
                                     <input type="text" name="user" class="form-control form__input form__input--item "
-                                        placeholder="Tu nombre de usuario" aria-label="Usuario"
+                                        placeholder="Introduzca tu usuario" aria-label="Usuario"
                                         aria-describedby="basic-addon1" value="<?php echo $data['usuario'] ?? '' ?>">
                                 </div>
-                                <label for="account-type" class="form__label form__label--required">Tipo de
+                                <label for="account-type" class="form__label ">Tipo de
                                     cuenta</label><br>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text form__icon" id="basic-addon1"><i
@@ -148,10 +143,15 @@
     include '../resources/views/components/footer.php';
     ?>
 
+    <?php
+    include '../resources/views/components/presentation.php';
+    ?>
+
+    <script src="../js/components/presentation_system_web.js" type="module"></script>
 
     <script src="../js/components/location_user.js" type="module"></script>
+    <script src="../js/cdn.js" type="module"></script>
 
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

@@ -3,6 +3,7 @@
 use App\Controllers\AboutController;
 use App\Controllers\AccountController;
 use App\Controllers\AdminController;
+use App\Controllers\AhorroController;
 use App\Controllers\ChangesPasswordController;
 use App\Controllers\DataController;
 use App\Controllers\IndicatorsController;
@@ -16,9 +17,6 @@ use App\Controllers\TransactionController;
 use App\Controllers\UserController;
 use Lib\Route;
 
-Route::get('/', function () {
-    echo 'Hello World';
-});
 
 // Rutas públicas (sin autenticación)
 Route::get('/login', [LoginController::class, 'index']);
@@ -31,12 +29,14 @@ Route::get('/signOut', [SignOutController::class, 'signOut']);
 // Rutas de usuario (con autenticación)
 Route::get('/user/dashboard/:month/:year', [UserController::class, 'index']);
 Route::get('/user/guests/:page', [GuestsController::class, 'show']);
+Route::get('/user/guest/data-report', [GuestsController::class, 'reportGuests']);
+Route::get('/user/guests/:nameUserSearch/:page', [GuestsController::class, 'searchGuest']);
 Route::get('/user/add-guest', [GuestsController::class, 'showAddForm']);
 Route::post('/user/add-guest', [GuestsController::class, 'addData']);
 Route::post('/user/guest', [GuestsController::class, 'operationData']);
 Route::get('/user/guest/add', [GuestsController::class, 'create']);
 Route::get('/user/guest/:id/modify', [GuestsController::class, 'showData']);
-
+Route::post('/user/guest/delete', [GuestsController::class, 'destroy']);
 Route::get('/user/profile', [ProfileController::class, 'index']);
 Route::post('/user/profile', [ProfileController::class, 'updateData']);
 Route::get('/user/changes-password', [ChangesPasswordController::class, 'index']);
@@ -44,12 +44,16 @@ Route::post('/user/changes-password', [ChangesPasswordController::class, 'update
 Route::get('/user/account', [AccountController::class, 'index']);
 Route::get('/user/data/:page', [DataController::class, 'index']);
 Route::post('/user/data', [DataController::class, 'store']);
+Route::post('/user/data/add-number-ahorro/:porcentaje/:id', [AhorroController::class, 'store']);
 Route::get('/user/add-transaction', [TransactionController::class, 'index']);
 Route::get('/user/indicators', [IndicatorsController::class, 'index']);
 Route::get('/user/about', [AboutController::class, 'index']);
+Route::post('/user/account-delete', [UserController::class, 'deleteAccount']);
 
 // Rutas de administrador (con autenticación)
-Route::get('/admin/dashboard/:page', [AdminController::class, 'index']);
+Route::get('/admin/welcome', [AdminController::class, 'index']);
+Route::get('/admin/users/:page', [AdminController::class, 'users']);
+Route::get('/admin/users/:searchUsers/:page', [AdminController::class, 'searchUsers']);
 Route::get('/admin/about', [AboutController::class, 'index']);
 Route::get('/admin/profile', [ProfileController::class, 'index']);
 Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
@@ -59,6 +63,8 @@ Route::get('/admin/indicators/:pageE/:pageI', [IndicatorsController::class, 'ind
 Route::get('/admin/add-indicator', [IndicatorsController::class, 'showAddForm']);
 Route::post('/admin/indicator/add', [IndicatorsController::class, 'AddIndicator']);
 Route::get('/admin/indicator/add', [IndicatorsController::class, 'create']);
+Route::post('/admin/indicator/delete-graduation', [IndicatorsController::class, 'deleteGraduation']);
+Route::post('/admin/indicator/delete-insome', [IndicatorsController::class, 'deleteInsome']);
 Route::get('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, 'Modify']);
 Route::get('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class, 'Modify']);
 Route::post('/admin/indicator/:id-egreso/modify', [IndicatorsController::class, 'Operation']);
@@ -66,9 +72,12 @@ Route::post('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class,
 Route::get('/admin/:id-user/modify', [UserController::class, 'edit']);
 Route::post('/admin/:id-user/modify', [UserController::class, 'update']);
 Route::get('/admin/user/:id/progress', [IndicatorsController::class, 'Operation']);
+Route::get('/admin/users/data-report', [UserController::class, 'reportUsers']);
+Route::post('/admin/user/delete', [UserController::class, 'destroy']);
+
 
 //Rutas de invitado (con autenticacion)
-Route::get('/guest/dashboard' , [GuestsController::class, 'index']);
+Route::get('/guest/dashboard/:month/:year' , [GuestsController::class, 'index']);
 Route::get('/guest/profile' , [ProfileController::class, 'index']);
 Route::get('/guest/about' , [AboutController::class, 'index']);
 Route::get('/guest/data/:page', [DataController::class, 'index']);

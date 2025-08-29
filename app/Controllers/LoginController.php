@@ -9,56 +9,53 @@ class LoginController extends Controller
 {
     public function index()
     {
-
         return $this->view('login', ['title' => 'Login']);
     }
 
-      public function authentication()
+    public function authentication()
     {
-        // Get user input from the form
         $user = $_POST['user'] ?? '';
         $password = $_POST['password'] ?? '';
-    
-        // Validate input (optional but recommended)
+
         if (empty($user) || empty($password)) {
             echo '<script>alert("Por favor, ingrese usuario y contraseña.");
                   location.href = "./login";</script>';
             exit();
         }
-    
-        // Authenticate the user
+
         $authentication = new LoginModel();
         $authentication->login(['user' => $user, 'password' => $password]);
-    
-        // Debugging: Uncomment to see the raw POST data and login result
-        // var_dump($_POST);
-        // var_dump($loginResult);
-    
-        // Check if login was successful
+
         if ($authentication->status == true) {
-     
-            session_start();  
+            if ($authentication->user['estado'] == 0) {
+                return '<script>alert("Lo sentimos, tu cuenta de usuario está deshabilitada. Para obtener asistencia, comunícate con el administrador.");
+                  location.href = "./login";</script>';
+                exit();
+            }
+            session_start();
             $_SESSION['id_usuario'] = $authentication->user['id_usuario'] ?? '';
-            $_SESSION['usuario'] = $authentication->user['usuario']  ;
+            $_SESSION['usuario'] = $authentication->user['usuario'];
             $_SESSION['correo_electronico'] = $authentication->user['correo_electronico'] ?? '';
             $_SESSION['nombre'] = $authentication->user['nombre'] ?? '';
-            switch ($authentication->user['id_rol']) {
+            $_SESSION['id_rol'] = $authentication->user['id_rol'];  
+            switch ($authentication->user['id_rol'] ) {
                 case 1:
                     echo 'hola';
-                    $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';                    
-                    header('Location: ./user/dashboard/'.Date('m/Y'), true, 301);
+                    $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';
+                    header('Location: ./user/dashboard/' . Date('m/Y'), true, 301);
                     break;
                 case 2:
-                    header('Location: ./admin/dashboard/1', true, 301);
+                    header('Location: ./admin/welcome', true, 301);
                     break;
                 case 3:
                     $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';
-                    header('Location: ./guest/dashboard/1', true, 301);
+                    header('Location: ./guest/dashboard/' . Date('m/Y'), true, 301);
                     break;
                 default:
-                     header('Location: ./login', true, 301);
+                    header('Location: ./login', true, 301);
                     break;
             }
+
             exit();
         } else {
             echo '<script>alert("Usuario o contraseña incorrecta.");

@@ -1,10 +1,21 @@
-.just-one-form, .form {
-    background: white;
-    padding: 1rem;
-    border-radius: 1rem;
-    border: solid 1px #e8d8ff;
-    margin: 1rem;
-    max-width: 700px;
-    min-width: 200px;
-  }
-  
+.just-one-form,
+.form {
+  background: white;
+  padding: 1rem;
+  /*border-radius: 1rem;*/
+  border: solid 1px #e8d8ff;
+  margin: 1rem;
+  width: clamp(700px, 50vw, 300px);
+}
+
+.form-create {
+  width: clamp(200px, 90vw, 530px);
+}
+
+.form__subtitle {
+  font-weight: bold;
+}
+.form__label--required::after {
+  content: "*";
+  color: var(--color-rojo);
+}

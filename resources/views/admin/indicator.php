@@ -12,13 +12,16 @@
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_footer.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_header.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_body.css">
+    <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_form.css">
+    <link rel="stylesheet"
+        href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_sidebar.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/pages/_about.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/pages/_guest.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/utilities.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/layouts/_base.css">
+    <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>/css/layouts/_ico.css">
     <link rel="icon" type="image/x-icon" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>/img/logo.ico">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -38,14 +41,11 @@
         include '../resources/views/components/admin/sidebar.php';
         ?>
         <?php
-
         if (isset($_SESSION['error_message'])) {
             echo '<script>alert("' . $_SESSION['error_message'] . '");</script>';
             unset($_SESSION['error_message']);
         }
-
         ?>
-
         <div class="flex-center-full w-100">
             <form action="<?php echo isset($indicator) ? "../$id-{$type}/modify" : '../indicator/add' ?>" method="POST"
                 class="form form--guest">
@@ -63,7 +63,7 @@
                 }
                 ?>">
                 <legend class="form__title">
-                    <h1><b> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> indicador</b></h1>
+                    <b> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> indicador</b>
                 </legend>
                 <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
                     actualizar tu perfil en cualquier momento. </p>
@@ -191,7 +191,14 @@
             type_indicator($TYPE_INDICATOR_SELECT.value);
         })
     </script>
-    <script src="<?php echo $js_jump ?>js/components/location.js" type="module"></script>
+    <?php
+    include '../resources/views/components/admin/presentation.php';
+    ?>
+
+    <script src="<?php echo $js_jump ?>js/components/presentation_system_web.js" type="module"></script>
+    <script src="<?php echo $js_jump ?>js/components/location_admin.js" type="module"></script>
+    <script src="<?php echo $js_jump ?>js/cdn.js" type="module"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

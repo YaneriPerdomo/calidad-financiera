@@ -10,10 +10,6 @@
             <li class="sidebar__menu-item">
                 <a href="<?php echo $sidebar_jump ?? './'?>guests/1" id="guest" class="text-decoration-none">Invitados</a>
             </li>
-            <!---
-            <li class="sidebar__menu-item">
-                <a href="./indicators" id="indicators" class="text-decoration-none">Indicadores</a>
-            </li> --->
             <li class="sidebar__menu-item">
                 <a href="<?php echo $sidebar_jump ?? './'?>about" id="about" class="text-decoration-none"> Acerca de </a>
             </li>

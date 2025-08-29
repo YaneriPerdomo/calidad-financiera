@@ -1,7 +1,6 @@
 .about {
   background: white;
   padding: 1rem;
-  border-radius: 1rem;
   border: solid 1px #e8d8ff;
   margin: 1rem;
   width: clamp(500px 80vw 700px);

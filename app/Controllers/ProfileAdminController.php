@@ -7,16 +7,13 @@ use App\Models\ProfileModel;
 
 class ProfileAdminController extends Controller{
    public function __construct(){
-      AuthController::checkSession();
+      AuthController::checkSession([1]);
    }
 
    public function updateData(){
        
-      if(empty($_POST)){
-         echo '<script>alert("No se han recibido datos para actualizar")
-         location.href = "./profile"
-         </script>';
-      }
+    
+     
       $update_data_profile = new ProfileAdminModel();
       $update_data_profile->updateData([
          'id_usuario' => $_SESSION['id_usuario'],
@@ -27,7 +24,7 @@ class ProfileAdminController extends Controller{
          location.href = "./profile"
          </script>';
       }else{
-         echo '<script>alert("Error al actualizar los datos")
+         echo '<script>alert("'.$update_data_profile->msg.'")
          location.href = "./profile"
          </script>';
       }

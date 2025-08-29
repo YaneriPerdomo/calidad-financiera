@@ -24,7 +24,6 @@ class ProfileGuestModel extends Database{
         $get_information_guest_stmt->bindParam('id_user', $id, PDO::PARAM_INT);
         $get_information_guest_stmt->execute();
         return $this->data = $get_information_guest_stmt->fetch(PDO::FETCH_ASSOC);
-
         if($get_information_guest_stmt->rowCount() > 1){
         }
 

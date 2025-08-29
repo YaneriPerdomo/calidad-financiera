@@ -3,7 +3,6 @@
 .functionality {
   background: white;
   padding: 1rem;
-  border-radius: 1rem;
   border: solid 1px #e8d8ff;
 }
 
@@ -19,4 +18,19 @@
 
 .nav__link {
   color: var(--color-black);
+}
+
+.form__label--required::after {
+  content: "*";
+  color: var(--color-rojo);
+}
+
+.form__subtitle {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 992px) {
+  [name] {
+    max-width: 88%;
+  }
 }

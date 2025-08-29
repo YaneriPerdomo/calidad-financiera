@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página no encontrada (404) | Sonidos del habla</title>
+    <title>Página no encontrada (404) | Calidad financiera</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -26,7 +26,6 @@
             align-items: center;
             text-align: center;
         }
-
     </style>
 </head>
 

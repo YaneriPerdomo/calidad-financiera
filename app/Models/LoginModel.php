@@ -9,6 +9,8 @@ class LoginModel extends Database
 {
     public $status; //objeto que se va a retornar
     public $user = [];
+
+    public $estado;
     function __construct()
     {
         parent::__construct();
@@ -20,7 +22,7 @@ class LoginModel extends Database
             return $this->status = false;
         }
         $get_user_query = 'SELECT 
-                      usuario , id_usuario, id_rol, clave
+                      usuario , id_usuario, id_rol, clave, estado
                   FROM 
                       usuarios 
                   WHERE 
@@ -64,7 +66,6 @@ class LoginModel extends Database
                         $this->user = array_merge($this->user, $guest_data);
                     }
                 }
-
                 if ($this->user) {
                     $this->status = true;
                     return $this->user;

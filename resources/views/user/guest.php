@@ -9,15 +9,20 @@
     <title><?php echo empty(!$data) ? 'Modificar' : 'Agregar' ?> persona invitada | Calidad financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_buttons.css">
-    <link rel="stylesheet" href="<?php echo $style_jump  ?>css/components/_footer.css">
+    <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_footer.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_header.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_body.css">
+    <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_form.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_sidebar.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/pages/_about.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/pages/_guest.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/utilities.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/layouts/_base.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_presentation-system-web.css">
+    <link rel="stylesheet" href="<?php echo $style_jump ?>css/layouts/_ico.css">
+    <link rel="icon" type="image/x-icon" href="<?php echo $style_jump ?>/img/logo.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 
@@ -30,21 +35,23 @@
         include '../resources/views/components/user/sidebar.php';
         ?>
         <div class="flex-center-full w-100">
-            <form action=" <?php
-                            echo empty(!$data) ? '../../guest' : '../guest' ?>" method="post" class="form form--guest">
+            <form action="<?php
+            echo $title == "Modificar" ? '../../guest' : '../guest'
+                ?>" method="post" class="form form--guest">
                 <input type="hidden" name="operation" value="<?php echo $operation ?>">
                 <?php
-                if (!is_array($data)) {
+                if ($title == 'Modificar') {
                     echo '<input type="hidden" name="id_user" value="' . $data['id_usuario'] . '">';
                 }
                 ?>
                 <?php
-                echo !is_array($data) ? '<input type="hidden" name="id_person"value="' . $data['id_persona'] . '">' : '' ?>
+                echo $title == 'Modificar' ? '<input type="hidden" name="id_person"value="' . $data['id_persona'] . '">' : '' ?>
                 <legend class="form__title">
-                    <h1><b> <?php
-                            echo $title ?> persona invitada</b></h1>
+                    <b> <?php
+                    echo $title ?> persona invitada</b>
                 </legend>
-                <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes actualizar tu perfil en cualquier momento. </p>
+                <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
+                    actualizar tu perfil en cualquier momento. </p>
                 <hr class="form__separator">
                 <div class="form__data">
                     <div class="row form__row">
@@ -54,23 +61,24 @@
                         <div class="col-12 col-lg-8 form__col form__col--inputs">
                             <label for="name" class="form__label form__label--required">Nombre</label><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
                                 <input type="text" name="name" class="form__input form__input--item form-control"
                                     placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    value="<?php echo $data['nombre'] ?? '' ?> ">
+                                    aria-describedby="basic-addon1" value="<?php echo $data['nombre'] ?? '' ?> ">
                             </div>
                             <label for="lastname" class="form__label form__label--required">Apellido</label><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
                                 <input type="text" name="lastname" class="form__input form__input--item form-control"
                                     placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    value="<?php echo $data['apellido'] ?? '' ?>">
+                                    aria-describedby="basic-addon1" value="<?php echo $data['apellido'] ?? '' ?>">
                             </div>
                             <label for="email" class="form__label form__label--required">Correo electrónico</label><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
                                 <input type="text" name="email" class="form__input form__input--item form-control"
                                     placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
                                     aria-describedby="basic-addon1"
@@ -87,44 +95,41 @@
                         <div class="col-12 col-lg-8 form__col form__col--inputs">
                             <label for="user" class="form__label form__label--required">Usuario</label><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                <input
-                                    type="text"
-                                    name="user"
-                                    class="form__input form__input--item form-control"
-                                    placeholder="¿Como se llama tu niño/a? 🤔"
-                                    aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    value="<?php echo $data['usuario'] ?? '' ?> ">
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
+                                <input type="text" name="user" class="form__input form__input--item form-control"
+                                    placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
+                                    aria-describedby="basic-addon1" value="<?php echo $data['usuario'] ?? '' ?> ">
                             </div>
-                            <label for="password" class="form__label form__label--required">Contraseña</label><br>
                             <?php
-
-                            echo empty(!$data) ? "<small>Si no desea cambiar su contraseña, deja los campos de 'Contraseña' y 'Confirma contraseña' vacíos.</small>" : '';
-
+                            echo $title != 'Agregar' ? "<small>Si no desea cambiar su contraseña, deja los campos de 'Contraseña' y 'Confirma contraseña' vacíos.</small> <br>" : '';
                             ?>
+                            <label for="password"
+                                class="form__label <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Contraseña</label><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                <input
-                                    type="text"
-                                    name="password"
-                                    class="form__input form__input--item form-control"
-                                    placeholder="Usuario"
-                                    aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    value="">
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
+                                <input type="password" name="password"
+                                    class="form__input form__input--item form-control" placeholder="Usuario"
+                                    aria-label="Username" aria-describedby="basic-addon1" value="">
                             </div>
-                            <label for="confirm-password" class="form__label form__label--required">Confirmar contraseña</label><br>
+                            <label for="confirm-password" class="form__label 
+                                <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Confirmar
+                                contraseña</label><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                <input
-                                    type="text"
-                                    name="confirm-password"
-                                    class="form__input form__input--item form-control"
-                                    placeholder="Usuario"
-                                    aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    value="">
+                                <span class="form__icon input-group-text" id="basic-addon1"><i
+                                        class="bi bi-person"></i></span>
+                                <input type="password" name="confirm-password"
+                                    class="form__input form__input--item form-control" placeholder="Usuario"
+                                    aria-label="Username" aria-describedby="basic-addon1" value="">
+                            </div>
+                            <div>
+                                <label for="status">Estado de la cuenta</label>
+                                <input type="checkbox" name="status" value="1" id="status" <?php
+                                if ($title != 'Agregar') {
+                                    echo $data['estado'] == 1 ? 'checked' : '';
+                                }
+                                ?>>
                             </div>
                         </div>
                     </div>
@@ -133,7 +138,8 @@
                 <div class="flex-center-full form__actions gap-3">
                     <button class="form__button button--back" type="button">
 
-                        <a href="<?php echo $button_back ?>guests/1" class="text-black text-decoration-none"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
+                        <a href="<?php echo $button_back ?>guests/1" class="text-black text-decoration-none"> <i
+                                class="bi bi-arrow-left-square"></i> Regresar</a>
                     </button>
                     <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
                 </div>
@@ -143,12 +149,16 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
+    <?php
+    include '../resources/views/components/presentation.php';
+    ?>
 
-   
-
-
+    <script src="<?php echo $js_jump ?>js/components/presentation_system_web.js" type="module"></script>
+    <script src="<?php echo $js_jump ?>js/cdn.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/components/location_user.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

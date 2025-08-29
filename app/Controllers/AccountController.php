@@ -16,7 +16,14 @@ class AccountController extends Controller
     public function index()
     {
 
-        return $this->view('user.account',
-    ['sidebar_jump' => './']);
+        return $this->view(
+            'user.account',
+            [
+                'sidebar_jump' => './',
+                'header_break' => './',
+                'header_jump' => './',
+                'header_break_login' => '../'
+            ]
+        );
     }
 }

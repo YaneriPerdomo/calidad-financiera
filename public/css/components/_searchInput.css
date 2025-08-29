@@ -1,0 +1,20 @@
+.search {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.search__seeker {
+  width: clamp(200px, 30vh, 300px);
+}
+
+.button-pdf {
+  align-self: start;
+}
+
+.input-group {
+  width: auto !important;
+  width: clamp(190px, 50vw, 300px) !important;
+}

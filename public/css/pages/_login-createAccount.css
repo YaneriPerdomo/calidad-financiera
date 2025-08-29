@@ -3,7 +3,7 @@
   top: 30px;
   right: -9px;
   height: 130px;
-  border-radius: 0.2rem;
+   border-radius: 0.2rem; 
   background: green;
   background-image: none;
   width: 10px;
@@ -45,7 +45,6 @@
   position: relative;
   padding: 1rem;
   background: white !important;
-  border-radius: 1rem;
-  border-radius: 1rem;
+   
   border: solid 1px #e8d8ff;
 }

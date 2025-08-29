@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\ActividadModel;
 use App\Models\createAccountModel;
 
 
@@ -9,14 +10,13 @@ class CreateAccountController extends Controller
 {
    public function index()
    {
-
-      return $this->view('create-account', ['title' => 'Login']);
+      $actividades = new ActividadModel();
+      $actividades->index();
+      return $this->view('create-account', ['actividades' => $actividades->data]);
    }
 
    public function probando($id)
    {
-
-      echo $id;
       return $this->view('create-account', ['style' => '../']);
    }
    public function add()
@@ -38,9 +38,8 @@ class CreateAccountController extends Controller
          'password' => $password
       ]);
 
-
       return $model->status == false
-         ? '<script>alert("Sucedio un error"); location.href = "./create-account"</script>'
+         ? '<script>alert("'.$model->msg.'"); location.href = "./create-account"</script>'
          : '<script>alert("Usuario creado correctamente"); location.href = "./login"</script>';
    }
 }

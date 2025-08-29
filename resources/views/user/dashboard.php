@@ -16,46 +16,16 @@ function fc_number_format($number)
     <link rel="stylesheet" href="../../../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../../../public/css/components/_header.css">
     <link rel="stylesheet" href="../../../../public/css/components/_body.css">
+    <link rel="stylesheet" href="../../../../public/css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="../../../../public/css/components/_sidebar.css">
     <link rel="stylesheet" href="../../../../public/css/pages/_about.css">
     <link rel="stylesheet" href="../../../../public/css/utilities.css">
     <link rel="stylesheet" href="../../../../public/css/layouts/_base.css">
+    <link rel="stylesheet" href="../../../../public/css/layouts/_ico.css">
+    <link rel="stylesheet" href="../../../../public/css/pages/_dashboard.css">
+    <link rel="icon" type="image/x-icon" href="../../../../public/img/logo.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <style>
-        .monthly-data-total__block:nth-child(3) {
-            padding: 1rem;
-            background: var(--color-verde);
-            color: white;
-        }
-
-        .text-blue {
-            color: var(--color-azul)
-        }
-
-        .text-red {
-            color: var(--color-rojo);
-        }
-
-        .text-green {
-            color: var(--color-verde);
-        }
-
-        .charts {
-            max-width: 100%;
-            gap: 1rem;
-        }
-
-        p {
-            margin: 0;
-        }
-
-        .bg-blue {
-            background-color: var(--color-azul);
-        }
-    </style>
-
 </head>
 
 <body>
@@ -66,18 +36,19 @@ function fc_number_format($number)
         <?php
         include '../resources/views/components/user/sidebar.php';
         ?>
+
         <article class="style-border control-panel">
             <div class="control-panel__row row">
-                <div class="col-6">
+                <div class="col-lg-6 col-12 ">
                     <div class="row flex-center-full">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-12 ">
                             <div class="month">
                                 <span for="month" class="form__label form__label--required"><i>Mes
                                         seleccionado</i></span><br>
                                 <div class="input-group mb-3">
                                     <span class="form__icon input-group-text" id="basic-addon1"><i
                                             class="bi bi-calendar-date"></i></span>
-                                    <select select id="month" name="month" class="form-control form__select" required>
+                                    <select select id="month" name="month" class="form-control select--month" required>
                                         <?php
                                         $months = array(
                                             1 => 'Enero',
@@ -106,41 +77,50 @@ function fc_number_format($number)
                                     </select>
                                 </div>
                             </div>
+                            <span for="month" class="form__label form__label--required"><i>Año
+                                    seleccionado</i></span><br>
                             <div class="year">
                                 <div class="input-group mb-3">
                                     <span class="form__icon input-group-text" id="basic-addon1"><i
                                             class="bi bi-calendar-check"></i></span>
-                                    <select select id="month" name="month" class="form-control form__select" required>
+
+                                    <select select id="month" name="month" class="form-control select--year" required>
                                         <?php
-                                        $old_year_for = 20;
-                                        $start_year = 2020;
-                                        $current_year = substr(date('Y'), 2);
+                                        $current_year = Date('Y');
                                         $url = $_SERVER['REQUEST_URI'];
                                         $year_selected = substr($url, -4);
-
-                                        for ($i = $old_year_for; $i <= $current_year; $i++) {
-
-                                            $selected = $old_year_for . $i == $year_selected ? 'selected' : '';
-                                            echo '<option value="20' . $i . '" ' . $selected . ' > 20' . $i . '</option>';
+                                        for ($i = substr($fechaCreacion, 0, 4); $i <= $current_year; $i++) {
+                                            $selected = $year_selected == $i ? 'selected' : '';
+                                            echo '<option value="' . $i . '" ' . $selected . ' > ' . $i . '</option>';
                                         }
                                         ?>
                                     </select>
                                 </div>
-                                <?php
-                                $url = $_SERVER['REQUEST_URI'];
-                                $year_selected = substr($url, -4);
-                                ?>
+
                             </div>
                         </div>
-                        <div class="col-6">
-                            <a href="" class="text-decoration-none">Consultar</a>
+                        <div class="col-lg-6 col-12 ">
+                            <a href="" class="text-decoration-none button--search">Consultar</a>
                         </div>
+                        <script>
+                            let ItemButttonSearh = document.querySelector('.button--search');
+                            let ItemSelectMonth = document.querySelector('.select--month');
+                            let ItemSelectYear = document.querySelector('.select--year');
+
+                            ItemButttonSearh.addEventListener('click', async e => {
+                                e.preventDefault();
+                                const monthValue = ItemSelectMonth.value == 12 || ItemSelectMonth.value == 11 || ItemSelectMonth.value == 10
+                                    ? ItemSelectMonth.value : 0 + '' + ItemSelectMonth.value;
+                                return window.location.href = `../${monthValue}/${ItemSelectYear.value}`;
+
+                            })
+                        </script>
                     </div>
                     <hr>
                     <div class="d-flex monthly-data-total flex-space-between">
                         <div class="monthly-data-total__block monthly-data-total--income">
                             <span class="text-blue monthly-data-total__title fs-4"><b>Ingresos <i
-                                        class="bi bi-caret-up-fill text-green"></i></b></span>
+                                        class="bi bi-caret-up-fill  " style="color:var(--color-verde)"></i></b></span>
                             <p class="monthly-data-total__description">Total ingresos mensual</p>
                             <?php
                             $total_income_ = fc_number_format($total_income['Ingresos']);
@@ -159,18 +139,14 @@ function fc_number_format($number)
                         <div class="monthly-data-total__block">
                             <span class="monthly-data-total__title"> <i class="bi bi-briefcase-fill fs-2"> </i><b>Saldo
                                     mensual</b></span><br>
-
                             <?php
-
-
                             $total_quote = fc_number_format($total_quote['monto_total'] ?? 0);
-                            echo fc_number_format($total_income['Ingresos'] - $total_graduation['Egresos']);
+                            echo fc_number_format($total_income['Ingresos'] - $total_graduation['Egresos']) . ' Bs';
                             //echo '<data value="' . $total_quote . '" class="fs-4"><b>' . $total_quote . ' Bs </b></data>';
                             ?>
                         </div>
                     </div>
                     <div class="charts d-flex w-100">
-
                         <div class="expenses-income__current-month">
                             <hr>
                             <canvas id="myChart"></canvas>
@@ -191,8 +167,8 @@ function fc_number_format($number)
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="d-flex gap-4 bg-blue p-3">
+                <div class="col-lg-6 col-12 ">
+                    <div class="d-flex gap-4 bg-blue p-3 flex-wrap">
                         <div>
                             <span class="fs-3 text-white"><b>Ingresos</b></span>
                             <p class="text-white">Ingresos Anual total</p>
@@ -215,13 +191,13 @@ function fc_number_format($number)
 
                                 ?> Bs</b></data>
                         </div>
+
                         <div>
-                            <span class="fs-3 text-white"><b>Presupuesto</b></span>
-                            <p class="text-white">Presupuesto anual total</p>
-                            <data value="<?php echo fc_number_format($annual_budget['monto_total']); ?>"
-                                class="text-white fs-3">
+                            <span class="fs-3 text-white"><b>Ahorro</b></span>
+                            <p class="text-white">Ahorro anual total</p>
+                            <data value="<?php echo fc_number_format($total_ahorro); ?>" class="text-white fs-3">
                                 <b> <?php
-                                echo fc_number_format($annual_budget['monto_total']);
+                                echo fc_number_format($total_ahorro);
                                 ?> Bs</b></data>
                         </div>
                     </div>
@@ -338,7 +314,11 @@ function fc_number_format($number)
     <?php
     include '../resources/views/components/footer.php';
     ?>
+    <?php
+    include '../resources/views/components/presentation.php';
+    ?>
 
+    <script src="../../../js/components/presentation_system_web.js" type="module"></script>
 
     <script src="../../../js/components/location_user.js" type="module"></script>
 
@@ -613,11 +593,13 @@ function fc_number_format($number)
                 ctx2_.style.display = 'none'
                 ctx3_.removeAttribute('style');
                 break;
-
             default:
                 break;
         }
     })
 </script>
+
+
+<script src="../../../js/cdn.js" type="module"></script>
 
 </html>

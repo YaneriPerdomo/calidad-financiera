@@ -32,8 +32,7 @@ class BudgetModel extends Database
         } else {
             $id_person = $_SESSION['id_persona'];
         }
-
-        $budget_query = 'SELECT YEAR(fecha) AS año, MONTH(fecha) AS mes, monto_total FROM presupuestos WHERE YEAR(fecha) = YEAR(CURRENT_DATE()) AND id_persona = :id_person GROUP BY YEAR(fecha), MONTH(fecha) ORDER BY año, mes; ';
+        $budget_query = 'SELECT YEAR(fecha) AS año, MONTH(fecha) AS mes, monto_total, porcentaje_ahorro, id_presupuesto_ahorro  FROM presupuestos_ahorros WHERE YEAR(fecha) = YEAR(CURRENT_DATE()) AND id_persona = :id_person GROUP BY YEAR(fecha), MONTH(fecha) ORDER BY año, mes; ';
         try {
             $budget_stmt = $this->pdo->prepare($budget_query);
             $budget_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);

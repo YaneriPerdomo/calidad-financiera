@@ -12,6 +12,8 @@ class ProfileAdminModel extends Database{
 
     public $data = [];
     public $status = false;
+
+    public $msg = '';
     public function __construct()
     {
         parent::__construct();
@@ -38,7 +40,9 @@ class ProfileAdminModel extends Database{
     }
 
     public function updateData($POST = []){
-      
+        if($POST['usuario'] == ""){
+            return $this->msg = 'Por favor, rellene el nombre de usuario.';
+        }
         $update_user_query = 'UPDATE 
                                 usuarios 
                             SET 

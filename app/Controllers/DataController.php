@@ -25,8 +25,8 @@ class DataController extends Controller
 
         $value = str_replace('.', '', $_POST['value']);
         $value = str_replace(',', '.', $value);
- 
-        $add_data_user = new dataModel();
+        
+         $add_data_user = new dataModel();
         $add_data_user->store([
             'type_indicator' => $_POST['type-indicator'],
             'id_graduation_category' => $_POST['id_graduation_category'],
@@ -37,12 +37,12 @@ class DataController extends Controller
         ]);
 
         if ($add_data_user->status == true) {
-            echo '<script>alert("Datos agregados correctamente")
+            echo '<script>alert("La transaccion ha sido registrada exitosamente")
             location.href = "./data/1"
             </script>';
         } else {
-            echo '<script>alert("Error al agregar los datos")
-            location.href = "./data/1"
+            echo '<script>alert("'.$add_data_user->msg.'")
+            location.href = "./add-transaction"
             </script>';
         }
     }
@@ -80,7 +80,9 @@ class DataController extends Controller
                 'HTML' => $get_transaction->HTML,
                 'sidebar_jump' => '../',
                 'header_break' => '../',
-                'header_break_login' => '../../'
+                'header_break_login' => '../../',
+                  
+
             ]);
 
         } else if (strpos($url, 'guest')) {
@@ -107,8 +109,9 @@ class DataController extends Controller
                 'entertainment' => $get_graduation_categories->graduantion[5],
                 'debts' => $get_graduation_categories->graduantion[6],
                 'HTML' => $get_transaction->HTML,
-                'sidebar_jump' => '../',
-                'header_break' => '../'
+                'sidebar_jump' => './../',
+                'header_break' => '../',
+                'header_break_login' => '../../'
             ]);
         }
 

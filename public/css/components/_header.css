@@ -1,20 +1,43 @@
 header {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0.5rem;
+  padding: 1rem 0.5rem;
   background: var(--color-azul);
 }
 
-.logo{
-  font-weight: bold ;
+.logo {
+  font-weight: bold;
   color: white !important;
 }
 
-.profile{
+.profile {
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
   gap: 0.5rem;
   color: white;
+}
+
+.d-i {
+  display: block;
+  width: 100%;
+  padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+  clear: both;
+  font-weight: 400;
+  color: var(--bs-dropdown-link-color);
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--bs-dropdown-item-border-radius, 0);
+}
+.dropdown-item:nth-last-child {
+  color: var(--color-rojo);
+}
+.dropdown-item:active,
+.dropdown-item > a:active {
+  background: var(--color-azul) !important;
+  color: white !important;
 }

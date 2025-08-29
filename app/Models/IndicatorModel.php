@@ -19,8 +19,9 @@ class indicatorModel extends Database
   public $HTML_insome;
   public $data_insome;
 
+  public $msg;
   public $graduantion = [
-    1 => [], 
+    1 => [],
     2 => [],
     3 => [],
     4 => [],
@@ -41,7 +42,7 @@ class indicatorModel extends Database
   {
     //ingresos
 
-    $current_page_i =  $page_i;
+    $current_page_i = $page_i;
     $count_insome_query = 'SELECT COUNT(*) as total_ingresos FROM ingresos';
     $count_insome_stmt = $this->pdo->prepare($count_insome_query);
     $count_insome_stmt->execute();
@@ -55,6 +56,7 @@ class indicatorModel extends Database
                             ingreso, id_ingreso
                          FROM
                             ingresos
+                        
                              LIMIT 
                                 :inicio, :registros_por_pagina';
     $start_i = ($current_page_i - 1) * $records_page_i;
@@ -65,77 +67,96 @@ class indicatorModel extends Database
     $get_insome_stmt->execute();
 
     $this->HTML_insome = "";
+    $link_i = 0;
     if ($get_insome_stmt->rowCount() > 0) {
       $row_insome = $get_insome_stmt->fetchAll(PDO::FETCH_ASSOC);
       foreach ($row_insome as $row) {
 
         $this->HTML_insome .= "<tr class='show'>";
         $this->HTML_insome .= "<td >" . $row['ingreso'] . "</td>";
-        $this->HTML_insome .=  "<td class='operations'>";
-        $this->HTML_insome .= "<button class='  button--delete'>
-                           <i class='bi bi-trash js-open-modal-delete' ></i>  
-                        </button>";
-        $this->HTML_insome .= "<a href='../../indicator/" . $row['id_ingreso'] . "-ingreso/modify'>
+        $this->HTML_insome .= "<td class='operations'>";
+        if ($row['ingreso'] != 'Otros') {
+          $this->HTML_insome .= " 
+                           <form action='../../indicator/delete-insome' method ='post' class=' form-insome__delete'>
+                           <input type='hidden' value=" . $row['id_ingreso'] . " name='id_ingreso'>
+                              <button class='  button--delete'>
+                                <i class='bi bi-trash js-open-modal-delete' ></i> 
+                              </button> 
+                           </form>  
+                        ";
+          $this->HTML_insome .= "<a href='../../indicator/" . $row['id_ingreso'] . "-ingreso/modify'>
                             <button class='button--modify'>
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>";
-        $this->HTML_insome .=  "</td>";
-        $this->HTML_insome .=  "</tr>";
+          $this->HTML_insome .= "</td>";
+        }
+        $this->HTML_insome .= "</tr>";
       }
     } else {
-      $this->HTML_insome .=  "<p>No hay registros disponibles en este momento.</p>";
+      $this->HTML_insome .= "<p>No hay registros disponibles en este momento.</p>";
     }
 
-    $this->HTML_insome .=  " </table> </section>";
-    $this->HTML_insome .=  "<section class='d-flex justify-content-between align-items-center'>";
+    $this->HTML_insome .= " </table> </section>";
+    $this->HTML_insome .= "<section class='d-flex justify-content-between align-items-center'>";
     if ($total_records_i == 0) {
     } else if ($total_records_i == 1) {
-      $get_insome_stmt->rowCount() == 1 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
-      $this->HTML_insome .=  "<span class='show_quantity'>Mostrando " . $total_records_i . " de " . $records_page_i . " 
-                   <span class='show_quantity__message'> " . $display_log_message . "</span></span>";
-      if ($current_page_i > 1) {
-        $this->HTML_insome .=  "<a href='?page=" . ($current_page_i - 1) . "'>Anterior</a> ";
+      $get_insome_stmt->rowCount() == 0 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
+      if ($get_insome_stmt->rowCount() == 0) {
+      } else {
+        $this->HTML_insome .= "<span class='show_quantity'>Mostrando " . $total_records_i . " de " . $records_page_i . " 
+                   <span class='show_quantity__message'> " . $display_log_message . "</span>
+                   </span>
+                        <nav class='navigation--egress navigation'>
+                          <ul class='pagination'>";
+        if ($current_page_i > 1) {
+          $this->HTML_insome .= "<li class='page__item'><a href='?page=" . ($current_page_i - 1) . "' class='page__link'>Anterior</a></li> ";
+        }
+        for ($i = 1; $i <= $total_pages_i; $i++) {
+          $this->HTML_insome .= "<li class='page__item'><a href='?page=$i' class='page__link'>" . ($i == $current_page_i ? '<b  class="page__link--selected">' . $i . '</b>' : $i) . "</a></li>  ";
+        }
+        if ($current_page_i < $total_pages_i) {
+          $this->HTML_insome .= "<li class='page__item'><a href='?page=" . ($current_page_i + 1) . "'class='page__link'>Siguiente</a></li> ";
+        } else {
+          $this->HTML_insome .= "</ul></nav>";
+        }
       }
-      for ($i = 1; $i <= $total_pages_i; $i++) {
-        $this->HTML_insome .=  "<a href='?page=$i'>" . ($i == $current_page_i ? '<b>' . $i . '</b>' : $i) . "</a> ";
-      }
-      if ($current_page_i < $total_pages_i) {
-        $this->HTML_insome .=  "<a href='?page=" . ($current_page_i + 1) . "'>Siguiente</a>";
-      }
-      $this->HTML_insome .=  " </section>";
+      $this->HTML_insome .= " </section>";
     } else {
 
-      $get_insome_stmt->rowCount() == 1 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
-      $this->HTML_insome .= "<span class='show_quantity'>Mostrando " . $get_insome_stmt->rowCount() . " de " . $records_page_i . "
+      $get_insome_stmt->rowCount() == 0 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
+      $this->HTML_insome .= "<span class='show_quantity'>Mostrando " . $get_insome_stmt->rowCount() . " de " . $total_records_i . "
                                           <span class='show_quantity__message'> " . $display_log_message . "</span></span><nav
                                           class='navigation--egress navigation '><ul class='pagination'>";
-
-      if ($current_page_i > 1) {
-        $this->HTML_insome .= "<li class='page__item'><a href='./" . ($current_page_i - 1) . "' class='page__link'>Anterior</a></li>";
-      }
-
-      for ($i = 1; $i <= $total_pages_i; $i++) {
-        $this->HTML_insome .= "<li class='page__item'>
-                                              <a href='./" . $i . "' class='page__link'>" . ($i == $current_page_i ? '<b class="page__link--selected">' . $i . '</b>' : $i) . "</a>
+      if ($total_records_i <= 5) {
+      } else {
+        if ($current_page_i > 1) {
+          $this->HTML_insome .= "<li class='page__item'><a href='./" . ($current_page_i - 1) . "' class='page__link'>Anterior</a></li>";
+        }
+        for ($i = 1; $i <= $total_pages_i; $i++) {
+          if ($i == $current_page_i) {
+            $link_i = $i;
+          }
+          $this->HTML_insome .= "<li class='page__item'>
+                                              <a href='./" . $i . "' class='page__link'>" . ($i == $current_page_i ? '
+                                              <b class="page__link--selected">' . $i . '</b>' : $i) . "</a>
                                           </li>";
-      }
-
-      if ($current_page_i < $total_pages_i) {
-        $this->HTML_insome .= "<li class='page__item'>
+        }
+        if ($current_page_i < $total_pages_i) {
+          $this->HTML_insome .= "<li class='page__item'>
                                               <a href='./" . ($current_page_i + 1) . "' class='page__link'>Siguiente</a>
                                           </li>
                                       </ul>
                                   </nav>";
-      } else {
-        $this->HTML_insome .= "</ul></nav>";
+        } else {
+          $this->HTML_insome .= "</ul></nav>";
+        }
       }
-
       $this->HTML_insome .= "</section>";
     }
 
     //egresos
-    $current_page_e =  $page_e;
+    $current_page_e = $page_e;
     $count_graduation_query = 'SELECT COUNT(*) as total_egresos FROM egresos';
     $count_graduation_stmt = $this->pdo->prepare($count_graduation_query);
     $count_graduation_stmt->execute();
@@ -151,8 +172,9 @@ class indicatorModel extends Database
                                 egresos 
                              INNER JOIN 
                                 categorias_egreso 
-                             ON 
+                             ON
                                 egresos.id_categoria_egreso = categorias_egreso.id_categoria_egreso
+                              
                              LIMIT 
                                 :inicio, :registros_por_pagina';
     $start_e = ($current_page_e - 1) * $records_page_e;
@@ -169,63 +191,81 @@ class indicatorModel extends Database
 
         $this->HTML_graduantion .= "<tr class='show'>";
         $this->HTML_graduantion .= "<td >" . $row['egreso'] . "</td>";
-        $this->HTML_graduantion .=  "<td>" . $row['categoria'] . "</td>";
-        $this->HTML_graduantion .=  "<td class='operations'>";
-        $this->HTML_graduantion .= "<button class='  button--delete'>
-                           <i class='bi bi-trash js-open-modal-delete' ></i>  
-                        </button>";
-        $this->HTML_graduantion .= "<a href='../../indicator/" . $row['id_egreso'] . "-egreso/modify'>
+        $this->HTML_graduantion .= "<td>" . $row['categoria'] . "</td>";
+        if ($row['egreso'] != "Gastos") {
+          $this->HTML_graduantion .= "<td class='operations'>";
+          $this->HTML_graduantion .= "  <form action='../../indicator/delete-graduation' method ='post' class='form-egreso__delete'>
+                           <input type='hidden' value=" . $row['id_egreso'] . " name='id_egreso'>
+                              <button class='  button--delete'>
+                                <i class='bi bi-trash js-open-modal-delete' ></i> 
+                              </button> 
+                           </form> ";
+          $this->HTML_graduantion .= "<a href='../../indicator/" . $row['id_egreso'] . "-egreso/modify'>
                             <button class='button--modify'>
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>
                         ";
-        $this->HTML_graduantion .=  "</td>";
-        $this->HTML_graduantion .=  "</tr>";
+          $this->HTML_graduantion .= "</td>";
+        }
+        $this->HTML_graduantion .= "</tr>";
       }
     } else {
-      $this->HTML_graduantion .=  "<p>No hay registros disponibles en este momento.</p>";
+      $this->HTML_graduantion .= "<p>No hay registros disponibles en este momento.</p>";
     }
 
-    $this->HTML_graduantion .=  " </table> </section>";
-    $this->HTML_graduantion .=  "<section class='d-flex justify-content-between align-items-center'>";
+    $this->HTML_graduantion .= " </table> </section>";
+    $this->HTML_graduantion .= "<section class='d-flex justify-content-between align-items-center'>";
     if ($total_records_e == 0) {
     } else if ($total_records_e == 1) {
       $get_graduation_stmt->rowCount() == 1 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
-      $this->HTML_graduantion .= "<span class='show_quantity'>Mostrando " . $total_records_e . " de " . $records_page_e . "
-                                    <span class='show_quantity__message'> " . $display_log_message . "</span></span>";
-      if ($current_page_e > 1) {
-        $this->HTML_graduantion .= "<a href='?page=" . ($current_page_e - 1) . "'>Anterior</a> ";
-      }
-      for ($i = 1; $i <= $total_pages_e; $i++) {
-        $this->HTML_graduantion .= "<a href='?page=$i'>" . ($i == $current_page_e ? '<b>' . $i . '</b>' : $i) . "</a> ";
-      }
-      if ($current_page_e < $total_pages_e) {
-        $this->HTML_graduantion .= "<a href='?page=" . ($current_page_e + 1) . "'>Siguiente</a>";
+      if ($total_records_e <= 5) {
+      } else {
+        $this->HTML_graduantion .= "<span class='show_quantity'>Mostrando " . $total_records_e . " de " . $records_page_e . "
+                                    <span class='show_quantity__message'> " . $display_log_message . "</span>
+                                    </span>
+                                  <nav class='navigation--egress navigation'>
+                                    <ul class='pagination'>";
+        if ($current_page_e > 1) {
+          $this->HTML_graduantion .= "<li class='page__item '><a href='?page=" . ($current_page_e - 1) . "' class='page__link '>Anterior</a></li> ";
+        }
+        for ($i = 1; $i <= $total_pages_e; $i++) {
+          $this->HTML_graduantion .= "<li class='page__item '><a href='?page=$i' class='page__link '>" . ($i == $current_page_e ? '<b class="page__link--selected">' . $i . '</b>' : $i) . "</a></li>";
+        }
+        if ($current_page_e < $total_pages_e) {
+          $this->HTML_graduantion .= "<li class='page__item '><a href='?page=" . ($current_page_e + 1) . "' class='page__link '>Siguiente</a></li>";
+        } else {
+          $this->HTML_graduantion .= "</ul></nav>";
+        }
       }
       $this->HTML_graduantion .= " </section>";
     } else {
 
-      $get_graduation_stmt->rowCount() == 1 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
-      $this->HTML_graduantion .= "<span class='show_quantity'>Mostrando " . $get_graduation_stmt->rowCount() . " de " . $records_page_e . "
+      $get_graduation_stmt->rowCount() == 0 ? $display_log_message = 'registro disponible' : $display_log_message = 'registros disponibles';
+      $this->HTML_graduantion .= "<span class='show_quantity'>Mostrando " . $get_graduation_stmt->rowCount() . " de " . $total_records_e . "
                                         <span class='show_quantity__message'> " . $display_log_message . "</span></span><nav
                                         class='navigation--egress navigation '><ul class='pagination'>";
-      if ($current_page_e > 1) {
-        $this->HTML_graduantion .= "<li class='page__item '><a href='../" . ($current_page_e - 1) . "' class='page__link page__link--graduantion'>Anterior</a></li> ";
-      }
-      for ($i = 1; $i <= $total_pages_e; $i++) {
-        $this->HTML_graduantion .= "<li class='page__item'>
-                                            <a href='../" . $i . "' class='page__link page__link--graduantion'>" . ($i == $current_page_e ? '<b class="page__link--selected">' . $i . '</b>' : $i) . "</a>
+      if ($total_records_e <= 6) {
+
+      } else {
+        if ($current_page_e > 1) {
+          $this->HTML_graduantion .= "<li class='page__item '><a href='../" . ($current_page_e - 1) . "/" . $link_i . "' class='page__link page__link'>Anterior</a></li> ";
+        }
+        for ($i = 1; $i <= $total_pages_e; $i++) {
+          $this->HTML_graduantion .= "<li class='page__item'>
+                                            <a href='../" . $i . "/" . $link_i . " ' class='page__link page__link'>" . ($i == $current_page_e ? '<b class="page__link--selected">' . $i . '</b>' : $i) . "</a>
                                         </li>";
-      }
-      if ($current_page_e < $total_pages_e) {
-        $this->HTML_graduantion .= "<li class='page__item'><a href='../" . ($current_page_e + 1) . "' class='page__link page__link--graduantion'>Siguiente</a>
+        }
+        if ($current_page_e < $total_pages_e) {
+          $this->HTML_graduantion .= "<li class='page__item'><a href='../" . ($current_page_e + 1) . "/" . $link_i . "' class='page__link page__link'>Siguiente</a>
                                             </li>
                                         </ul>
                                     </nav>";
-      } else {
-        $this->HTML_graduantion .= "</ul></nav>";
+        } else {
+          $this->HTML_graduantion .= "</ul></nav>";
+        }
       }
+
       $this->HTML_graduantion .= " </section>";
     }
 
@@ -247,7 +287,7 @@ class indicatorModel extends Database
     }
   }
 
-  public function FindOneDate($table, $id, $id_field,  array $fields = ['*'])
+  public function FindOneDate($table, $id, $id_field, array $fields = ['*'])
   {
     $fieldsString = implode(',', $fields);
     $find_query = "SELECT {$fieldsString} FROM {$table} WHERE {$id_field} = :id";
@@ -266,48 +306,49 @@ class indicatorModel extends Database
       $get_graduation_categories_stmt->execute();
       $this->data = $get_graduation_categories_stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $ex) {
-      echo  $ex->getMessage();
+      echo $ex->getMessage();
     }
   }
 
-  public function GetGraduation(){
+  public function GetGraduation()
+  {
 
     $get_all_data_accommodation_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =1 ';
     $get_all_data_accommodation_category_stmt = $this->pdo->prepare($get_all_data_accommodation_category_query);
     $get_all_data_accommodation_category_stmt->execute();
 
-    $this->graduantion[1]= $get_all_data_accommodation_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+    $this->graduantion[1] = $get_all_data_accommodation_category_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $get_all_data_services_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =2 ';
     $get_all_data_services_category_stmt = $this->pdo->prepare($get_all_data_services_category_query);
     $get_all_data_services_category_stmt->execute();
 
-    $this->graduantion[2]= $get_all_data_services_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+    $this->graduantion[2] = $get_all_data_services_category_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $get_all_data_meal_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =3 ';
     $get_all_data_meal_category_stmt = $this->pdo->prepare($get_all_data_meal_category_query);
     $get_all_data_meal_category_stmt->execute();
 
-    $this->graduantion[3]= $get_all_data_meal_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+    $this->graduantion[3] = $get_all_data_meal_category_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $get_all_data_others_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =4 ';
     $get_all_data_others_category_stmt = $this->pdo->prepare($get_all_data_others_category_query);
     $get_all_data_others_category_stmt->execute();
 
-    $this->graduantion[4]= $get_all_data_others_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+    $this->graduantion[4] = $get_all_data_others_category_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $get_all_data_entertainment_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =5 ';
     $get_all_data_entertainment_category_stmt = $this->pdo->prepare($get_all_data_entertainment_category_query);
     $get_all_data_entertainment_category_stmt->execute();
 
-    $this->graduantion[5]= $get_all_data_entertainment_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+    $this->graduantion[5] = $get_all_data_entertainment_category_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $get_all_data_debts_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =6 ';
     $get_all_data_debts_category_stmt = $this->pdo->prepare($get_all_data_debts_category_query);
     $get_all_data_debts_category_stmt->execute();
 
-    $this->graduantion[6]= $get_all_data_debts_category_stmt->fetchAll(PDO::FETCH_ASSOC);
-  
+    $this->graduantion[6] = $get_all_data_debts_category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
   }
 
   public function UpdateIndicator($POST = [])
@@ -317,17 +358,37 @@ class indicatorModel extends Database
     if (is_array($POST)) {
       switch ($POST['type-indicator']) {
         case '1':
+          /*
+            $search_income_query = 'SELECT * FROM ingresos WHERE (ingreso = :ingreso AND id_ingreso != :id_ingreso)';
+            $search_income_stmt = $this->pdo->prepare($search_income_query);
+            $search_income_stmt->bindParam('ingreso', $POST['income'], PDO::PARAM_STR);
+            $search_income_stmt->bindParam('id_ingreso', $POST['id'], PDO::PARAM_INT);
+            $search_income_stmt->execute();
+            if ($search_income_stmt->rowCount() > 0) {
+              return $this->msg = 'El ingreso ya existe';
+            }
+          */
+
           $update_income_query = 'UPDATE ingresos SET ingreso = :ingreso WHERE id_ingreso = :id_ingreso';
           $update_income_stmt = $this->pdo->prepare($update_income_query);
           $update_income_stmt->bindParam('ingreso', $POST['income'], PDO::PARAM_STR);
           $update_income_stmt->bindParam('id_ingreso', $POST['id'], PDO::PARAM_INT);
           $update_income_stmt->execute();
-
           if ($update_income_stmt->rowCount() > 0) {
             return $this->status = true;
           }
           break;
         case '2':
+          /*
+            $search_graduation_query = 'SELECT * FROM egresos WHERE (egreso = :egreso AND id_egreso != :id_egreso)';
+            $search_graduation_stmt = $this->pdo->prepare($search_graduation_query);
+            $search_graduation_stmt->bindParam('egreso', $POST['graduation'], PDO::PARAM_STR);
+            $search_graduation_stmt->bindParam('id_egreso', $POST['id'], PDO::PARAM_INT);
+            $search_graduation_stmt->execute();
+            if($search_graduation_stmt->rowCount() > 0){
+              return $this->msg = 'El egreso ya existe';
+            } 
+           */
           $update_graduation_query = 'UPDATE egresos SET egreso = :egreso WHERE id_egreso = :id_egreso';
           $update_graduation_stmt = $this->pdo->prepare($update_graduation_query);
           $update_graduation_stmt->bindParam('egreso', $POST['graduation'], PDO::PARAM_STR);
@@ -343,12 +404,12 @@ class indicatorModel extends Database
 
   public function AddIndicator($POST = [])
   {
-    if (!isset($POST['type-indicator']) || !isset($POST['id_graduation-categorys'])  || !isset($POST['graduation'])) {
+    if (!isset($POST['type-indicator']) || !isset($POST['id_graduation-categorys']) || !isset($POST['graduation'])) {
       return false;
     }
     if (is_array($POST)) {
       $add_indicator = match ($POST['type-indicator']) {
-        '1'  => $this->AddIncome($POST['income']),
+        '1' => $this->AddIncome($POST['income']),
         '2' => $this->AddGraduation($POST['id_graduation-categorys'], $POST['graduation']),
         default => false,
       };
@@ -358,6 +419,14 @@ class indicatorModel extends Database
 
   protected function AddIncome($income)
   {
+    $search_income_query = 'SELECT * FROM ingresos WHERE ingreso = :ingreso';
+    $search_income_stmt = $this->pdo->prepare($search_income_query);
+    $search_income_stmt->bindParam('ingreso', $income, PDO::PARAM_STR);
+    $search_income_stmt->execute();
+    if ($search_income_stmt->rowCount() > 0) {
+      $this->msg = 'El ingreso ya existe';
+      return $this->status = false;
+    }
     $add_income_query = 'INSERT INTO ingresos (ingreso) VALUES (:ingreso)';
     $add_income_stmt = $this->pdo->prepare($add_income_query);
     $add_income_stmt->bindParam('ingreso', $income, PDO::PARAM_STR);
@@ -367,12 +436,45 @@ class indicatorModel extends Database
 
   protected function AddGraduation($id, $graduation)
   {
+
+    $search_graduation_query = 'SELECT * FROM egresos WHERE egreso = :egreso';
+    $search_graduation_stmt = $this->pdo->prepare($search_graduation_query);
+    $search_graduation_stmt->bindParam('egreso', $graduation, PDO::PARAM_STR);
+    $search_graduation_stmt->execute();
+    if ($search_graduation_stmt->rowCount() > 0) {
+      $this->msg = 'El egreso ya existe';
+      return $this->status = false;
+    }
     $add_graduation_query = 'INSERT INTO egresos (id_categoria_egreso, egreso) VALUES (:id_categoria_egreso, :egreso)';
     $add_graduation_stmt = $this->pdo->prepare($add_graduation_query);
     $add_graduation_stmt->bindParam('id_categoria_egreso', $id, PDO::PARAM_INT);
     $add_graduation_stmt->bindParam('egreso', $graduation, PDO::PARAM_STR);
     $add_graduation_stmt->execute();
     return $add_graduation_stmt->rowCount() > 0 ? true : false;
+  }
+
+  public function deleteGraduation($POST = [])
+  {
+    $delete_graduation_query = 'DELETE FROM egresos WHERE id_egreso = :id_egreso ';
+    $delete_graduation_stmt = $this->pdo->prepare($delete_graduation_query);
+    $delete_graduation_stmt->bindParam('id_egreso', $POST['id_egreso'], PDO::PARAM_INT);
+    $delete_graduation_stmt->execute();
+
+    if ($delete_graduation_stmt) {
+      $this->status = true;
+    }
+  }
+
+  public function deleteInsome($POST = [])
+  {
+    $delete_insome_query = 'DELETE FROM ingresos WHERE id_ingreso = :id_ingreso ';
+    $delete_insome_stmt = $this->pdo->prepare($delete_insome_query);
+    $delete_insome_stmt->bindParam('id_ingreso', $POST['id_ingreso'], PDO::PARAM_INT);
+    $delete_insome_stmt->execute();
+
+    if ($delete_insome_stmt) {
+      $this->status = true;
+    }
   }
   public function getInsome()
   {

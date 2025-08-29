@@ -17,3 +17,9 @@
 .pagination{
   gap:0.4rem;
 }
+
+.operations{
+  display: flex !important;
+  gap: 0.3rem;
+
+}

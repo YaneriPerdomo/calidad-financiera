@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Lib\Database;
 use PDO;
 use PDOException;
@@ -13,21 +12,62 @@ class GuestModel extends Database
 
   public $data;
 
+  public $msg;
   public $HTML = "";
   function __construct()
   {
     parent::__construct();
   }
 
+  public function reportGuests($id_person)
+  {
+    $get_guests_query = 'SELECT 
+                              usuario, nombre, apellido, correo_electronico,  estado 
+                          FROM 
+                             
+                              invitados 
+                         
+                          INNER JOIN 
+                              usuarios 
+                          ON 
+                              invitados.id_usuario = usuarios.id_usuario 
+                       
+                          AND
+                              id_persona = :id_person';
+    $get_guests_stmt = $this->pdo->prepare($get_guests_query);
+    $get_guests_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
+    $get_guests_stmt->execute();
+    if ($get_guests_stmt->rowCount() > 0) {
+      $this->data = $get_guests_stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $this->status = true;
+    }
+  }
   public function AddData($POST = [])
   {
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE (usuario = :user )';
+    $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
+    $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
+    $search_name_user_not_you_stmt->execute();
+    if ($search_name_user_not_you_stmt->rowCount() > 0) {
+      $this->msg = "Nombre de usuario ya existente";
+      return $this->status = false;
+    }
 
+    $search_email_query = 'SELECT * FROM `invitados` WHERE (correo_electronico = :correo_electronico )';
+    $search_email_stmt = $this->pdo->prepare($search_email_query);
+    $search_email_stmt->bindParam('correo_electronico', $POST['email'], PDO::PARAM_STR);
+    $search_email_stmt->execute();
+    if ($search_email_stmt->rowCount() > 0) {
+      $this->msg = "Correo electronico ya existente";
+      return $this->status = false;
+    }
     try {
       $this->pdo->beginTransaction();
-      $hash =  password_hash($POST['password'], PASSWORD_DEFAULT);
-      $add_data_user_query = 'INSERT INTO usuarios (id_rol, usuario, clave) VALUES (3 ,:usuario, :clave)';
+      $hash = password_hash($POST['password'], PASSWORD_DEFAULT);
+      $add_data_user_query = 'INSERT INTO usuarios (id_rol, usuario, clave, estado, fecha_creacion) VALUES (3 ,:usuario, :clave, :_estado, NOW())';
       $add_data_user_stmt = $this->pdo->prepare($add_data_user_query);
       $add_data_user_stmt->bindParam('usuario', $POST['user'], PDO::PARAM_STR);
+      $add_data_user_stmt->bindParam('_estado', $POST['status'], PDO::PARAM_STR);
       $add_data_user_stmt->bindParam('clave', $hash, PDO::PARAM_STR);
       $add_data_user_stmt->execute();
 
@@ -55,16 +95,32 @@ class GuestModel extends Database
       $this->status = true;
     } catch (PDOException $ex) {
       $this->pdo->rollBack();
-      echo  $ex->getMessage();
+      echo $ex->getMessage();
     }
   }
 
-
   function UpdateData($POST = [])
   {
+    //$POST['id_user'] $POST['user']
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE (usuario = :user AND id_usuario != :id_usuario )';
+    $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
+    $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
+    $search_name_user_not_you_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
+    $search_name_user_not_you_stmt->execute();
+    if ($search_name_user_not_you_stmt->rowCount() > 0) {
+      $this->msg = "Nombre de usuario ya existente";
+      return $this->status = false;
+    }
+
     try {
-      $update_data_guest_query = 'UPDATE invitados SET nombre = :nombre, apellido = :apellido, correo_electronico = :correo_electronico WHERE id_usuario = :id_usuario';
+      $update_data_guest_query = 'UPDATE 
+                                    invitados 
+                                  SET 
+                                    nombre = :nombre, apellido = :apellido, correo_electronico = :correo_electronico 
+                                  WHERE 
+                                    id_usuario = :id_usuario';
       $update_data_guest_stmt = $this->pdo->prepare($update_data_guest_query);
+
       $update_data_guest_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
       $update_data_guest_stmt->bindParam('nombre', $POST['name'], PDO::PARAM_STR);
       $update_data_guest_stmt->bindParam('apellido', $POST['lastname'], PDO::PARAM_STR);
@@ -73,10 +129,11 @@ class GuestModel extends Database
       $update_data_guest_stmt->execute();
       $row_data_guest = $update_data_guest_stmt->fetch(PDO::FETCH_ASSOC);
 
-      $update_data_user_query = 'UPDATE usuarios SET usuario = :usuario WHERE id_usuario = :id_usuario';
+      $update_data_user_query = 'UPDATE usuarios SET usuario = :usuario, estado = :status_ WHERE id_usuario = :id_usuario';
       $update_data_user_stmt = $this->pdo->prepare($update_data_user_query);
       $update_data_user_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
       $update_data_user_stmt->bindParam('usuario', $POST['user'], PDO::PARAM_STR);
+      $update_data_user_stmt->bindParam('status_', $POST['status'], PDO::PARAM_INT);
       $update_data_user_stmt->execute();
 
       if ($POST['password'] != '') {
@@ -89,7 +146,7 @@ class GuestModel extends Database
       }
 
 
-      return $this->data =  1;
+      return $this->data = 1;
     } catch (PDOException $exh) {
       echo $exh->getMessage();
     }
@@ -102,21 +159,20 @@ class GuestModel extends Database
     $get_data_guest_stmt->execute();
     $row_data_guest = $get_data_guest_stmt->fetch(PDO::FETCH_ASSOC);
 
-    $get_data_user_query = 'SELECT usuario FROM usuarios WHERE id_usuario = :id_user';
+    $get_data_user_query = 'SELECT usuario, estado FROM usuarios WHERE id_usuario = :id_user';
     $get_data_user_stmt = $this->pdo->prepare($get_data_user_query);
     $get_data_user_stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
     $get_data_user_stmt->execute();
     $row_data_user = $get_data_user_stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $this->data =  $row_data_guest + $row_data_user;
+    return $this->data = $row_data_guest + $row_data_user;
   }
-
 
   public function show($page = 1, $id_person = null)
   {
 
 
-    $current_page =  $page;
+    $current_page = $page;
     $count_guests_query = 'SELECT COUNT(*) as total_invitados FROM invitados WHERE id_persona = :id';
     $count_guests_stmt = $this->pdo->prepare($count_guests_query);
     $count_guests_stmt->bindParam('id', $id_person, PDO::PARAM_INT);
@@ -128,7 +184,14 @@ class GuestModel extends Database
     // Verificamos si se encontraron resultados
 
     $get_guests_query = 'SELECT 
-                            usuarios.usuario, nombre, apellido, correo_electronico, usuarios.id_usuario, invitados.id_invitado,  COALESCE(ultimo_acceso, "Aún no ha iniciado sesión") AS ultimo_acceso
+                            usuarios.usuario, 
+                            nombre, apellido, 
+                            correo_electronico, 
+                            usuarios.id_usuario, 
+                            invitados.id_invitado,  
+                            usuarios.estado,
+                            ultimo_acceso,
+                            fecha_creacion
                         FROM 
                             invitados 
                         INNER JOIN 
@@ -148,64 +211,251 @@ class GuestModel extends Database
     $get_guests_stmt->execute();
 
     $this->HTML = "";
+
     if ($get_guests_stmt->rowCount() > 0) {
       $row_guests = $get_guests_stmt->fetchAll(PDO::FETCH_ASSOC);
       foreach ($row_guests as $row) {
-
+        $created_at = utilities::generacion_fecha($row['fecha_creacion']);
+        $created_at_last_session = utilities::generacion_fecha($row['ultimo_acceso']);
+        $status = $row['estado'] == 1 ? 'Activo/a' : 'Desactivado/a';
         $this->HTML .= "<tr class='show'>";
         $this->HTML .= "<td >" . $row['usuario'] . "</td>";
-        $this->HTML .=  "<td>" . $row['nombre'] . "</td>";
-        $this->HTML .=  "<td>" . $row['apellido'] . "</td>";
-        $this->HTML .=  "<td>" . $row['correo_electronico'] . "</td>";
-        $this->HTML .=  "<td>" . $row['ultimo_acceso'] . "</td>";
-        $this->HTML .=  "<td class='operations'>";
-        $this->HTML .= "<button class='  button--delete'>
-                           <i class='bi bi-trash js-open-modal-delete'  data-id_guest='" . $row['id_invitado'] . "' data-id_user='" . $row['id_usuario'] . "'></i>  
-                        </button>";
+        $this->HTML .= "<td>" . $row['nombre'] . "</td>";
+        $this->HTML .= "<td>" . $row['apellido'] . "</td>";
+        $this->HTML .= "<td>" . $row['correo_electronico'] . "</td>";
+        $this->HTML .= "<td>" . $status . "</td>";
+
+        $this->HTML .= "<td>" . $created_at ?? '' . "</td>";
+        $this->HTML .= "<td> " . $created_at_last_session ?? '' . "</td>";
+        $this->HTML .= "<td class='operations'>";
+        $this->HTML .= "
+                      <form action='../guest/delete' method ='post' class='form-guest__delete'>
+                           <input type='hidden' value=" . $row['id_invitado'] . " name='id_invitado'>
+                           <input type='hidden' value=" . $row['id_usuario'] . " name='id_usuario'>
+                              <button class='  button--delete'>
+                                <i class='bi bi-trash js-open-modal-delete' ></i> 
+                              </button> 
+                           </form>  ";
         $this->HTML .= "<a href='../guest/" . $row['id_usuario'] . "/modify'>
                             <button class='button--modify'>
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>";
-        $this->HTML .=  "</td>";
-        $this->HTML .=  "</tr>";
+        $this->HTML .= "</td>";
+        $this->HTML .= "</tr>";
       }
     } else {
-       $this->HTML .=  "<p>No hay registros disponibles en este momento.</p>";
+      $this->HTML .= "<p>No hay registros disponibles en este momento.</p>";
     }
 
-     $this->HTML .=  " </table> </section>";
-     $this->HTML .=  "<section class='d-flex justify-content-between align-items-center'>";
+    $this->HTML .= " </table> </section>";
+    $this->HTML .= "<section class='d-flex justify-content-between align-items-center'>";
     if ($total_records == 0) {
     } else if ($total_records == 1) {
       $userRegistration = 'registro disponible';
-      $this->HTML .=  "<span class='messengerShowUsers'>Mostrando " . $total_records . " de " . $records_page . " 
-                 <span class='userRegistration'> " . $userRegistration . "</span></span>";
-      if ($current_page > 1) {
-        $this->HTML .=  "<a href='?page=" . ($current_page - 1) . "'>Anterior</a> ";
+      if ($get_guests_stmt->rowCount() == 1) {
+
+      } else {
+        $this->HTML .= "<span class='messengerShowUsers'>Mostrando " . $total_records . " de " . $total_records . " 
+                          <span class='userRegistration'> " . $userRegistration . "</span> </span>
+                        <nav class='navigation--egress navigation'>
+                      <ul class='pagination'>";
+        if ($current_page > 1) {
+          $this->HTML .= "<li class='page__item'><a href='?page=" . ($current_page - 1) . "' class='page__link'>Anterior</a></li> ";
+        }
+        for ($i = 1; $i <= $total_pages; $i++) {
+          $this->HTML .= "<li class='page__item'><a href='?page=$i' class='page__link'>" . ($i == $current_page ? '<b  class="page__link--selected">' . $i . '</b >' : $i) . "</a></li> ";
+        }
+        if ($current_page < $total_pages) {
+          $this->HTML .= "<li class='page__item'><a href='?page=" . ($current_page + 1) . "' class='page__link' >Siguiente</a></li> ";
+        } else {
+          $this->HTML .= "</ul></nav>";
+        }
       }
-      for ($i = 1; $i <= $total_pages; $i++) {
-        $this->HTML .=  "<a href='?page=$i'>" . ($i == $current_page ? '<b>' . $i . '</b>' : $i) . "</a> ";
-      }
-      if ($current_page < $total_pages) {
-        $this->HTML .=  "<a href='?page=" . ($current_page + 1) . "'>Siguiente</a>";
-      }
-      $this->HTML .=  " </section>";
+      $this->HTML .= " </section>";
     } else {
       $userRegistration = 'registros disponibles';
-      $this->HTML .=  "<span class='messengerShowUsers'>Mostrando " . $get_guests_stmt->rowCount() . " de " . $records_page . " 
-                     <span class='userRegistration'> " . $userRegistration . "</span></span><section style='display: flex;gap: 0.5rem;' 
-                     class='operation-pagitation'>";
+      $this->HTML .= "<span class='messengerShowUsers'>Mostrando " . $get_guests_stmt->rowCount() . " de " . $total_records . " 
+                     <span class='userRegistration'> " . $userRegistration . "</span></span> </span>
+                        <nav class='navigation--egress navigation'>
+                      <ul class='pagination'>";
       if ($current_page > 1) {
-        $this->HTML .=  "<a href='./" . ($current_page - 1) . "'>Anterior</a> ";
+        $this->HTML .= "<li class='page__item'><a href='./" . ($current_page - 1) . "' class='page__link'>Anterior</a></li>";
       }
       for ($i = 1; $i <= $total_pages; $i++) {
-        $this->HTML .=  "<a href='./$i'>" . ($i == $current_page ? '<b>' . $i . '</b>' : $i) . "</a> ";
+        $this->HTML .= "<li class='page__item'><a href='./$i' class='page__link'>" . ($i == $current_page ? '<b  class="page__link--selected">' . $i . '</b>' : $i) . "</a></li>";
       }
       if ($current_page < $total_pages) {
-        $this->HTML .=  "<a href='./" . ($current_page + 1) . "'>Siguiente</a></section>";
+        $this->HTML .= "<li class='page__item'><a href='./" . ($current_page + 1) . "'class='page__link'>Siguiente</a></li></section>";
+      } else {
+        $this->HTML .= "</ul></nav>";
       }
-      $this->HTML .=  " </section>";
+      $this->HTML .= " </section>";
+    }
+  }
+
+  public function searchGuest($nameUserSearch, $page = 1, $id_person = null)
+  {
+    $searchUsers = "%" . $nameUserSearch . "%";
+    $current_page = $page;
+    $count_guests_query = 'SELECT 
+                              COUNT(*) 
+                           AS 
+                              total_invitados, nombre 
+                           FROM 
+                              invitados 
+                           WHERE 
+                              id_persona = :id 
+                           AND
+                              nombre LIKE :search';
+    $count_guests_stmt = $this->pdo->prepare($count_guests_query);
+    $count_guests_stmt->bindParam('search', $searchUsers, PDO::PARAM_STR);
+    $count_guests_stmt->bindParam('id', $id_person, PDO::PARAM_INT);
+    $count_guests_stmt->execute();
+    $row_total_guests = $count_guests_stmt->fetch(PDO::FETCH_ASSOC);
+    $total_records = $row_total_guests["total_invitados"];
+    $records_page = 5;
+    $total_pages = ceil($total_records / $records_page);
+    // Veri ficamos si se encontraron resultados
+
+    $get_guests_query = 'SELECT 
+                            usuarios.usuario, 
+                            nombre, apellido, 
+                            correo_electronico, 
+                            usuarios.id_usuario, 
+                            invitados.id_invitado,  
+                            usuarios.estado,
+                            ultimo_acceso,
+                            fecha_creacion
+                        FROM 
+                            invitados 
+                        INNER JOIN 
+                            usuarios 
+                        ON 
+                            invitados.id_usuario = usuarios.id_usuario 
+                        WHERE 
+                            invitados.id_persona = :id_person
+                        AND
+                            invitados.nombre LIKE :search
+                        LIMIT 
+                            :inicio, :registros_por_pagina';
+    $start = ($current_page - 1) * $records_page;
+
+    $get_guests_stmt = $this->pdo->prepare($get_guests_query);
+    $get_guests_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
+    $get_guests_stmt->bindParam(':inicio', $start, PDO::PARAM_INT);
+    $get_guests_stmt->bindParam('search', $searchUsers, PDO::PARAM_STR);
+    $get_guests_stmt->bindParam(':registros_por_pagina', $records_page, PDO::PARAM_INT);
+    $get_guests_stmt->execute();
+
+    $this->HTML = "";
+    if ($get_guests_stmt->rowCount() > 0) {
+      $row_guests = $get_guests_stmt->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($row_guests as $row) {
+        $created_at = utilities::generacion_fecha($row['fecha_creacion']);
+        $created_at_last_session = utilities::generacion_fecha($row['ultimo_acceso']);
+        $status = $row['estado'] == 1 ? 'Activo/a' : 'Desactivado/a';
+        $this->HTML .= "<tr class='show'>";
+        $this->HTML .= "<td >" . $row['usuario'] . "</td>";
+        $this->HTML .= "<td>" . $row['nombre'] . "</td>";
+        $this->HTML .= "<td>" . $row['apellido'] . "</td>";
+        $this->HTML .= "<td>" . $row['correo_electronico'] . "</td>";
+        $this->HTML .= "<td>" . $status . "</td>";
+
+        $this->HTML .= "<td>" . $created_at_last_session ?? '' . "</td>";
+        $this->HTML .= "<td> " . $created_at ?? '' . "</td>";
+        $this->HTML .= "<td class='operations'>";
+        $this->HTML .= "
+                      <form action='../../guest/delete' method ='post' class='form-guest__delete'>
+                           <input type='hidden' value=" . $row['id_invitado'] . " name='id_invitado'>
+                           <input type='hidden' value=" . $row['id_usuario'] . " name='id_usuario'>
+                              <button class='  button--delete'>
+                                <i class='bi bi-trash js-open-modal-delete' ></i> 
+                              </button> 
+                           </form>  ";
+        $this->HTML .= "<a href='../../guest/" . $row['id_usuario'] . "/modify'>
+                            <button class='button--modify'>
+                              <i class='bi bi-person-lines-fill'></i>
+                            </button>
+                        </a>";
+        $this->HTML .= "</td>";
+        $this->HTML .= "</tr>";
+      }
+    } else {
+      $this->HTML .= "<br>
+                                    <p>No hay usuarios registrados que coincidan con tu búsqueda.</p>
+                                    <ul>
+                                        <li>Revisa la ortografía de la palabra.</li>
+                                        <li>Utiliza palabras más genéricas o menos palabras.</li>
+                                    </ul>
+                                
+                                    ";
+    }
+
+    $this->HTML .= " </table> </section>";
+    $this->HTML .= "<section class='d-flex justify-content-between align-items-center'>";
+    if ($total_records == 0) {
+    } else if ($total_records == 1) {
+      $userRegistration = 'registro disponible';
+      $this->HTML .= "<span class='messengerShowUsers'>Mostrando " . $total_records . " de " . $total_records . " 
+                          <span class='userRegistration'> " . $userRegistration . "</span> </span>
+                        <nav class='navigation--egress navigation'>
+                      <ul class='pagination'>";
+      if ($current_page > 1) {
+        $this->HTML .= "<li class='page__item'><a href='?page=" . ($current_page - 1) . "' class='page__link'>Anterior</a></li> ";
+      }
+      for ($i = 1; $i <= $total_pages; $i++) {
+        $this->HTML .= "<li class='page__item'><a href='?page=$i' class='page__link'>" . ($i == $current_page ? '<b  class="page__link--selected">' . $i . '</b >' : $i) . "</a></li> ";
+      }
+      if ($current_page < $total_pages) {
+        $this->HTML .= "<li class='page__item'><a href='?page=" . ($current_page + 1) . "' class='page__link' >Siguiente</a></li> ";
+      } else {
+        $this->HTML .= "</ul></nav>";
+      }
+      $this->HTML .= " </section>";
+    } else {
+      $userRegistration = 'registros disponibles';
+      $this->HTML .= "<span class='messengerShowUsers'>Mostrando " . $get_guests_stmt->rowCount() . " de " . $total_records . " 
+                     <span class='userRegistration'> " . $userRegistration . "</span></span> </span>
+                        <nav class='navigation--egress navigation'>
+                      <ul class='pagination'>";
+      if ($current_page > 1) {
+        $this->HTML .= "<li class='page__item'><a href='./" . ($current_page - 1) . "' class='page__link'>Anterior</a></li>";
+      }
+      for ($i = 1; $i <= $total_pages; $i++) {
+        $this->HTML .= "<li class='page__item'><a href='./$i' class='page__link'>" . ($i == $current_page ? '<b  class="page__link--selected">' . $i . '</b>' : $i) . "</a></li>";
+      }
+      if ($current_page < $total_pages) {
+        $this->HTML .= "<li class='page__item'><a href='./" . ($current_page + 1) . "'class='page__link'>Siguiente</a></li></section>";
+      } else {
+        $this->HTML .= "</ul></nav>";
+      }
+      $this->HTML .= " </section>";
+    }
+  }
+
+  public function destroy($id_user, $id_guest)
+  {
+
+    try {
+      $delete_guest_query = 'DELETE FROM invitados WHERE id_invitado = :id_invitado';
+
+      $delete_guest_stmt = $this->pdo->prepare($delete_guest_query);
+      $delete_guest_stmt->bindParam('id_invitado', $id_guest, PDO::PARAM_INT);
+      $delete_guest_stmt->execute();
+
+      $delete_user_query = 'DELETE FROM usuarios WHERE id_usuario = :id_usuario';
+      $delete_user_stmt = $this->pdo->prepare($delete_user_query);
+      $delete_user_stmt->bindParam('id_usuario', $id_user, PDO::PARAM_INT);
+      $delete_user_stmt->execute();
+
+      if ($delete_guest_stmt->rowCount() > 0 && $delete_user_stmt->rowCount() > 0) {
+        return $this->status = true;
+      } else {
+        return $this->msg = 'Ah sucedido un error al eliminar el invitado';
+      }
+    } catch (PDOException $th) {
+      return $this->msg = $th->getMessage();
     }
   }
 }

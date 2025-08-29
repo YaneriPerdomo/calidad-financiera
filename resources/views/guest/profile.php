@@ -1,5 +1,3 @@
-<?php // Vista del panel de control del usuario 
-?>
 <!doctype html>
 <html lang="es" class="full-heigh">
 
@@ -15,11 +13,12 @@
     <link rel="stylesheet" href="../../public/css/components/_sidebar.css">
     <link rel="stylesheet" href="../../public/css/pages/_profile.css">
     <link rel="stylesheet" href="../../public/css/utilities.css">
+    <link rel="stylesheet" href="../../public/css/layouts/_ico.css">
     <link rel="stylesheet" href="../../public/css/layouts/_base.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
-
+    <link rel="icon" type="image/x-icon" href="../../public/img/logo.ico">
+    <link rel="stylesheet" href="../../public/css/components/_presentation-system-web.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
@@ -27,7 +26,10 @@
     include '../resources/views/components/user/header.php';
     ?>
     <main class="main">
-        <div class="row p-2">
+        <?php
+        include '../resources/views/components/guest/sidebar.php';
+        ?>
+        <div class="row p-2 m-0">
             <div class="col-12 col-lg-3 configuration-profile h-100">
                 <?php
                 include '../resources/views/components/guest/profile-nav.php';
@@ -36,11 +38,12 @@
             <div class="col-12 col-lg-9">
                 <section class="form form--profile">
                     <button class="form__button button--back" type="button">
-
-                        <a href="./dashboard" class="text-decoration-none text-black"> <i class="bi bi-arrow-left-square"></i> Regresar</a>
+                        <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black"> <i
+                                class="bi bi-arrow-left-square"></i> Regresar al inicio</a>
                     </button>
                     <legend class="form__title form__title--profile"><b>Perfil</b></legend>
-                    <p class="form__description form__description--profile"> Controla tu información protegiendo tu privacidad y recuerda que puedes actualizar tu perfil en cualquier momento. </p>
+                    <p class="form__description form__description--profile"> Controla tu información protegiendo tu
+                        privacidad y recuerda que puedes actualizar tu perfil en cualquier momento. </p>
                     <hr class="form__separator">
                     <div class="form__data form__data--profile">
                         <div class="form__row form__row--personal-data row">
@@ -50,29 +53,31 @@
                             <div class="form__col form__col--inputs col-lg-8 col-12">
                                 <label for="name" class="form__label form__label--required">Nombre</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                    <span class="input-group-text form__icon" id="basic-addon1"><i
+                                            class="bi bi-person"></i></span>
                                     <input type="text" name="name" class="form-control form__input form__input--item "
                                         placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        disabled
+                                        aria-describedby="basic-addon1" disabled
                                         value="<?php echo $data['nombre'] ?? '' ?>">
                                 </div>
                                 <label for="lastname" class="form__label form__label--required">Apellido</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                    <input type="text" name="lastname" class="form-control form__input form__input--item "
+                                    <span class="input-group-text form__icon" id="basic-addon1"><i
+                                            class="bi bi-person"></i></span>
+                                    <input type="text" name="lastname"
+                                        class="form-control form__input form__input--item "
                                         placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        disabled
+                                        aria-describedby="basic-addon1" disabled
                                         value="<?php echo $data['apellido'] ?? '' ?>">
                                 </div>
-                                <label for="email" class="form__label form__label--required">Correo electrónico</label><br>
+                                <label for="email" class="form__label form__label--required">Correo
+                                    electrónico</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
+                                    <span class="input-group-text form__icon" id="basic-addon1"><i
+                                            class="bi bi-person"></i></span>
                                     <input type="text" name="email" class="form-control form__input form__input--item "
                                         placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        disabled
+                                        aria-describedby="basic-addon1" disabled
                                         value="<?php echo $data['correo_electronico'] ?? '' ?>">
                                 </div>
 
@@ -87,34 +92,30 @@
                             <div class="form__col form__col--inputs col-lg-8 col-12">
                                 <label for="username" class="form__label form__label--required ">Usuario</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                    <input
-                                        type="text"
-                                        name="user"
-                                        class="form-control form__input form__input--item "
-                                        placeholder="¿Como se llama tu niño/a? 🤔"
-                                        aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        disabled
+                                    <span class="input-group-text form__icon" id="basic-addon1"><i
+                                            class="bi bi-person"></i></span>
+                                    <input type="text" name="user" class="form-control form__input form__input--item "
+                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
+                                        aria-describedby="basic-addon1" disabled
                                         value="<?php echo $_SESSION['usuario'] ?? '' ?>">
                                 </div>
-                                <label for="account-type" class="form__label form__label--required">Tipo de cuenta</label><br>
+                                <label for="account-type" class="form__label ">Tipo de
+                                    cuenta</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-person"></i></span>
-                                    <input
-                                        type="text"
-                                        name="lastname"
-                                        class="form-control form__input form__input--item "
-                                        placeholder="Invitado"
-                                        aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        value=""
-                                        disabled>
+                                    <span class="input-group-text form__icon" id="basic-addon1"><i
+                                            class="bi bi-person"></i></span>
+                                    <input type="text" name="lastname"
+                                        class="form-control form__input form__input--item " placeholder="Invitado(a)"
+                                        aria-label="Username" aria-describedby="basic-addon1" value="" disabled>
+                                </div>
+                                <div>
+                                    <small>Para actualizar algun dato tuyo tenes que comunicarte con tu usuario</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr class="form__separator">
+
                 </section>
             </div>
         </div>
@@ -122,12 +123,16 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
+    <?php
+    include '../resources/views/components/presentation.php';
+    ?>
 
-
-    <script src="../js/components/location.js" type="module"></script>
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="../js/components/presentation_system_web.js" type="module"></script>
+    <script src="../js/components/location_guest.js" type="module"></script>
+    <script src="../js/cdn.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

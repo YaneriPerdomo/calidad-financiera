@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../public/css/components/_header.css">
     <link rel="stylesheet" href="../../public/css/components/_body.css">
+    <link rel="stylesheet" href="../../public/css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="../../public/css/components/_sidebar.css">
     <link rel="stylesheet" href="../../public/css/pages/_profile.css">
     <link rel="stylesheet" href="../../public/css/utilities.css">
     <link rel="stylesheet" href="../../public/css/layouts/_base.css">
+    <link rel="stylesheet" href="../../public/css/layouts/_ico.css">
     <link rel="icon" type="image/x-icon" href="../../public/img/logo.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -75,7 +77,7 @@
 
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
-                            <a href="./dashboard/1" class="text-decoration-none text-black"><i
+                            <a href="./welcome" class="text-decoration-none text-black"><i
                                     class="bi bi-arrow-left-square"></i> Regresar</a>
                         </button>
                         <button class="form__button form__button--submit" type="submit">Cambiar contraseña</button>
@@ -87,9 +89,14 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
+    <?php
+    include '../resources/views/components/admin/presentation.php';
+    ?>
 
+    <script src="../js/components/presentation_system_web.js" type="module"></script>
 
     <script src="../js/components/location.js" type="module"></script>
+    <script src="../js/cdn.js" type="module"></script>
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

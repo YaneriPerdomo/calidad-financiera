@@ -1,5 +1,3 @@
-<?php // Vista del panel de control del usuario 
-?>
 <!doctype html>
 <html lang="es" class="full-heigh">
 
@@ -16,7 +14,12 @@
     <link rel="stylesheet" href="../../public/css/pages/_profile.css">
     <link rel="stylesheet" href="../../public/css/utilities.css">
     <link rel="stylesheet" href="../../public/css/layouts/_base.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../public/css/components/_presentation-system-web.css">
+
+    <link rel="icon" type="image/x-icon" href="../../public/img/logo.ico">
+    <link rel="stylesheet" href="../../public/css/layouts/_ico.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 
@@ -25,7 +28,7 @@
     include '../resources/views/components/user/header.php';
     ?>
     <main class="main">
-         <?php
+        <?php
         include '../resources/views/components/user/sidebar.php';
         ?>
         <div class="row p-2 m-0">
@@ -34,7 +37,7 @@
                 include '../resources/views/components/user/profile-nav.php';
                 ?>
             </div>
-             <div class="col-12 col-lg-9">
+            <div class="col-12 col-lg-9">
                 <form action="./changes-password" method="post" class="form form--profile">
 
                     <legend class="form__title form__title--profile"><b>Cambiar contraseña</b></legend>
@@ -85,12 +88,16 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
+    <?php
+    include '../resources/views/components/presentation.php';
+    ?>
 
-
+    <script src="../js/components/presentation_system_web.js" type="module"></script>
     <script src="../js/components/location.js" type="module"></script>
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="../js/cdn.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@ use PDOException;
 class DashboardModel extends Database
 {
 
-  public  $HTML = '';
+  public $HTML = '';
 
   public $data_total_income;
   public $data_total_graduation;
@@ -28,12 +28,16 @@ class DashboardModel extends Database
   public $data_total_annual_expenses;
 
   public $data_annual_budget;
+
+  public $data_ahorro;
+
+  public $fechaCreacion;
   function __construct()
   {
     parent::__construct();
   }
 
-  
+  //SELECT SUM(valor_bs) FROM `transacciones` WHERE YEAR(fecha) = '2025' AND  id_egreso  IS NOT NULL;
   public function GetAnnualBudget($year, $type_rol)
   {
     if ($type_rol == 'user') {
@@ -43,6 +47,13 @@ class DashboardModel extends Database
       $get_id_person_stmt->execute();
       $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
       $id_person = $row_id_person['id_persona'];
+
+      $date_creation_query = 'SELECT fecha_creacion FROM usuarios WHERE id_usuario =:id_user';
+      $date_creation_stmt = $this->pdo->prepare($date_creation_query);
+      $date_creation_stmt->bindParam('id_user', $_SESSION['id_usuario'], PDO::PARAM_INT);
+      $date_creation_stmt->execute();
+      $get_date_create = $date_creation_stmt->fetch(PDO::FETCH_ASSOC);
+      $this->fechaCreacion = $get_date_create['fecha_creacion'];
     } else {
       $id_person = $_SESSION['id_persona'];
     }
@@ -50,7 +61,7 @@ class DashboardModel extends Database
     $get_annual_budget_query = 'SELECT 
                                   SUM(monto_total) AS monto_total 
                                 FROM 
-                                  presupuestos 
+                                  presupuestos_ahorros
                                 WHERE 
                                   year(fecha) = :year_ AND id_persona =:id_person';
     $get_annual_budget_stmt = $this->pdo->prepare($get_annual_budget_query);
@@ -156,6 +167,38 @@ class DashboardModel extends Database
     }
   }
 
+  public function GetAhorroAnual($year, $type_rol)
+  {
+    if ($type_rol == 'user') {
+      $get_id_person_query = 'SELECT id_persona FROM personas WHERE id_usuario =:id_user';
+      $get_id_person_stmt = $this->pdo->prepare($get_id_person_query);
+      $get_id_person_stmt->bindParam('id_user', $_SESSION['id_usuario'], PDO::PARAM_INT);
+      $get_id_person_stmt->execute();
+      $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
+      $id_person = $row_id_person['id_persona'];
+    } else {
+      $id_person = $_SESSION['id_persona'];
+    }
+
+    $get_ahorro_anual_query = 'SELECT 
+                                  SUM(monto_total) AS total, fecha, porcentaje_ahorro  
+                              FROM 
+                                  presupuestos_ahorros 
+                              WHERE 
+                                  year(fecha) = :year_
+                              AND 
+                                  id_persona = :id_persona 
+                              GROUP BY 
+                                  month(fecha)';
+    $get_ahorro_anual_stmt = $this->pdo->prepare($get_ahorro_anual_query);
+    $get_ahorro_anual_stmt->bindParam('year_', $year, PDO::PARAM_INT);
+    $get_ahorro_anual_stmt->bindParam('id_persona', $id_person, PDO::PARAM_INT);
+    $get_ahorro_anual_stmt->execute();
+
+    if ($get_ahorro_anual_stmt->rowCount() > 0) {
+      return $this->data_ahorro = $get_ahorro_anual_stmt->fetchAll(PDO::FETCH_ASSOC);
+    }  
+  }
   public function GetEachMonthTotalGraduation($year, $type_rol)
   {
     if ($type_rol == 'user') {
@@ -331,7 +374,7 @@ class DashboardModel extends Database
     $get_total_quote_query = ' SELECT 
                                             monto_total 
                                         FROM 
-                                            `presupuestos` 
+                                            `presupuestos_ahorros` 
                                         WHERE 
                                             month(fecha) = :_month 
                                         AND 

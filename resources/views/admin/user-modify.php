@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="../../css/pages/_about.css">
     <link rel="stylesheet" href="../../css/pages/_guest.css">
     <link rel="stylesheet" href="../../css/utilities.css">
+    <link rel="stylesheet" href="../../css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="../../css/layouts/_base.css">
+    <link rel="stylesheet" href="../../css/layouts/_ico.css">
     <link rel="icon" type="image/x-icon" href="../../../public/img/logo.ico">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -44,7 +46,7 @@
                 <?php
                 echo !is_array($data) ? '<input type="hidden" name="id_person"value="' . $data['id_persona'] . '">' : '' ?>
                 <legend class="form__title">
-                    <h1><b> Modificar usuario </b></h1>
+                     <b> Modificar usuario </b> 
                 </legend>
                 <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
                     actualizar tu perfil en cualquier momento. </p>
@@ -123,14 +125,13 @@
                                             class="bi bi-person"></i></span>
                                     <input type="text" name="user" class="form__input form__input--item form-control"
                                         placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1" value="<?php echo trim($data['usuario']) ?? '' ?>">
+                                        aria-describedby="basic-addon1"
+                                        value="<?php echo trim($data['usuario']) ?? '' ?>">
                                 </div>
-                                <label for="password" class="form__label form__label--required">Contraseña</label><br>
                                 <?php
-
-                                echo empty(!$data) ? "<small>Si no desea cambiar su contraseña, deja los campos de 'Contraseña' y 'Confirma contraseña' vacíos.</small>" : '';
-
+                                echo empty(!$data) ? "<small>Si no desea cambiar su contraseña, deja los campos de 'Contraseña' y 'Confirma contraseña' vacíos.</small> <br>" : '';
                                 ?>
+                                <label for="password" class="form__label form__label--required">Contraseña</label><br>
                                 <div class="input-group mb-3">
                                     <span class="form__icon input-group-text" id="basic-addon1"><i
                                             class="bi bi-person"></i></span>
@@ -147,6 +148,11 @@
                                         class="form__input form__input--item form-control" placeholder="Usuario"
                                         aria-label="Username" aria-describedby="basic-addon1" value="">
                                 </div>
+                                <div>
+                                    <label for="status">Estado de la cuenta </label>
+                                    <input type="checkbox" name="status" <?php echo $data['estado'] == 1 ? 'checked' : '' ?>
+                                        value="1" id="status">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -154,11 +160,12 @@
                     <div class="flex-center-full form__actions gap-3">
                         <button class="form__button button--back" type="button">
 
-                            <a href="../dashboard/1" class="text-black text-decoration-none"> <i
+                            <a href="../users/1" class="text-black text-decoration-none"> <i
                                     class="bi bi-arrow-left-square"></i> Regresar</a>
                         </button>
                         <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
                     </div>
+                </div>
             </form>
         </div>
     </main>
@@ -166,10 +173,18 @@
     include '../resources/views/components/footer.php';
     ?>
 
+                                    
+    <?php 
+    include '../resources/views/components/admin/presentation.php';
+    ?>
+
+    <script src="<?php echo empty(!$data) ? '../../../' : '../../' ?>public/js/components/presentation_system_web.js" type="module"></script>
 
 
+    <script src="<?php echo empty(!$data) ? '../../../' : '../../' ?>public/js/components/location_admin.js"
+        type="module"></script>
+    <script src="<?php echo empty(!$data) ? '../../../' : '../../' ?>public/js/cdn.js" type="module"></script>
 
-    <script src="<?php echo empty(!$data) ? '../../../' : '../../' ?>public/js/components/location_admin.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
