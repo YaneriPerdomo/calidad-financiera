@@ -12,6 +12,6 @@
                 echo $header_break;
             }
         }   
-        ?>../img/logo.png" alt="" class="img-fluid w-50">
+        ?>../img/logo.png" alt="Logo" draggable="false" class="img-fluid w-50">
     </figure>
 </div>

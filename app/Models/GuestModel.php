@@ -7,18 +7,14 @@ use PDOException;
 
 class GuestModel extends Database
 {
-
   public $status = false;
-
   public $data;
-
   public $msg;
   public $HTML = "";
   function __construct()
   {
     parent::__construct();
   }
-
   public function reportGuests($id_person)
   {
     $get_guests_query = 'SELECT 
@@ -49,7 +45,7 @@ class GuestModel extends Database
     $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->execute();
     if ($search_name_user_not_you_stmt->rowCount() > 0) {
-      $this->msg = "Nombre de usuario ya existente";
+      $this->msg = "Ese nombre de usuario ya está en uso. Por favor, elige uno diferente.";
       return $this->status = false;
     }
 
@@ -58,7 +54,7 @@ class GuestModel extends Database
     $search_email_stmt->bindParam('correo_electronico', $POST['email'], PDO::PARAM_STR);
     $search_email_stmt->execute();
     if ($search_email_stmt->rowCount() > 0) {
-      $this->msg = "Correo electronico ya existente";
+      $this->msg = "El correo electrónico que ingresaste ya está registrado.";
       return $this->status = false;
     }
     try {
@@ -102,17 +98,18 @@ class GuestModel extends Database
   function UpdateData($POST = [])
   {
     //$POST['id_user'] $POST['user']
-    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE (usuario = :user AND id_usuario != :id_usuario )';
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE usuario = :user AND id_usuario != :id_usuario';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
     $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
     $search_name_user_not_you_stmt->execute();
     if ($search_name_user_not_you_stmt->rowCount() > 0) {
-      $this->msg = "Nombre de usuario ya existente";
+      $this->msg = "Ese nombre de usuario ya está en uso. Por favor, elige uno diferente.";
       return $this->status = false;
     }
 
     try {
+      
       $update_data_guest_query = 'UPDATE 
                                     invitados 
                                   SET 
@@ -144,8 +141,6 @@ class GuestModel extends Database
         $update_password_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
         $update_password_stmt->execute();
       }
-
-
       return $this->data = 1;
     } catch (PDOException $exh) {
       echo $exh->getMessage();

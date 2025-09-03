@@ -26,7 +26,7 @@ class ChangesPasswordModel extends Database
   protected function updatePassword($POST = [])
   {
     if ($_POST['old-password'] == $_POST['new-password']) {
-      return '<script>alert("La clave nueva que ingresaste no debe ser la misma que tenia anteriormente"); location.href = "./changes-password"</script>';
+      return '<script>alert("La nueva contraseña no puede ser igual a la anterior. ¡Intenta con una diferente! "); location.href = "./changes-password"</script>';
     }
 
     $id_user = $POST['id_usuario'];
@@ -66,7 +66,7 @@ class ChangesPasswordModel extends Database
 
     }
     if ($_POST['old-password'] == $_POST['new-password']) {
-      return $this->msg = 'La clave nueva que ingresaste no debe ser la misma que tenia anteriormente';
+      return $this->msg = 'La nueva contraseña no puede ser igual a la anterior. ¡Intenta con una diferente! ';
     }
     $id_user = $_SESSION['id_usuario'];
 

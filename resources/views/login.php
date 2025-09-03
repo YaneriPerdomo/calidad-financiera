@@ -19,7 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        
+
     </style>
 
 </head>
@@ -38,19 +38,17 @@
                 <div class="form-login__item">
                     <label for="user" class="form-login__label form__label--required">Usuario</label><br>
                     <div class="input-group mb-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                        <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
                         <input type="text" name="user" id="user" class="form-control form--login__input"
-                            placeholder="Introduzca el usuario" aria-label="Username" aria-describedby="basic-addon1"
-                            autofocus="true">
+                            placeholder="Ingresa tu nombre de usuario" aria-label="Nombre de usuario" autofocus>
                     </div>
                 </div>
                 <div class="form--login__item">
                     <label for="password" class="form-login__label form__label--required">Contraseña</label><br>
                     <div class="input-group mb-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                         <input type="password" name="password" id="password" class="form-control form--login__input"
-                            placeholder="Introduzca el usuario" aria-label="Username" aria-describedby="basic-addon1"
-                            autofocus="true">
+                            placeholder="Ingresa tu contraseña" aria-label="Contraseña" autofocus>
                     </div>
                 </div>
                 <button type="submit" class="form-login__button-send button-r">

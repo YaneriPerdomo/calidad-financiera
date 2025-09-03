@@ -11,6 +11,7 @@ function fc_number_format($number)
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Panel de control | Calidad financiera</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../../../public/css/components/_header.css">
@@ -316,10 +317,7 @@ function fc_number_format($number)
     <script src="../../../js/components/location_guest.js" type="module"></script>
 
     <script src="../../../js/cdn.js" type="module"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+ 
 </body>
 
 </html>

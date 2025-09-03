@@ -41,8 +41,8 @@
             <div class="col-12 col-lg-9">
                 <div class="functionality functionality--account-delete">
                     <button class="button--back" type="button">
-                        <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black"> <i
-                                class="bi bi-arrow-left-square"></i> Regresar</a>
+                        <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black"> 
+                                <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
                     </button>
                     <legend class="functionality__title functionality__title--account-delete"><b>Eliminar cuenta</b>
                     </legend>
@@ -78,9 +78,7 @@
 
     <script src="../js/components/location_user.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+ 
 </body>
 
 </html>

@@ -37,10 +37,7 @@
             </div>
             <div class="col-12 col-lg-9">
                 <section class="form form--profile">
-                    <button class="form__button button--back" type="button">
-                        <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black"> <i
-                                class="bi bi-arrow-left-square"></i> Regresar al inicio</a>
-                    </button>
+                    
                     <legend class="form__title form__title--profile"><b>Perfil</b></legend>
                     <p class="form__description form__description--profile"> Controla tu información protegiendo tu
                         privacidad y recuerda que puedes actualizar tu perfil en cualquier momento. </p>
@@ -53,31 +50,23 @@
                             <div class="form__col form__col--inputs col-lg-8 col-12">
                                 <label for="name" class="form__label form__label--required">Nombre</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i
-                                            class="bi bi-person"></i></span>
-                                    <input type="text" name="name" class="form-control form__input form__input--item "
-                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1" disabled
-                                        value="<?php echo $data['nombre'] ?? '' ?>">
+                                    <span class="input-group-text form__icon"><i class="bi bi-person-circle"></i></span>
+                                    <input type="text" name="name" class="form-control form__input form__input--item"
+                                        aria-label="Nombre" disabled value="<?php echo $data['nombre'] ?? '' ?>">
                                 </div>
                                 <label for="lastname" class="form__label form__label--required">Apellido</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i
-                                            class="bi bi-person"></i></span>
+                                    <span class="input-group-text form__icon"><i class="bi bi-person-badge"></i></span>
                                     <input type="text" name="lastname"
-                                        class="form-control form__input form__input--item "
-                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1" disabled
-                                        value="<?php echo $data['apellido'] ?? '' ?>">
+                                        class="form-control form__input form__input--item" aria-label="Apellido"
+                                        disabled value="<?php echo $data['apellido'] ?? '' ?>">
                                 </div>
                                 <label for="email" class="form__label form__label--required">Correo
                                     electrónico</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i
-                                            class="bi bi-person"></i></span>
-                                    <input type="text" name="email" class="form-control form__input form__input--item "
-                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1" disabled
+                                    <span class="input-group-text form__icon"><i class="bi bi-envelope-fill"></i></span>
+                                    <input type="text" name="email" class="form-control form__input form__input--item"
+                                        aria-label="Correo electrónico" disabled
                                         value="<?php echo $data['correo_electronico'] ?? '' ?>">
                                 </div>
 
@@ -86,30 +75,28 @@
                         </div>
                         <hr class="form__separator">
                         <div class="form__row form__row--account-data row ">
-                            <div class="form__col form__col--title  col-lg-4 col-12">
+                            <div class="form__col form__col--title col-lg-4 col-12">
                                 <span class="form__subtitle">Datos de la cuenta: </span>
                             </div>
                             <div class="form__col form__col--inputs col-lg-8 col-12">
                                 <label for="username" class="form__label form__label--required ">Usuario</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i
-                                            class="bi bi-person"></i></span>
-                                    <input type="text" name="user" class="form-control form__input form__input--item "
-                                        placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                        aria-describedby="basic-addon1" disabled
-                                        value="<?php echo $_SESSION['usuario'] ?? '' ?>">
+                                    <span class="input-group-text form__icon"><i class="bi bi-person-fill"></i></span>
+                                    <input type="text" name="user" class="form-control form__input form__input--item"
+                                        aria-label="Usuario" disabled value="<?php echo $_SESSION['usuario'] ?? '' ?>">
                                 </div>
                                 <label for="account-type" class="form__label ">Tipo de
                                     cuenta</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i
-                                            class="bi bi-person"></i></span>
+                                    <span class="input-group-text form__icon"><i
+                                            class="bi bi-person-lines-fill"></i></span>
                                     <input type="text" name="lastname"
-                                        class="form-control form__input form__input--item " placeholder="Invitado(a)"
-                                        aria-label="Username" aria-describedby="basic-addon1" value="" disabled>
+                                        class="form-control form__input form__input--item" aria-label="Tipo de cuenta"
+                                        value="Invitado(a)" disabled>
                                 </div>
                                 <div>
-                                    <small>Para actualizar algun dato tuyo tenes que comunicarte con tu usuario</small>
+                                    <small>Para actualizar tu información, por favor comunícate con el administrador de
+                                        la cuenta.</small>
                                 </div>
                             </div>
                         </div>
@@ -130,9 +117,7 @@
     <script src="../js/components/presentation_system_web.js" type="module"></script>
     <script src="../js/components/location_guest.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+
 </body>
 
 </html>

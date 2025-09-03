@@ -4,15 +4,15 @@
     </strong>
     <nav class="configuration-profile__nav nav">
         <div class="nav__item">
-            <i class="nav__icon bi bi-person"></i>
+            <i class="nav__icon bi bi-person-lines-fill"></i>
             <a href="./profile" class="nav__link">Perfil</a>
         </div>
         <div class="nav__item">
-            <i class="nav__icon bi bi-gear"></i>
+            <i class="nav__icon bi bi-key-fill"></i>
             <a href="./changes-password" class="nav__link">Cambiar contraseña</a>
         </div>
         <div class="nav__item">
-            <i class="nav__icon bi bi-lock"></i>
+            <i class="nav__icon bi bi-person-gear"></i>
             <a href="./account" class="nav__link">Cuenta</a>
         </div>
     </nav>

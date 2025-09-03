@@ -35,7 +35,7 @@ class CreateAccountModel extends Database
     $search_name_user_not_you_stmt->bindParam('user', $data['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->execute();
     if ($search_name_user_not_you_stmt->rowCount() > 0) {
-      $this->msg = "Nombre de usuario ya existente";
+      $this->msg = "Ese nombre de usuario ya está en uso. Por favor, elige uno diferente.";
       return $this->status = false;
     }
 
@@ -44,7 +44,7 @@ class CreateAccountModel extends Database
     $search_email_stmt->bindParam('correo_electronico', $data['email'], PDO::PARAM_STR);
     $search_email_stmt->execute();
     if ($search_email_stmt->rowCount() > 0) {
-      $this->msg = "Correo electronico ya existente";
+      $this->msg = "El correo electrónico que ingresaste ya está registrado.";
       return $this->status = false;
     }
     

@@ -1,7 +1,7 @@
 <header class="header-index">
     <div class="logo">
         <figure class="m-0">
-            <img src="<?php echo $header_break ?>../img/logo.png" alt="" style="  width: 88px;">
+            <img src="<?php echo $header_break ?>../img/logo.png" draggable="false" alt="" style="  width: 88px;">
         </figure>
     </div>
     <div class="profile">

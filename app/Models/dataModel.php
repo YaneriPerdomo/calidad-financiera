@@ -88,18 +88,18 @@ class dataModel extends Database
     }
     $this->msg = $resta;
     if ($saldo_final < 0) {
-      $this->msg = 'No se puede debido a que hay un saldo negativo';
+      $this->msg = 'Operación no válida: el saldo final no puede ser negativo.';
       return $this->status = false;
     }
     if ($POST['type_indicator'] == 2) {
       if ($value_total_insome['total_ingreso'] <= $value) {
-        $this->msg = 'No se puede debido a que usted no tiene ingreso sufiente';
+        $this->msg = 'No tienes suficiente saldo disponible para registrar este egreso.';
         return $this->status = false;
       }
     }
     $add_transaction_query = $POST['type_indicator'] == 1 ?
       'INSERT INTO transacciones (id_persona, id_ingreso, fecha, valor_bs, notas) VALUE (:id_person, :id_insome, now(), :value_, :observations)'
-      : 'INSERT INTO transacciones (id_persona, id_egreso, fecha, valor_bs, notas) VALUE  (:id_person, :id_graduation, now(), :value_, :observations)';
+      : 'INSERT INTO transacciones (id_persona, id_egreso, fecha, valor_bs, notas) VALUE  (:id_person, :id_graduation, now(), :value_, :observations)';
     $add_transaction_stmt = $this->pdo->prepare($add_transaction_query);
     $add_transaction_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
     if ($POST['type_indicator'] == 1) {
@@ -120,7 +120,7 @@ class dataModel extends Database
 
     if ($is_there_a_budget_stmt->rowCount()) {
       $row_is_there_a_budget = $is_there_a_budget_stmt->fetch(PDO::FETCH_ASSOC);
-      $update_budget_query = 'UPDATE presupuestos_ahorros SET monto_total = :monto_total_actual WHERE id_presupuesto_ahorro  = :id_presupuesto_ahorro';
+      $update_budget_query = 'UPDATE presupuestos_ahorros SET monto_total = :monto_total_actual WHERE id_presupuesto_ahorro  = :id_presupuesto_ahorro';
       $update_budget_stmt = $this->pdo->prepare($update_budget_query);
       $total_amount = $POST['type_indicator'] == 1 ? bcadd($row_is_there_a_budget['monto_total'], $POST['value'], 2)
         : bcsub($row_is_there_a_budget['monto_total'], $POST['value'], 2);
@@ -136,12 +136,13 @@ class dataModel extends Database
         $insert_budget_stmt->bindParam('monto_total', $POST['value'], PDO::PARAM_INT);
         $insert_budget_stmt->execute();
       } else {
-        $this->msg = 'No se puede porque usted no tiene ingreso';
+        $this->msg = 'No se puede registrar el egreso. Debes registrar un ingreso primero.';
         return $this->status = false;
       }
     }
     if ($add_transaction_stmt->rowCount() > 0) {
       $this->status = true;
+      $this->msg = 'Transacción registrada con éxito.';
     }
   }
 
@@ -226,7 +227,7 @@ class dataModel extends Database
           $this->HTML .= "<td> No disponible</td>";
         }
         $created_at = utilities::generacion_fecha($row['fecha']);
-        
+
         $monto = $monto = number_format($row['valor_bs'], 2, ',', '.');
         $value_bs = $type_indicator == 'Ingreso' ? '+' . $monto : '-' . $monto;
         $this->HTML .= "<td>" . $value_bs . " Bs.</td>";

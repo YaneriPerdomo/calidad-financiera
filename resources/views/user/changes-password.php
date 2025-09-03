@@ -76,10 +76,11 @@
 
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
-                            <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black"><i
-                                    class="bi bi-arrow-left-square"></i> Regresar</a>
+                            <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black">
+                                    <i class="bi bi-arrow-left-square-fill"></i>
+                                      Regresar</a>
                         </button>
-                        <button class="form__button form__button--submit" type="submit">Cambiar contraseña</button>
+                        <button class="form__button form__button--submit" type="submit"><i class="bi bi-check-circle-fill"></i> Cambiar contraseña</button>
                     </div>
                 </form>
             </div>
@@ -95,9 +96,7 @@
     <script src="../js/components/presentation_system_web.js" type="module"></script>
     <script src="../js/components/location.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+  
 </body>
 
 </html>

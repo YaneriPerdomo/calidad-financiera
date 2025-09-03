@@ -64,8 +64,12 @@
                             </span>
                             <input type="text" name="name" id="name"
                                 class="search__input search__input--text form-control"
-                                placeholder="Ingrese un nombre del invitado" aria-label="Nombre del producto" autofocus
-                                data-name="<?php echo trim($nameUser) ?>" value="<?php echo trim($nameUser) ?>">
+                                placeholder="Ingresa el nombre del invitado para buscar" 
+                                aria-label="Ingresa el nombre del invitado para buscar" 
+                                autofocus
+                                data-name="<?php echo trim($nameUser) ?>" 
+                                data-url = "/calidad-financiera/public/user/guests"
+                                value="<?php echo trim($nameUser) ?>">
                         </div>
                         <div class="search__action">
                             <button class="button search__button button--azul color-white" type="button">
@@ -73,21 +77,8 @@
                             </button>
                         </div>
                     </div>
-                    <script>
-                        let ItemButttonSearh = document.querySelector('.search__button');
-                        let ItemFomSearch = document.querySelector('form');
-                        let ItemInputName = document.querySelector('#name');
-
-                        ItemButttonSearh.addEventListener('click', async e => {
-                            e.preventDefault();
-                            let inputValue = ItemInputName.value;
-                            if (inputValue != "") {
-                                return window.location.href = '/calidad-financiera/public/user/guests/' + inputValue.trim() + '/1';
-                            } else {
-                                return window.location.href = '/calidad-financiera/public/user/guests/1';
-                            }
-                        })
-                    </script>
+                    <script type="module"
+                        src="<?php echo $searchUsers == false ? '../../' : '../../../' ?>js/components/button_search.js"></script>
                 </div>
                 <div class="button-pdf">
                     <button type="button" class="button--orange m-2" title="Descargar un reporte en PDF">
@@ -122,7 +113,7 @@
             let formDeleteAccount = document.querySelector('.form-guest__delete');
             formDeleteAccount.addEventListener('submit', e => {
                 e.preventDefault();
-                let resp = confirm('¿Esta seguro que quiere eliminar tu cuenta de calidad financiera por completo?');
+                let resp = confirm('¿Quieres eliminar a este invitado? Ten en cuenta que, al hacerlo, ya no podrá ver el avance de tu cuenta.');
                 if (resp) {
                     e.target.submit();
                 }
@@ -200,10 +191,7 @@
     <script src="<?php echo $searchUsers == false ? '../../' : '../../../' ?>js/components/location_user.js"
         type="module"></script>
     <script src="<?php echo $searchUsers == false ? '../../' : '../../../' ?>js/cdn.js" type="module"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+ 
 </body>
 
 </html>

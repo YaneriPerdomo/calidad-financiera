@@ -62,8 +62,7 @@
                                 <label for="account-type" class="form__label  ">Tipo de
                                     cuenta</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="account-type-icon"><i
-                                            class="bi bi-card-checklist"></i></i></span>
+                                    <span class="input-group-text form__icon" id="account-type-icon"><i class="bi bi-person-lines-fill"></i></span>
                                     <input type="text" name="account-type"
                                         class="form-control form__input form__input--item "
                                         placeholder="Administrador(a)" aria-label="Tipo de cuenta"
@@ -75,10 +74,12 @@
                     <hr class="form__separator">
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
-                            <a href="./welcome" class="text-decoration-none text-black"> <i
-                                    class="bi bi-arrow-left-square"></i> Regresar</a>
+                            <a href="./welcome" class="text-decoration-none text-black">
+                                <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
                         </button>
-                        <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
+                        <button class="form__button form__button--submit" type="submit">
+                        <i class="bi bi-check-circle-fill"></i>    
+                        Actualizar datos</button>
                     </div>
                 </form>
             </div>
@@ -95,10 +96,7 @@
     <script src="../js/components/location.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>
 
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    
 </body>
 
 </html>

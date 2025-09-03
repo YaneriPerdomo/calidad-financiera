@@ -60,7 +60,7 @@ class UserModel extends Database
     $search_name_user_not_you_stmt->bindParam('id_user', $POST['id_usuario'], PDO::PARAM_INT);
     $search_name_user_not_you_stmt->execute();
     if ($search_name_user_not_you_stmt->rowCount() > 0) {
-      return $this->msg = "Nombre de usuario ya existente";
+      return $this->msg = "Ese nombre de usuario ya está en uso. Por favor, elige uno diferente.";
     }
 
     $search_email_query = 'SELECT * FROM `personas` WHERE (correo_electronico = :correo_electronico and id_usuario != :id_user)';
@@ -69,7 +69,7 @@ class UserModel extends Database
     $search_email_stmt->bindParam('id_user', $POST['id_usuario'], PDO::PARAM_INT);
     $search_email_stmt->execute();
     if ($search_email_stmt->rowCount() > 0) {
-      return $this->msg = "Correo electronico ya existente";
+      return $this->msg = "El correo electrónico que ingresaste ya está registrado.";
     }
     try {
       $this->pdo->beginTransaction(); // Inicia la transacción

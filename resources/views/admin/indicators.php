@@ -90,7 +90,7 @@
         let formDeleteAccount = document.querySelector('.form-egreso__delete');
         formDeleteAccount.addEventListener('submit', e => {
             e.preventDefault();
-            let resp = confirm('¿Esta seguro que quiere eliminar tu cuenta de calidad financiera por completo?');
+            let resp = confirm('¿Estás seguro de que quieres eliminar este indicador de egreso? Esta acción es irreversible.');
             if (resp) {
                 e.target.submit();
             }
@@ -100,7 +100,7 @@
         let formDeleteAccount_ = document.querySelector('.form-insome__delete');
         formDeleteAccount_.addEventListener('submit', e => {
             e.preventDefault();
-            let resp = confirm('¿Esta seguro que quiere eliminar tu cuenta de calidad financiera por completo?');
+            let resp = confirm('¿Estás seguro de que quieres eliminar este indicador de ingreso? Esta acción es irreversible.');
             if (resp) {
                 e.target.submit();
             }
@@ -126,10 +126,7 @@
     <script src="../../../js/components/presentation_system_web.js" type="module"></script>
     <script src="../../../js/components/location_admin.js" type="module"></script>
     <script src="../../../js/cdn.js" type="module"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+ 
 </body>
 
 </html>

@@ -53,95 +53,86 @@
                 <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
                     actualizar tu perfil en cualquier momento. </p>
                 <hr class="form__separator">
-                <div class="form__data">
-                    <div class="row form__row">
-                        <div class="col-12 col-lg-4 form__col form__col--title">
-                            <span class="form__subtitle">Datos personales: </span>
-                        </div>
-                        <div class="col-12 col-lg-8 form__col form__col--inputs">
-                            <label for="name" class="form__label form__label--required">Nombre</label><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <input type="text" name="name" class="form__input form__input--item form-control"
-                                    placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                    aria-describedby="basic-addon1" value="<?php echo $data['nombre'] ?? '' ?> ">
-                            </div>
-                            <label for="lastname" class="form__label form__label--required">Apellido</label><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <input type="text" name="lastname" class="form__input form__input--item form-control"
-                                    placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                    aria-describedby="basic-addon1" value="<?php echo $data['apellido'] ?? '' ?>">
-                            </div>
-                            <label for="email" class="form__label form__label--required">Correo electrónico</label><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <input type="text" name="email" class="form__input form__input--item form-control"
-                                    placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    value="<?php echo $data['correo_electronico'] ?? '' ?> ">
-                            </div>
-                        </div>
+               <div class="form__data">
+    <div class="row form__row">
+        <div class="col-12 col-lg-4 form__col form__col--title">
+            <span class="form__subtitle">Datos personales: </span>
+        </div>
+        <div class="col-12 col-lg-8 form__col form__col--inputs">
+            <label for="name" class="form__label form__label--required">Nombre</label><br>
+            <div class="input-group mb-3">
+                <span class="form__icon input-group-text"><i class="bi bi-person-circle"></i></span>
+                <input type="text" name="name" class="form__input form__input--item form-control"
+                    placeholder="Tu nombre" aria-label="Nombre" value="<?php echo $data['nombre'] ?? '' ?>">
+            </div>
+            <label for="lastname" class="form__label form__label--required">Apellido</label><br>
+            <div class="input-group mb-3">
+                <span class="form__icon input-group-text"><i class="bi bi-person-badge"></i></span>
+                <input type="text" name="lastname" class="form__input form__input--item form-control"
+                    placeholder="Tu apellido" aria-label="Apellido" value="<?php echo $data['apellido'] ?? ''?>">
+            </div>
+            <label for="email" class="form__label form__label--required">Correo electrónico</label><br>
+            <div class="input-group mb-3">
+                <span class="form__icon input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                <input type="text" name="email" class="form__input form__input--item form-control"
+                    placeholder="ejemplo@correo.com" aria-label="Correo electrónico"
+                    value="<?php echo $data['correo_electronico'] ?? '' ?>">
+            </div>
+        </div>
 
-                    </div>
-                    <hr class="form__separator">
-                    <div class="row form__row">
-                        <div class="col-12 col-lg-4 form__col form__col--title">
-                            <span class="form__subtitle">Datos de la cuenta: </span>
-                        </div>
-                        <div class="col-12 col-lg-8 form__col form__col--inputs">
-                            <label for="user" class="form__label form__label--required">Usuario</label><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <input type="text" name="user" class="form__input form__input--item form-control"
-                                    placeholder="¿Como se llama tu niño/a? 🤔" aria-label="Username"
-                                    aria-describedby="basic-addon1" value="<?php echo $data['usuario'] ?? '' ?> ">
-                            </div>
-                            <?php
-                            echo $title != 'Agregar' ? "<small>Si no desea cambiar su contraseña, deja los campos de 'Contraseña' y 'Confirma contraseña' vacíos.</small> <br>" : '';
-                            ?>
-                            <label for="password"
-                                class="form__label <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Contraseña</label><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <input type="password" name="password"
-                                    class="form__input form__input--item form-control" placeholder="Usuario"
-                                    aria-label="Username" aria-describedby="basic-addon1" value="">
-                            </div>
-                            <label for="confirm-password" class="form__label 
-                                <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Confirmar
-                                contraseña</label><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <input type="password" name="confirm-password"
-                                    class="form__input form__input--item form-control" placeholder="Usuario"
-                                    aria-label="Username" aria-describedby="basic-addon1" value="">
-                            </div>
-                            <div>
-                                <label for="status">Estado de la cuenta</label>
-                                <input type="checkbox" name="status" value="1" id="status" <?php
-                                if ($title != 'Agregar') {
-                                    echo $data['estado'] == 1 ? 'checked' : '';
-                                }
-                                ?>>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    </div>
+    <hr class="form__separator">
+    <div class="row form__row">
+        <div class="col-12 col-lg-4 form__col form__col--title">
+            <span class="form__subtitle">Datos de la cuenta: </span>
+        </div>
+        <div class="col-12 col-lg-8 form__col form__col--inputs">
+            <label for="user" class="form__label form__label--required">Usuario</label><br>
+            <div class="input-group mb-3">
+                <span class="form__icon input-group-text"><i class="bi bi-person-fill"></i></span>
+                <input type="text" name="user" class="form__input form__input--item form-control"
+                    placeholder="Tu nombre de usuario" aria-label="Nombre de usuario"
+                    value="<?php echo $data['usuario'] ?? '' ?>">
+            </div>
+            <?php
+            echo $title != 'Agregar' ? "<small>Para cambiar tu contraseña, ingresa una nueva. De lo contrario, deja los campos vacíos.</small> <br>" : '';
+            ?>
+            <label for="password"
+                class="form__label <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Contraseña</label><br>
+            <div class="input-group mb-3">
+                <span class="form__icon input-group-text"><i class="bi bi-lock-fill"></i></span>
+                <input type="password" name="password"
+                    class="form__input form__input--item form-control" placeholder="Crea una contraseña"
+                    aria-label="Contraseña" value="">
+            </div>
+            <label for="confirm-password" class="form__label 
+                <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Confirmar
+                contraseña</label><br>
+            <div class="input-group mb-3">
+                <span class="form__icon input-group-text"><i class="bi bi-shield-lock"></i></span>
+                <input type="password" name="confirm-password"
+                    class="form__input form__input--item form-control" placeholder="Confirma tu contraseña"
+                    aria-label="Confirmar contraseña" value="">
+            </div>
+            <div>
+                <label for="status">Estado de la cuenta</label>
+                <input type="checkbox" name="status" value="1" id="status" <?php
+                if ($title != 'Agregar') {
+                    echo $data['estado'] == 1 ? 'checked' : '';
+                }
+                ?>>
+            </div>
+        </div>
+    </div>
+</div>
                 <hr class="form__separator">
                 <div class="flex-center-full form__actions gap-3">
                     <button class="form__button button--back" type="button">
 
-                        <a href="<?php echo $button_back ?>guests/1" class="text-black text-decoration-none"> <i
-                                class="bi bi-arrow-left-square"></i> Regresar</a>
+                        <a href="<?php echo $button_back ?>guests/1" class="text-black text-decoration-none"> 
+                            <i class="bi bi-arrow-left-square-fill"></i>Regresar</a>
                     </button>
-                    <button class="form__button form__button--submit" type="submit">Actualizar datos</button>
+                    <button class="form__button form__button--submit" type="submit"><i class="bi bi-check-circle-fill"></i>Actualizar datos</button>
                 </div>
             </form>
         </div>
@@ -156,9 +147,7 @@
     <script src="<?php echo $js_jump ?>js/components/presentation_system_web.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/cdn.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/components/location_user.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+  
 </body>
 
 </html>

@@ -4,7 +4,7 @@
     </strong>
     <nav class="configuration-profile__nav nav">
         <div class="nav__item">
-            <i class="nav__icon bi bi-person"></i>
+            <i class="nav__icon bi bi-person-lines-fill"></i>
             <a href="./profile" class="nav__link">Perfil</a>
         </div>
     </nav>

@@ -203,19 +203,16 @@ function fc_number_format($number)
                     </div>
                     <div class="expenses-income__every-month w-100">
                         <hr>
-                        <div>
-                            <span for="month" class="form__label form__label--required fs-3 text-blue"><b>Resumen de
-                                    ingresos o egresos anual</b></span><br>
-                            <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <select id="month" name="month" class="form-control form__select form__select--bar"
-                                    required>
-                                    <option value="1">Ingresos</option>
-                                    <option value="2">Egresos</option>
-                                </select>
-                            </div>
-                        </div>
+                       <div>
+    <span for="type" class="form__label form__label--required fs-3 text-blue"><b>Resumen Anual por Tipo de Transacción</b></span><br>
+    <div class="input-group mb-3">
+        <span class="form__icon input-group-text"><i class="bi bi-graph-up"></i></span>
+        <select id="type" name="type" class="form-control form__select form__select--bar" required>
+            <option value="1">Ingresos</option>
+            <option value="2">Egresos</option>
+        </select>
+    </div>
+</div>
                         <canvas id="myChart2"></canvas>
                         <canvas id="myChart3" style="display: none;"></canvas>
                         <?php
@@ -323,9 +320,7 @@ function fc_number_format($number)
     <script src="../../../js/components/location_user.js" type="module"></script>
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+ 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
