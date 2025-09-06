@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-08-2025 a las 23:20:14
+-- Tiempo de generación: 06-09-2025 a las 02:50:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -103,8 +103,8 @@ CREATE TABLE `egresos` (
 --
 
 INSERT INTO `egresos` (`id_egreso`, `id_categoria_egreso`, `egreso`) VALUES
-(17, 4, 'Gastos'),
-(25, 2, 'gas');
+(17, 4, 'Otros gastos'),
+(25, 2, 'Educación');
 
 --
 -- Disparadores `egresos`
@@ -137,10 +137,7 @@ CREATE TABLE `ingresos` (
 
 INSERT INTO `ingresos` (`id_ingreso`, `ingreso`) VALUES
 (7, 'Otros'),
-(14, '4'),
-(15, '5'),
-(16, '54'),
-(20, 'gas');
+(20, 'Emprendimiento');
 
 --
 -- Disparadores `ingresos`
@@ -176,12 +173,11 @@ CREATE TABLE `invitados` (
 --
 
 INSERT INTO `invitados` (`id_invitado`, `id_usuario`, `id_persona`, `nombre`, `apellido`, `correo_electronico`) VALUES
-(24, 98, 18, 'Yane', 'Perdomo', 'perdomopaolabarrio@gmial.com'),
 (25, 99, 18, 'Edgar', 'Maldonado', 'edgarMaldonado@gmail.com'),
 (26, 100, 18, 'Dustin', 'Perdomo', 'dustinJamePerdomo@gmail.com'),
-(27, 101, 18, 'Antonio', 'Perdomo', 'antonioperdomo1955@gmail.com'),
+(27, 101, 18, 'Moises', 'Bastos', 'moisesBastos123@gmail.com'),
 (28, 102, 18, 'Yaneri', 'Perdomo', 'perdomopaolabarrios@gmail.com'),
-(29, 103, 18, 'Glisdaly', 'Barrios', 'glisdalybarrios@gmail.com');
+(29, 103, 18, 'Lionel ', 'Messi ', 'lionelmessi@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -204,7 +200,7 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id_persona`, `id_actividad`, `id_usuario`, `nombre`, `apellido`, `correo_electronico`) VALUES
-(18, 1, 97, 'Yaneri', 'Perdomo', 'perdomopaolabarrios@gmail.com');
+(18, 2, 97, 'Yaneri', 'Perdomo', 'perdomopaolabarrios@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -226,7 +222,8 @@ CREATE TABLE `presupuestos_ahorros` (
 --
 
 INSERT INTO `presupuestos_ahorros` (`id_presupuesto_ahorro`, `id_persona`, `monto_total`, `porcentaje_ahorro`, `fecha`) VALUES
-(6, 18, 241.000, 15, '2025-08-20');
+(6, 18, 241.000, 88, '2025-08-20'),
+(7, 18, 230.000, 14, '2025-09-02');
 
 -- --------------------------------------------------------
 
@@ -274,7 +271,8 @@ INSERT INTO `transacciones` (`id_transaccion`, `id_persona`, `id_egreso`, `id_in
 (70, 18, NULL, 20, '2025-08-20', 200.000, ''),
 (72, 18, NULL, 20, '2025-08-20', 129.000, ''),
 (74, 18, NULL, 20, '2025-08-20', 12.000, ''),
-(75, 18, 25, NULL, '2025-08-20', 100.000, '');
+(75, 18, 25, NULL, '2025-08-20', 100.000, ''),
+(76, 18, NULL, 20, '2025-09-02', 230.000, '');
 
 -- --------------------------------------------------------
 
@@ -298,14 +296,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `usuario`, `clave`, `fecha_creacion`, `ultimo_acceso`, `estado`) VALUES
-(1, 2, 'admin', '$2y$10$HrubAVVL/nMLdWMct2T0lOocEua.zc0vFLzsF4NSvawnFqeurTrb.', NULL, '2025-08-20 17:05:22', b'1'),
-(97, 1, 'Yaya', '$2y$10$wPIHjBdynRMlqBMOjuk5H.sXXR4t5rh4DGq1i4WaR1hoP4Mw1ONnu', '2025-08-20 16:59:24', '2025-08-20 17:15:59', b'1'),
-(98, 3, 'Yayi', '$2y$10$DHADZ0gV14lHeAe5ze0/n.PtlWDOcjImAwKB8GuM2avbgKrYz6Yzi', '2025-08-20 17:08:33', NULL, b'1'),
-(99, 3, 'edgarMaldonado2001', '$2y$10$eD23crygaNiQ9DOHjlpp5.xd4stpTXgJhfparlogr8s3pJx1l3QGq', '2025-08-20 17:12:32', '2025-08-20 17:15:47', b'1'),
+(1, 2, 'admin', '$2y$10$HrubAVVL/nMLdWMct2T0lOocEua.zc0vFLzsF4NSvawnFqeurTrb.', '2025-09-01 20:49:55', '2025-09-05 20:44:42', b'1'),
+(97, 1, 'Yaya', '$2y$10$wPIHjBdynRMlqBMOjuk5H.sXXR4t5rh4DGq1i4WaR1hoP4Mw1ONnu', '2025-08-20 16:59:24', '2025-09-05 20:47:17', b'1'),
+(99, 3, 'edgarMaldonado2001', '$2y$10$eD23crygaNiQ9DOHjlpp5.xd4stpTXgJhfparlogr8s3pJx1l3QGq', '2025-08-20 17:12:32', '2025-09-05 20:40:04', b'1'),
 (100, 3, 'dustinJame', '$2y$10$ZDaKOtEEBYZDcxJs3m3ws.sTNamqcegdh5apdIVBuoxuTkkET0kei', '2025-08-20 17:13:49', NULL, b'1'),
-(101, 3, 'antonio', '$2y$10$4YZfxiEfvPOdfWg7OcAr7uigE6vhjwcATAAsfdezPSk7DmsMbcyvK', '2025-08-20 17:14:17', NULL, b'1'),
+(101, 3, 'Moises', '$2y$10$4YZfxiEfvPOdfWg7OcAr7uigE6vhjwcATAAsfdezPSk7DmsMbcyvK', '2025-08-20 17:14:17', NULL, b'1'),
 (102, 3, 'Yaneri2024', '$2y$10$VlKeXXIEDjARZU04hk8dn.BRcRs0ph.qe3u7hRI5m4MOgliynUmsS', '2025-08-20 17:14:42', NULL, b'1'),
-(103, 3, 'glisdaly', '$2y$10$Vf7vs2gdE8tYEkcL.wRb1esXuHQcPh.KdPt.wHclCZIsi00mc/MmW', '2025-08-20 17:15:13', NULL, b'1');
+(103, 3, 'Messi37', '$2y$10$Vf7vs2gdE8tYEkcL.wRb1esXuHQcPh.KdPt.wHclCZIsi00mc/MmW', '2025-08-20 17:15:13', NULL, b'1');
 
 --
 -- Índices para tablas volcadas
@@ -429,7 +426,7 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `presupuestos_ahorros`
 --
 ALTER TABLE `presupuestos_ahorros`
-  MODIFY `id_presupuesto_ahorro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_presupuesto_ahorro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -441,7 +438,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
-  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

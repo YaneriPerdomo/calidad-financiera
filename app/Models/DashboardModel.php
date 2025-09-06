@@ -51,11 +51,29 @@ class DashboardModel extends Database
       $date_creation_query = 'SELECT fecha_creacion FROM usuarios WHERE id_usuario =:id_user';
       $date_creation_stmt = $this->pdo->prepare($date_creation_query);
       $date_creation_stmt->bindParam('id_user', $_SESSION['id_usuario'], PDO::PARAM_INT);
+
       $date_creation_stmt->execute();
       $get_date_create = $date_creation_stmt->fetch(PDO::FETCH_ASSOC);
       $this->fechaCreacion = $get_date_create['fecha_creacion'];
     } else {
       $id_person = $_SESSION['id_persona'];
+      $get_id_person_query = 'SELECT id_usuario FROM personas WHERE id_persona =:id_person';
+      $get_id_person_stmt = $this->pdo->prepare($get_id_person_query);
+      $get_id_person_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
+      $get_id_person_stmt->execute();
+      $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
+      $id_user = $row_id_person['id_usuario'];
+
+      $date_creation_query = 'SELECT fecha_creacion FROM usuarios WHERE id_usuario =:id_user';
+      $date_creation_stmt = $this->pdo->prepare($date_creation_query);
+      $date_creation_stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
+
+      $date_creation_stmt->execute();
+      $get_date_create = $date_creation_stmt->fetch(PDO::FETCH_ASSOC);
+      $this->fechaCreacion = $get_date_create['fecha_creacion'];
+
+
+
     }
 
     $get_annual_budget_query = 'SELECT 
@@ -197,7 +215,7 @@ class DashboardModel extends Database
 
     if ($get_ahorro_anual_stmt->rowCount() > 0) {
       return $this->data_ahorro = $get_ahorro_anual_stmt->fetchAll(PDO::FETCH_ASSOC);
-    }  
+    }
   }
   public function GetEachMonthTotalGraduation($year, $type_rol)
   {

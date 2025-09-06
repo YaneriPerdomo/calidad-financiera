@@ -16,12 +16,13 @@ function fc_number_format($number)
     <link rel="stylesheet" href="../../../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../../../public/css/components/_header.css">
     <link rel="stylesheet" href="../../../../public/css/components/_body.css">
-    <link rel="stylesheet" href="../../../../public/css/pages/_dashboard.css">
+    <link rel="stylesheet" href="../../../../public/css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="../../../../public/css/components/_sidebar.css">
     <link rel="stylesheet" href="../../../../public/css/pages/_about.css">
     <link rel="stylesheet" href="../../../../public/css/utilities.css">
     <link rel="stylesheet" href="../../../../public/css/layouts/_base.css">
     <link rel="stylesheet" href="../../../../public/css/layouts/_ico.css">
+    <link rel="stylesheet" href="../../../../public/css/pages/_dashboard.css">
     <link rel="icon" type="image/x-icon" href="../../../../public/img/logo.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -29,17 +30,21 @@ function fc_number_format($number)
 
 <body>
     <?php
+    include '../resources/views/components/presentation.php';
+    ?>
+    <?php
     include '../resources/views/components/guest/header.php';
     ?>
     <main class="main main--content-login">
         <?php
         include '../resources/views/components/guest/sidebar.php';
         ?>
+
         <article class="style-border control-panel">
             <div class="control-panel__row row">
-                <div class="col-lg-6 col-12 ">
+                <div class="col-xl-6 col-12 ">
                     <div class="row flex-center-full">
-                        <div class="col-lg-6 col-12 ">
+                        <div class="col-xl-6 col-12 ">
                             <div class="month">
                                 <span for="month" class="form__label form__label--required"><i>Mes
                                         seleccionado</i></span><br>
@@ -97,7 +102,7 @@ function fc_number_format($number)
 
                             </div>
                         </div>
-                        <div class="col-lg-6 col-12 ">
+                        <div class="col-xl-6 col-12 ">
                             <a href="" class="text-decoration-none button--search">Consultar</a>
                         </div>
                         <script>
@@ -165,7 +170,7 @@ function fc_number_format($number)
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12 ">
+                <div class="col-xl-6 col-12 ">
                     <div class="d-flex gap-4 bg-blue p-3 flex-wrap">
                         <div>
                             <span class="fs-3 text-white"><b>Ingresos</b></span>
@@ -189,7 +194,7 @@ function fc_number_format($number)
 
                                 ?> Bs</b></data>
                         </div>
-                         
+
                         <div>
                             <span class="fs-3 text-white"><b>Ahorro</b></span>
                             <p class="text-white">Ahorro anual total</p>
@@ -202,12 +207,11 @@ function fc_number_format($number)
                     <div class="expenses-income__every-month w-100">
                         <hr>
                         <div>
-                            <span for="month" class="form__label form__label--required fs-3 text-blue"><b>Resumen de
-                                    ingresos o egresos anual</b></span><br>
+                            <span for="type" class="form__label form__label--required fs-3 text-blue"><b>Resumen Anual
+                                    por Tipo de Transacción</b></span><br>
                             <div class="input-group mb-3">
-                                <span class="form__icon input-group-text" id="basic-addon1"><i
-                                        class="bi bi-person"></i></span>
-                                <select id="month" name="month" class="form-control form__select form__select--bar"
+                                <span class="form__icon input-group-text"><i class="bi bi-graph-up"></i></span>
+                                <select id="type" name="type" class="form-control form__select form__select--bar"
                                     required>
                                     <option value="1">Ingresos</option>
                                     <option value="2">Egresos</option>
@@ -314,10 +318,267 @@ function fc_number_format($number)
     ?>
 
 
+    <script src="../../../js/components/presentation_system_web.js" type="module"></script>
+
     <script src="../../../js/components/location_guest.js" type="module"></script>
 
-    <script src="../../../js/cdn.js" type="module"></script>
- 
+    </script>
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+ 
+<script src="../../../js/cdn.js" type="module"></script>
 
 </html>
+
+<script>
+    const ctx = document.getElementById('myChart');
+    const $VALUE_BUDGET = document.querySelector('.monthly-data-total__value--budget');
+    const $VALUE_INCOME = document.querySelector(".monthly-data-total__value--income");
+
+    // Helper function to correctly parse numbers with ',' as a decimal separator
+    function parseVEF(value) {
+        if (typeof value === 'string') {
+            return parseFloat(value.replace(/\./g, '').replace(',', '.'));
+        }
+        return parseFloat(value);
+    }
+
+    // Get the canvas parent to hide it
+    const canvasContainer = ctx.parentNode;
+    
+    // Get and parse the budget and income values
+    const budgetValue = $VALUE_BUDGET ? parseVEF($VALUE_BUDGET.value) || 0 : 0;
+    const incomeValue = $VALUE_INCOME ? parseVEF($VALUE_INCOME.value) || 0 : 0;
+
+    // Conditionally hide the doughnut chart if there are no values
+    if (budgetValue === 0 && incomeValue === 0) {
+        canvasContainer.style.display = 'none';
+    } else {
+        // Calculate percentages
+        const total = budgetValue + incomeValue;
+        let percentage_expenses = 0;
+        let percentage_income = 0;
+        
+        if (total > 0) {
+            percentage_expenses = (budgetValue / total) * 100;
+            percentage_income = (incomeValue / total) * 100;
+        }
+
+        // Initialize the doughnut chart
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ingresos', 'Egresos'],
+                datasets: [{
+                    label: '',
+                    data: [percentage_income, percentage_expenses],
+                    backgroundColor: [
+                        '#2fac2f',
+                        'rgb(242, 69, 69)',
+                    ],
+                    borderColor: [
+                        '#2fac2f',
+                        'rgb(242, 69, 69)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.raw || 0;
+                                return ` ${value.toFixed(2)}%`;
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribución de ingresos/egresos'
+                    }
+                }
+            }
+        });
+    }
+
+    const ctx3_ = document.getElementById('myChart3');
+    const ctx4_ = document.getElementById('myChart4');
+    const ctx2_ = document.getElementById('myChart2');
+
+    // Parse data for the income bar chart
+    const $data_month = document.querySelectorAll('[data-month-income]');
+    const incomeData = Array.from($data_month).map(element => parseVEF(element.textContent));
+
+    const miGrafico = new Chart(ctx2_, {
+        type: 'bar',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: [{
+                label: 'Resumen de ingresos anual',
+                data: incomeData,
+                backgroundColor: ['#2fac2f'],
+                borderColor: ['#2fac2f'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: false,
+                        text: 'Cantidad'
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return value.toLocaleString('es-VE', {
+                                style: 'currency',
+                                currency: 'VEF',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mes'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                title: {
+                    display: false,
+                    text: 'Resumen de ingresos anual',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    });
+
+    // Parse data for the graduation bar chart
+    const $data_month_graduation = document.querySelectorAll('[data-month-graduation]');
+    const graduationData = Array.from($data_month_graduation).map(element => parseVEF(element.textContent));
+    const miGrafico_ = new Chart(ctx3_, {
+        type: 'bar',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: [{
+                label: 'Resumen de egresos mensual',
+                data: graduationData,
+                backgroundColor: ['rgb(242, 69, 69)'],
+                borderColor: ['rgb(242, 69, 69)'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: false,
+                        text: 'Cantidad'
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return value.toLocaleString('es-VE', {
+                                style: 'currency',
+                                currency: 'VEF',
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mes'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                title: {
+                    display: false,
+                    text: 'Resumen de egresos anual',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    });
+
+    const $data_value_all_income_name = document.querySelectorAll('[data-value-bs-all-income]');
+    const data_all_income_name = [];
+    const data_all_income_value = [];
+
+    $data_value_all_income_name.forEach(element => {
+        data_all_income_name.push(element.textContent);
+        data_all_income_value.push(parseVEF(element.getAttribute('data-value-bs-all-income')));
+    });
+
+    const miGrafico_4 = new Chart(ctx4_, {
+        type: 'pie',
+        data: {
+            labels: data_all_income_name,
+            datasets: [{
+                label: '',
+                data: data_all_income_value,
+                borderColor: ['white'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                colors: {
+                    forceOverride: true
+                },
+                title: {
+                    display: false,
+                    text: 'Ejemplo de Gráfico de Pastel'
+                }
+            }
+        }
+    });
+
+    const $FORM_SELECT_BAR = document.querySelector('.form__select--bar');
+    $FORM_SELECT_BAR.addEventListener('change', e => {
+        const value_selected = e.target.value;
+        switch (value_selected) {
+            case '1':
+                ctx3_.style.display = 'none';
+                ctx2_.removeAttribute('style');
+                break;
+            case '2':
+                ctx2_.style.display = 'none';
+                ctx3_.removeAttribute('style');
+                break;
+            default:
+                break;
+        }
+    });
+</script>
+<script src="../../../js/cdn.js" type="module"></script>

@@ -23,7 +23,7 @@
 
 <body>
     <?php
-    include '../resources/views/components/user/header.php';
+    include '../resources/views/components/guest/header.php';
     ?>
     <main class="main">
         <?php

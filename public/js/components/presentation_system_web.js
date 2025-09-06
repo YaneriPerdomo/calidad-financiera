@@ -1,4 +1,5 @@
 setTimeout(() => {
   let presentationStart = document.querySelector(".presentation");
-  presentationStart.style.display = "none";
+
+  presentationStart.remove();
 }, 1500);

@@ -39,9 +39,9 @@ function fc_number_format($number)
 
         <article class="style-border control-panel">
             <div class="control-panel__row row">
-                <div class="col-lg-6 col-12 ">
+                <div class="col-xl-6 col-12 ">
                     <div class="row flex-center-full">
-                        <div class="col-lg-6 col-12 ">
+                        <div class="col-xl-6 col-12 ">
                             <div class="month">
                                 <span for="month" class="form__label form__label--required"><i>Mes
                                         seleccionado</i></span><br>
@@ -99,7 +99,7 @@ function fc_number_format($number)
 
                             </div>
                         </div>
-                        <div class="col-lg-6 col-12 ">
+                        <div class="col-xl-6 col-12 ">
                             <a href="" class="text-decoration-none button--search">Consultar</a>
                         </div>
                         <script>
@@ -167,7 +167,7 @@ function fc_number_format($number)
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12 ">
+                <div class="col-xl-6 col-12 ">
                     <div class="d-flex gap-4 bg-blue p-3 flex-wrap">
                         <div>
                             <span class="fs-3 text-white"><b>Ingresos</b></span>
@@ -324,111 +324,116 @@ function fc_number_format($number)
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
 <script>
     const ctx = document.getElementById('myChart');
     const $VALUE_BUDGET = document.querySelector('.monthly-data-total__value--budget');
     const $VALUE_INCOME = document.querySelector(".monthly-data-total__value--income");
 
-    // Verificar que los elementos existen y tienen valores
-    let budgetValue = $VALUE_BUDGET ? parseFloat($VALUE_BUDGET.value) || 0 : 0;
-    let incomeValue = $VALUE_INCOME ? parseFloat($VALUE_INCOME.value) || 0 : 0;
-
-    // Calcular porcentajes con manejo de división por cero
-    let percentage_expenses = 0;
-    let percentage_income = 100;
-
-    if (incomeValue > 0) {
-        percentage_expenses = (budgetValue / incomeValue) * 100;
-        percentage_income = 100 - percentage_expenses;
+    // Helper function to correctly parse numbers with ',' as a decimal separator
+    function parseVEF(value) {
+        if (typeof value === 'string') {
+            return parseFloat(value.replace(/\./g, '').replace(',', '.'));
+        }
+        return parseFloat(value);
     }
 
-    // Asegurarse que los porcentajes estén entre 0 y 100
-    percentage_expenses = Math.min(100, Math.max(0, percentage_expenses));
-    percentage_income = Math.min(100, Math.max(0, percentage_income));
-    const ctx_ = new Chart(ctx, {
-        type: 'doughnut', // Tipo de gráfico
-        data: {
-            labels: ['Ingresos', 'Egresos'],
-            datasets: [{
-                label: '',
-                data: [percentage_income, percentage_expenses],
-                backgroundColor: [
-                    '#2fac2f',
-                    'rgb(242, 69, 69)',
-                ],
-                borderColor: [
-                    '#2fac2f',
-                    'rgb(242, 69, 69)',
+    // Get the canvas parent to hide it
+    const canvasContainer = ctx.parentNode;
+    
+    // Get and parse the budget and income values
+    const budgetValue = $VALUE_BUDGET ? parseVEF($VALUE_BUDGET.value) || 0 : 0;
+    const incomeValue = $VALUE_INCOME ? parseVEF($VALUE_INCOME.value) || 0 : 0;
 
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            const label = context.label || ''; // "Ingresos" o "Egresos"
-                            const value = context.raw || 0; // El valor numérico (ej: 40)
-                            return ` ${value.toFixed(2)}%`; // Formato: "Ingresos: 40.00%"
+    // Conditionally hide the doughnut chart if there are no values
+    if (budgetValue === 0 && incomeValue === 0) {
+        canvasContainer.style.display = 'none';
+    } else {
+        // Calculate percentages
+        const total = budgetValue + incomeValue;
+        let percentage_expenses = 0;
+        let percentage_income = 0;
+        
+        if (total > 0) {
+            percentage_expenses = (budgetValue / total) * 100;
+            percentage_income = (incomeValue / total) * 100;
+        }
+
+        // Initialize the doughnut chart
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ingresos', 'Egresos'],
+                datasets: [{
+                    label: '',
+                    data: [percentage_income, percentage_expenses],
+                    backgroundColor: [
+                        '#2fac2f',
+                        'rgb(242, 69, 69)',
+                    ],
+                    borderColor: [
+                        '#2fac2f',
+                        'rgb(242, 69, 69)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.raw || 0;
+                                return ` ${value.toFixed(2)}%`;
+                            }
                         }
+                    },
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribución de ingresos/egresos'
                     }
-                },
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Distribución de ingresos/egresos'
                 }
             }
-        }
-    });
-
+        });
+    }
 
     const ctx3_ = document.getElementById('myChart3');
     const ctx4_ = document.getElementById('myChart4');
     const ctx2_ = document.getElementById('myChart2');
-    let $data_month = document.querySelectorAll('[data-month-income]');
-    console.info($data_month[3].textContent)
+
+    // Parse data for the income bar chart
+    const $data_month = document.querySelectorAll('[data-month-income]');
+    const incomeData = Array.from($data_month).map(element => parseVEF(element.textContent));
+
     const miGrafico = new Chart(ctx2_, {
         type: 'bar',
         data: {
             labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             datasets: [{
-                label: 'Resumen de ingresos anual', // Puedes cambiar la etiqueta
-                data: [$data_month[0].textContent,
-                $data_month[1].textContent,
-                parseFloat($data_month[2].textContent),
-                $data_month[3].textContent,
-                $data_month[4].textContent,
-                $data_month[5].textContent,
-                $data_month[6].textContent,
-                $data_month[7].textContent,
-                $data_month[8].textContent,
-                $data_month[9].textContent,
-                $data_month[10].textContent,
-                $data_month[11].textContent,
-
-                ], // Aquí van tus datos
-                backgroundColor: ['#2fac2f',], // Color de las barras
-                borderColor: ['#2fac2f',], // Color del borde de las barras
+                label: 'Resumen de ingresos anual',
+                data: incomeData,
+                backgroundColor: ['#2fac2f'],
+                borderColor: ['#2fac2f'],
                 borderWidth: 2
             }]
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: true, // Inicia el eje Y en 0
+                    beginAtZero: true,
                     title: {
                         display: false,
-                        text: 'Cantidad' // Etiqueta del eje Y
+                        text: 'Cantidad'
                     },
                     ticks: {
                         callback: function (value, index, values) {
                             return value.toLocaleString('es-VE', {
+                                style: 'currency',
+                                currency: 'VEF',
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             });
@@ -438,18 +443,18 @@ function fc_number_format($number)
                 x: {
                     title: {
                         display: true,
-                        text: 'Mes' // Etiqueta del eje X
+                        text: 'Mes'
                     }
                 }
             },
             plugins: {
                 legend: {
-                    display: true, // Muestra la leyenda
-                    position: 'top' // Posición de la leyenda (top, bottom, left, right)
+                    display: true,
+                    position: 'top'
                 },
                 title: {
                     display: false,
-                    text: 'Resumen de ingresos anual', // Título del gráfico
+                    text: 'Resumen de ingresos anual',
                     font: {
                         size: 16
                     }
@@ -458,47 +463,34 @@ function fc_number_format($number)
         }
     });
 
-    let $data_month_graduation = document.querySelectorAll('[data-month-graduation]');
+    // Parse data for the graduation bar chart
+    const $data_month_graduation = document.querySelectorAll('[data-month-graduation]');
+    const graduationData = Array.from($data_month_graduation).map(element => parseVEF(element.textContent));
     const miGrafico_ = new Chart(ctx3_, {
         type: 'bar',
         data: {
             labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             datasets: [{
-                label: 'Resumen de egresos mensual', // Puedes cambiar la etiqueta
-                data: [$data_month_graduation[0].textContent,
-                $data_month_graduation[1].textContent,
-                parseFloat($data_month_graduation[2].textContent),
-                $data_month_graduation[3].textContent,
-                $data_month_graduation[4].textContent,
-                $data_month_graduation[5].textContent,
-                $data_month_graduation[6].textContent,
-                $data_month_graduation[7].textContent,
-                $data_month_graduation[8].textContent,
-                $data_month_graduation[9].textContent,
-                $data_month_graduation[10].textContent,
-                $data_month_graduation[11].textContent,
-
-                ], // Aquí van tus datos
-                backgroundColor: ['rgb(242, 69, 69)',
-
-                ], // Color de las barras
-                borderColor: [
-                    'rgb(242, 69, 69'
-                ], // Color del borde de las barras
+                label: 'Resumen de egresos mensual',
+                data: graduationData,
+                backgroundColor: ['rgb(242, 69, 69)'],
+                borderColor: ['rgb(242, 69, 69)'],
                 borderWidth: 2
             }]
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: true, // Inicia el eje Y en 0
+                    beginAtZero: true,
                     title: {
                         display: false,
-                        text: 'Cantidad' // Etiqueta del eje Y
+                        text: 'Cantidad'
                     },
                     ticks: {
                         callback: function (value, index, values) {
                             return value.toLocaleString('es-VE', {
+                                style: 'currency',
+                                currency: 'VEF',
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             });
@@ -508,18 +500,18 @@ function fc_number_format($number)
                 x: {
                     title: {
                         display: true,
-                        text: 'Mes' // Etiqueta del eje X
+                        text: 'Mes'
                     }
                 }
             },
             plugins: {
                 legend: {
-                    display: true, // Muestra la leyenda
-                    position: 'top' // Posición de la leyenda (top, bottom, left, right)
+                    display: true,
+                    position: 'top'
                 },
                 title: {
                     display: false,
-                    text: 'Resumen de egresos anual', // Título del gráfico
+                    text: 'Resumen de egresos anual',
                     font: {
                         size: 16
                     }
@@ -528,30 +520,23 @@ function fc_number_format($number)
         }
     });
 
-    let $data_value_all_income_name = document.querySelectorAll('[data-value-bs-all-income]');
-
-    let data_all_income_name = [];
-    let data_all_income_value = [];
-    $data_value_all_income_name.forEach(element => {
-        data_all_income_name.push(element.textContent)
-    })
+    const $data_value_all_income_name = document.querySelectorAll('[data-value-bs-all-income]');
+    const data_all_income_name = [];
+    const data_all_income_value = [];
 
     $data_value_all_income_name.forEach(element => {
-        data_all_income_value.push(element.getAttribute('data-value-bs-all-income'))
-    })
+        data_all_income_name.push(element.textContent);
+        data_all_income_value.push(parseVEF(element.getAttribute('data-value-bs-all-income')));
+    });
 
-    console.info(data_all_income_name)
     const miGrafico_4 = new Chart(ctx4_, {
-        type: 'pie', // Tipo de gráfico
+        type: 'pie',
         data: {
             labels: data_all_income_name,
             datasets: [{
                 label: '',
                 data: data_all_income_value,
-
-                borderColor: [
-                    'white',
-                ],
+                borderColor: ['white'],
                 borderWidth: 2
             }]
         },
@@ -561,7 +546,6 @@ function fc_number_format($number)
                 legend: {
                     position: 'top',
                 },
-
                 colors: {
                     forceOverride: true
                 },
@@ -573,27 +557,23 @@ function fc_number_format($number)
         }
     });
 
-
-
     const $FORM_SELECT_BAR = document.querySelector('.form__select--bar');
     $FORM_SELECT_BAR.addEventListener('change', e => {
-        let value_selected = e.target.value;
-        console.info(value_selected)
+        const value_selected = e.target.value;
         switch (value_selected) {
             case '1':
-                ctx3_.style.display = 'none'
+                ctx3_.style.display = 'none';
                 ctx2_.removeAttribute('style');
                 break;
             case '2':
-                ctx2_.style.display = 'none'
+                ctx2_.style.display = 'none';
                 ctx3_.removeAttribute('style');
                 break;
             default:
                 break;
         }
-    })
+    });
 </script>
-
 
 <script src="../../../js/cdn.js" type="module"></script>
 
