@@ -28,7 +28,9 @@ Sigue estos pasos para configurar el proyecto en tu servidor local.
     * Este proceso descargará automáticamente las dependencias definidas en el archivo `composer.json`.
 
 3.  **Configuración del Servidor Web (Importante para el patrón MVC):**
-    * Debido a que el proyecto sigue el patrón de diseño **MVC (Modelo-Vista-Controlador)**, es crucial que la carpeta pública sea el punto de entrada a tu aplicación. Esto garantiza que las URLs sean seguras y que la lógica del sistema funcione correctamente.
+    * Debido a que el proyecto sigue el patrón de diseño **MVC (Modelo-Vista-Controlador)**, es crucial que la
+    carpeta pública sea el punto de entrada del sistema web. Esto garantiza que las URLs sean seguras y que la 
+    lógica del sistema funcione correctamente.
     * Para acceder a la aplicación desde el navegador, la URL debe apuntar a la carpeta `public`.
     * **Ejemplo de URL:**
         ```url
