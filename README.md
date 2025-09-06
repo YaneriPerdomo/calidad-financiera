@@ -20,7 +20,7 @@ Sigue estos pasos para configurar el proyecto en tu servidor local.
 
 2.  **Instalar Dependencias de PHP:**
     * Abre tu **terminal** o **línea de comandos**.
-    * Navega hasta la carpeta del proyecto que acabas de pegar en `htdocs`. Por ejemplo, `cd C:\xampp\htdocs\nombre-de-tu-proyecto`.
+    * Navega hasta la carpeta del proyecto que acabas de pegar en `htdocs`. Por ejemplo, `cd C:\xampp\htdocs\calidad-financiera`.
     * Ejecuta el siguiente comando para instalar todas las librerías necesarias:
         ```bash
         composer install
