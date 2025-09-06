@@ -36,5 +36,5 @@ Sigue estos pasos para configurar el proyecto en tu servidor local.
         ```
     * Para ir directamente a la página de inicio de sesión, usa:
         ```url
-        http://localhost/nombre-de-tu-proyecto/public/login
+        http://localhost/calidad-financiera/public/login
         ```
