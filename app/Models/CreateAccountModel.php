@@ -30,7 +30,7 @@ class CreateAccountModel extends Database
       return $this->msg = 'Por favor, rellene todos los campos';
     }
 
-    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE (usuario = :user )';
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE (usuario = :user )';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
     $search_name_user_not_you_stmt->bindParam('user', $data['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->execute();
@@ -50,7 +50,7 @@ class CreateAccountModel extends Database
     
     try {
       $this->pdo->beginTransaction();
-      $insert_user_query = 'INSERT INTO usuarios (id_rol,  usuario,  clave, fecha_creacion) 
+      $insert_user_query = 'INSERT INTO usuarios_cf (id_rol,  usuario,  clave, fecha_creacion) 
       VALUES (1,:usuario,:clave, NOW())';
       $hash = password_hash($data['password'], PASSWORD_DEFAULT);
       //$dateToday = Date('Y-m-d');

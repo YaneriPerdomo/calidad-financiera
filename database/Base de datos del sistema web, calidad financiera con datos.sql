@@ -258,7 +258,7 @@ CREATE TABLE `transacciones` (
   `id_persona` int(10) DEFAULT NULL,
   `id_egreso` int(10) DEFAULT NULL,
   `id_ingreso` int(10) DEFAULT NULL,
-  `fecha` date DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
   `valor_bs` decimal(10,3) DEFAULT 0.000,
   `notas` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -277,11 +277,11 @@ INSERT INTO `transacciones` (`id_transaccion`, `id_persona`, `id_egreso`, `id_in
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Estructura de tabla para la tabla `usuarios_cf`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
-CREATE TABLE `usuarios` (
+DROP TABLE IF EXISTS `usuarios_cf`;
+CREATE TABLE `usuarios_cf` (
   `id_usuario` int(10) NOT NULL,
   `id_rol` int(10) DEFAULT NULL,
   `usuario` varchar(45) DEFAULT NULL,
@@ -292,10 +292,10 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Volcado de datos para la tabla `usuarios_cf`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `id_rol`, `usuario`, `clave`, `fecha_creacion`, `ultimo_acceso`, `estado`) VALUES
+INSERT INTO `usuarios_cf` (`id_usuario`, `id_rol`, `usuario`, `clave`, `fecha_creacion`, `ultimo_acceso`, `estado`) VALUES
 (1, 2, 'admin', '$2y$10$HrubAVVL/nMLdWMct2T0lOocEua.zc0vFLzsF4NSvawnFqeurTrb.', '2025-09-01 20:49:55', '2025-09-05 20:44:42', b'1'),
 (97, 1, 'Yaya', '$2y$10$wPIHjBdynRMlqBMOjuk5H.sXXR4t5rh4DGq1i4WaR1hoP4Mw1ONnu', '2025-08-20 16:59:24', '2025-09-05 20:47:17', b'1'),
 (99, 3, 'edgarMaldonado2001', '$2y$10$eD23crygaNiQ9DOHjlpp5.xd4stpTXgJhfparlogr8s3pJx1l3QGq', '2025-08-20 17:12:32', '2025-09-05 20:40:04', b'1'),
@@ -375,9 +375,9 @@ ALTER TABLE `transacciones`
   ADD KEY `transacciones_ibfk_01` (`id_ingreso`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indices de la tabla `usuarios_cf`
 --
-ALTER TABLE `usuarios`
+ALTER TABLE `usuarios_cf`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `usuario` (`usuario`),
   ADD KEY `id_rol` (`id_rol`);
@@ -441,9 +441,9 @@ ALTER TABLE `transacciones`
   MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT de la tabla `usuarios_cf`
 --
-ALTER TABLE `usuarios`
+ALTER TABLE `usuarios_cf`
   MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
@@ -460,7 +460,7 @@ ALTER TABLE `egresos`
 -- Filtros para la tabla `invitados`
 --
 ALTER TABLE `invitados`
-  ADD CONSTRAINT `invitados_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `invitados_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios_cf` (`id_usuario`),
   ADD CONSTRAINT `invitados_ibfk_2` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`);
 
 --
@@ -468,7 +468,7 @@ ALTER TABLE `invitados`
 --
 ALTER TABLE `personas`
   ADD CONSTRAINT `personas_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividades` (`id_actividad`),
-  ADD CONSTRAINT `personas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+  ADD CONSTRAINT `personas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios_cf` (`id_usuario`);
 
 --
 -- Filtros para la tabla `presupuestos_ahorros`
@@ -487,10 +487,10 @@ ALTER TABLE `transacciones`
   ADD CONSTRAINT `transacciones_ibfk_5` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `usuarios`
+-- Filtros para la tabla `usuarios_cf`
 --
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`) ON DELETE CASCADE;
+ALTER TABLE `usuarios_cf`
+  ADD CONSTRAINT `usuarios_cf_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

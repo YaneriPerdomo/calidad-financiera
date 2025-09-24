@@ -26,9 +26,9 @@ class ProfileAdminModel extends Database{
         $get_data_query = 'SELECT 
                                 usuario 
                             FROM 
-                                usuarios 
+                                usuarios_cf 
                             WHERE 
-                                usuarios.id_usuario = :id_user';
+                                usuarios_cf.id_usuario = :id_user';
         try {
             $get_data_stmt = $this->pdo->prepare($get_data_query);
             $get_data_stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
@@ -44,7 +44,7 @@ class ProfileAdminModel extends Database{
             return $this->msg = 'Por favor, rellene el nombre de usuario.';
         }
         $update_user_query = 'UPDATE 
-                                usuarios 
+                                usuarios_cf 
                             SET 
                                 usuario = :usuario
                             WHERE 
@@ -67,7 +67,7 @@ class ProfileAdminModel extends Database{
         $get_password_query = 'SELECT 
                                     clave 
                                 FROM 
-                                    usuarios 
+                                    usuarios_cf 
                                 WHERE 
                                     id_usuario = :id_usuario';
         try {
@@ -78,7 +78,7 @@ class ProfileAdminModel extends Database{
             if(password_verify($POST['old-password'], $password['clave'])){
                 if($POST['new-password'] === $POST['confirm-password']){
                     $update_password_query = 'UPDATE 
-                                                usuarios 
+                                                usuarios_cf 
                                             SET 
                                                 clave = :clave 
                                             WHERE 

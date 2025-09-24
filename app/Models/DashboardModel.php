@@ -48,7 +48,7 @@ class DashboardModel extends Database
       $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
       $id_person = $row_id_person['id_persona'];
 
-      $date_creation_query = 'SELECT fecha_creacion FROM usuarios WHERE id_usuario =:id_user';
+      $date_creation_query = 'SELECT fecha_creacion FROM usuarios_cf WHERE id_usuario =:id_user';
       $date_creation_stmt = $this->pdo->prepare($date_creation_query);
       $date_creation_stmt->bindParam('id_user', $_SESSION['id_usuario'], PDO::PARAM_INT);
 
@@ -64,7 +64,7 @@ class DashboardModel extends Database
       $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
       $id_user = $row_id_person['id_usuario'];
 
-      $date_creation_query = 'SELECT fecha_creacion FROM usuarios WHERE id_usuario =:id_user';
+      $date_creation_query = 'SELECT fecha_creacion FROM usuarios_cf WHERE id_usuario =:id_user';
       $date_creation_stmt = $this->pdo->prepare($date_creation_query);
       $date_creation_stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
 

@@ -33,9 +33,9 @@ class AdminModel extends Database
                           ON 
                               actividades.id_actividad = personas.id_actividad 
                           INNER JOIN 
-                              usuarios 
+                              usuarios_cf 
                           ON 
-                              personas.id_usuario = usuarios.id_usuario 
+                              personas.id_usuario = usuarios_cf.id_usuario 
                           WHERE 
                               id_rol = 1';
     $get_persons_stmt = $this->pdo->prepare($get_persons_query);
@@ -50,29 +50,29 @@ class AdminModel extends Database
   {
     $searchUsers = "%" . $searchUsers . "%";
     $current_page = $page;
-    $count_users_query = 'SELECT COUNT(*) as total_usuarios , usuario FROM usuarios WHERE id_rol = 1 AND
+    $count_users_query = 'SELECT COUNT(*) as total_usuarios_cf , usuario FROM usuarios_cf WHERE id_rol = 1 AND
                           usuario LIKE :search';
     $count_users_stmt = $this->pdo->prepare($count_users_query);
     $count_users_stmt->bindParam(':search', $searchUsers, PDO::PARAM_STR);
     $count_users_stmt->execute();
     $row_total_users = $count_users_stmt->fetch(PDO::FETCH_ASSOC);
-    $total_records = $row_total_users["total_usuarios"];
+    $total_records = $row_total_users["total_usuarios_cf"];
     $records_page = 5;
     $total_pages = ceil($total_records / $records_page);
     $get_users_query = 'SELECT * FROM 
                             personas 
                         INNER JOIN 
-                            usuarios 
+                            usuarios_cf 
                         ON 
-                            personas.id_usuario = usuarios.id_usuario
+                            personas.id_usuario = usuarios_cf.id_usuario
                         INNER JOIN 
                             actividades
                         ON
                             personas.id_actividad = actividades.id_actividad
                         WHERE 
-                            usuarios.usuario 
+                            usuarios_cf.usuario 
                         LIKE :search
-                        ORDER BY usuarios.id_usuario DESC
+                        ORDER BY usuarios_cf.id_usuario DESC
                         LIMIT 
                             :inicio, :registros_por_pagina';
     $start = ($current_page - 1) * $records_page;
@@ -123,7 +123,7 @@ class AdminModel extends Database
       }
     } else {
       $this->HTML .= " <br>
-                                    <p>No hay usuarios registrados que coincidan con tu búsqueda.</p>
+                                    <p>No hay usuarios_cf registrados que coincidan con tu búsqueda.</p>
                                     <ul>
                                         <li>Revisa la ortografía de la palabra.</li>
                                         <li>Utiliza palabras más genéricas o menos palabras.</li>
@@ -187,25 +187,25 @@ class AdminModel extends Database
   {
 
     $current_page = $page;
-    $count_users_query = 'SELECT COUNT(*) as total_usuarios FROM usuarios WHERE id_rol = 1';
+    $count_users_query = 'SELECT COUNT(*) as total_usuarios_cf FROM usuarios_cf WHERE id_rol = 1';
     $count_users_stmt = $this->pdo->prepare($count_users_query);
     $count_users_stmt->execute();
     $row_total_users = $count_users_stmt->fetch(PDO::FETCH_ASSOC);
-    $total_records = $row_total_users["total_usuarios"];
+    $total_records = $row_total_users["total_usuarios_cf"];
     $records_page = 5;
     $total_pages = ceil($total_records / $records_page);
 
     $get_users_query = 'SELECT * FROM 
                             personas 
                         INNER JOIN 
-                            usuarios 
+                            usuarios_cf 
                         ON 
-                            personas.id_usuario = usuarios.id_usuario
+                            personas.id_usuario = usuarios_cf.id_usuario
                         INNER JOIN 
                             actividades
                         ON
                             personas.id_actividad = actividades.id_actividad
-                        ORDER BY usuarios.id_usuario DESC
+                        ORDER BY usuarios_cf.id_usuario DESC
                         LIMIT 
                             :inicio, :registros_por_pagina';
     $start = ($current_page - 1) * $records_page;
@@ -312,7 +312,7 @@ class AdminModel extends Database
 
   public function countUsers()
   {
-    $total_users_query = 'SELECT count(usuario) AS total_users FROM `usuarios` WHERE NOT id_usuario = 73';
+    $total_users_query = 'SELECT count(usuario) AS total_users FROM `usuarios_cf` WHERE NOT id_usuario = 73';
     $total_users_stmt = $this->pdo->prepare($total_users_query);
     $total_users_stmt->execute();
     $total_users_row = $total_users_stmt->fetch(PDO::FETCH_ASSOC);

@@ -24,7 +24,7 @@ class LoginModel extends Database
         $get_user_query = 'SELECT 
                       usuario , id_usuario, id_rol, clave, estado
                   FROM 
-                      usuarios 
+                      usuarios_cf 
                   WHERE 
                       usuario = :user ';
         $get_user_stmt = $this->pdo->prepare($get_user_query);
@@ -33,7 +33,7 @@ class LoginModel extends Database
           $this->user = $get_user_stmt->fetch(PDO::FETCH_ASSOC);
           if ($get_user_stmt->rowCount() > 0) {
             if (password_verify($data['password'], $this->user['clave'])) {
-                $update_last_access_query = 'UPDATE usuarios SET ultimo_acceso = NOW() WHERE id_usuario = :id_user';
+                $update_last_access_query = 'UPDATE usuarios_cf SET ultimo_acceso = NOW() WHERE id_usuario = :id_user';
                 $update_last_access_stmt = $this->pdo->prepare($update_last_access_query);
                 $update_last_access_stmt->bindParam('id_user', $this->user['id_usuario'], PDO::PARAM_INT);
                 $update_last_access_stmt->execute();

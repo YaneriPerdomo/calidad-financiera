@@ -29,15 +29,15 @@ class UserModel extends Database
     }
     try {
       $get_user_query = 'SELECT 
-                            usuarios.id_usuario, usuario, nombre, apellido, id_actividad, usuarios.estado, personas.id_persona, correo_electronico
+                            usuarios_cf.id_usuario, usuario, nombre, apellido, id_actividad, usuarios_cf.estado, personas.id_persona, correo_electronico
                         FROM 
                             personas
                         INNER JOIN
-                            usuarios
+                            usuarios_cf
                         ON  
-                            personas.id_usuario = usuarios.id_usuario
+                            personas.id_usuario = usuarios_cf.id_usuario
                         WHERE 
-                            usuarios.id_usuario = :id_usuario';
+                            usuarios_cf.id_usuario = :id_usuario';
       $get_user_stmt = $this->pdo->prepare($get_user_query);
       $get_user_stmt->bindParam('id_usuario', $id, PDO::PARAM_INT);
       $get_user_stmt->execute();
@@ -54,7 +54,7 @@ class UserModel extends Database
 
   public function update($POST = [])
   {
-    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE (usuario = :user and id_usuario != :id_user)';
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE (usuario = :user and id_usuario != :id_user)';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
     $search_name_user_not_you_stmt->bindParam('user', $POST['usuario'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->bindParam('id_user', $POST['id_usuario'], PDO::PARAM_INT);
@@ -80,8 +80,8 @@ class UserModel extends Database
       }
 
 
-      // Actualizar tabla usuarios
-      $update_user_query = 'UPDATE usuarios SET usuario = :usuario , estado = :estado WHERE id_usuario = :id_usuario';
+      // Actualizar tabla usuarios_cf
+      $update_user_query = 'UPDATE usuarios_cf SET usuario = :usuario , estado = :estado WHERE id_usuario = :id_usuario';
       $update_user_stmt = $this->pdo->prepare($update_user_query);
       $update_user_stmt->bindParam('estado', $POST['status'], PDO::PARAM_INT);
       $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
@@ -128,7 +128,7 @@ class UserModel extends Database
   {
     if ($POST['new-password'] === $POST['confirm-password']) {
       $update_password_query = 'UPDATE 
-                usuarios 
+                usuarios_cf 
             SET 
                 clave = :clave 
             WHERE 
@@ -148,7 +148,7 @@ class UserModel extends Database
     $get_password_query = 'SELECT 
                                     clave 
                                 FROM 
-                                    usuarios 
+                                    usuarios_cf 
                                 WHERE 
                                     id_usuario = :id_usuario';
     try {
@@ -159,7 +159,7 @@ class UserModel extends Database
       if (password_verify($POST['old-password'], $password['clave'])) {
         if ($POST['new-password'] === $POST['confirm-password']) {
           $update_password_query = 'UPDATE 
-                                                usuarios 
+                                                usuarios_cf 
                                             SET 
                                                 clave = :clave 
                                             WHERE 
@@ -181,7 +181,7 @@ class UserModel extends Database
   public function deleteAccount()
   {
     $id_user = $_SESSION['id_usuario'];
-    $update_user_query = 'UPDATE usuarios SET estado = 0 WHERE id_usuario = :id_usuario';
+    $update_user_query = 'UPDATE usuarios_cf SET estado = 0 WHERE id_usuario = :id_usuario';
     $update_user_stmt = $this->pdo->prepare($update_user_query);
     $update_user_stmt->bindParam('id_usuario', $id_user, PDO::PARAM_INT);
     $update_user_stmt->execute();
@@ -215,7 +215,7 @@ class UserModel extends Database
     $delete_data_person_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
     $delete_data_person_stmt->execute();
 
-    $delete_data_user_query = 'DELETE FROM usuarios WHERE id_usuario = :id_user';
+    $delete_data_user_query = 'DELETE FROM usuarios_cf WHERE id_usuario = :id_user';
     $delete_data_user_stmt = $this->pdo->prepare($delete_data_user_query);
     $delete_data_user_stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
     $delete_data_user_stmt->execute();

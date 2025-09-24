@@ -33,7 +33,7 @@ class ChangesPasswordModel extends Database
     $search_password_query = 'SELECT 
                                 clave
                               FROM  
-                                usuarios
+                                usuarios_cf
                               WHERE 
                                 id_usuario = :id_user';
     $search_password_stmt = $this->pdo->prepare($search_password_query);
@@ -44,7 +44,7 @@ class ChangesPasswordModel extends Database
     return $id_user;
     if ($POST['new-password'] === $POST['confirm-password']) {
       $update_password_query = 'UPDATE 
-                usuarios 
+                usuarios_cf 
             SET 
                 clave = :clave 
             WHERE 
@@ -73,7 +73,7 @@ class ChangesPasswordModel extends Database
     $get_password_query = 'SELECT 
                                     clave 
                                 FROM 
-                                    usuarios 
+                                    usuarios_cf 
                                 WHERE 
                                     id_usuario = :id_usuario';
     try {
@@ -88,7 +88,7 @@ class ChangesPasswordModel extends Database
       if (password_verify($POST['old-password'], $password['clave'])) {
         if ($POST['new-password'] === $POST['confirm-password']) {
           $update_password_query = 'UPDATE 
-                                                usuarios 
+                                                usuarios_cf 
                                             SET 
                                                 clave = :clave 
                                             WHERE 

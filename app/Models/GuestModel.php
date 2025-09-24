@@ -24,9 +24,9 @@ class GuestModel extends Database
                               invitados 
                          
                           INNER JOIN 
-                              usuarios 
+                              usuarios_cf 
                           ON 
-                              invitados.id_usuario = usuarios.id_usuario 
+                              invitados.id_usuario = usuarios_cf.id_usuario 
                        
                           AND
                               id_persona = :id_person';
@@ -40,7 +40,7 @@ class GuestModel extends Database
   }
   public function AddData($POST = [])
   {
-    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE (usuario = :user )';
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE (usuario = :user )';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
     $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->execute();
@@ -60,7 +60,7 @@ class GuestModel extends Database
     try {
       $this->pdo->beginTransaction();
       $hash = password_hash($POST['password'], PASSWORD_DEFAULT);
-      $add_data_user_query = 'INSERT INTO usuarios (id_rol, usuario, clave, estado, fecha_creacion) VALUES (3 ,:usuario, :clave, :_estado, NOW())';
+      $add_data_user_query = 'INSERT INTO usuarios_cf (id_rol, usuario, clave, estado, fecha_creacion) VALUES (3 ,:usuario, :clave, :_estado, NOW())';
       $add_data_user_stmt = $this->pdo->prepare($add_data_user_query);
       $add_data_user_stmt->bindParam('usuario', $POST['user'], PDO::PARAM_STR);
       $add_data_user_stmt->bindParam('_estado', $POST['status'], PDO::PARAM_STR);
@@ -98,7 +98,7 @@ class GuestModel extends Database
   function UpdateData($POST = [])
   {
     //$POST['id_user'] $POST['user']
-    $search_name_user_not_you_query = 'SELECT * FROM `usuarios` WHERE usuario = :user AND id_usuario != :id_usuario';
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE usuario = :user AND id_usuario != :id_usuario';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
     $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
@@ -126,7 +126,7 @@ class GuestModel extends Database
       $update_data_guest_stmt->execute();
       $row_data_guest = $update_data_guest_stmt->fetch(PDO::FETCH_ASSOC);
 
-      $update_data_user_query = 'UPDATE usuarios SET usuario = :usuario, estado = :status_ WHERE id_usuario = :id_usuario';
+      $update_data_user_query = 'UPDATE usuarios_cf SET usuario = :usuario, estado = :status_ WHERE id_usuario = :id_usuario';
       $update_data_user_stmt = $this->pdo->prepare($update_data_user_query);
       $update_data_user_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
       $update_data_user_stmt->bindParam('usuario', $POST['user'], PDO::PARAM_STR);
@@ -134,7 +134,7 @@ class GuestModel extends Database
       $update_data_user_stmt->execute();
 
       if ($POST['password'] != '') {
-        $update_password_query = 'UPDATE usuarios SET clave =:clave WHERE id_usuario = :id_usuario';
+        $update_password_query = 'UPDATE usuarios_cf SET clave =:clave WHERE id_usuario = :id_usuario';
         $update_password_stmt = $this->pdo->prepare($update_password_query);
         $hash = password_hash($POST['password'], PASSWORD_DEFAULT);
         $update_password_stmt->bindParam('clave', $hash, PDO::PARAM_STR);
@@ -154,7 +154,7 @@ class GuestModel extends Database
     $get_data_guest_stmt->execute();
     $row_data_guest = $get_data_guest_stmt->fetch(PDO::FETCH_ASSOC);
 
-    $get_data_user_query = 'SELECT usuario, estado FROM usuarios WHERE id_usuario = :id_user';
+    $get_data_user_query = 'SELECT usuario, estado FROM usuarios_cf WHERE id_usuario = :id_user';
     $get_data_user_stmt = $this->pdo->prepare($get_data_user_query);
     $get_data_user_stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
     $get_data_user_stmt->execute();
@@ -179,20 +179,20 @@ class GuestModel extends Database
     // Verificamos si se encontraron resultados
 
     $get_guests_query = 'SELECT 
-                            usuarios.usuario, 
+                            usuarios_cf.usuario, 
                             nombre, apellido, 
                             correo_electronico, 
-                            usuarios.id_usuario, 
+                            usuarios_cf.id_usuario, 
                             invitados.id_invitado,  
-                            usuarios.estado,
+                            usuarios_cf.estado,
                             ultimo_acceso,
                             fecha_creacion
                         FROM 
                             invitados 
                         INNER JOIN 
-                            usuarios 
+                            usuarios_cf 
                         ON 
-                            invitados.id_usuario = usuarios.id_usuario 
+                            invitados.id_usuario = usuarios_cf.id_usuario 
                         WHERE 
                             invitados.id_persona = :id_person
                         LIMIT 
@@ -314,20 +314,20 @@ class GuestModel extends Database
     // Veri ficamos si se encontraron resultados
 
     $get_guests_query = 'SELECT 
-                            usuarios.usuario, 
+                            usuarios_cf.usuario, 
                             nombre, apellido, 
                             correo_electronico, 
-                            usuarios.id_usuario, 
+                            usuarios_cf.id_usuario, 
                             invitados.id_invitado,  
-                            usuarios.estado,
+                            usuarios_cf.estado,
                             ultimo_acceso,
                             fecha_creacion
                         FROM 
                             invitados 
                         INNER JOIN 
-                            usuarios 
+                            usuarios_cf 
                         ON 
-                            invitados.id_usuario = usuarios.id_usuario 
+                            invitados.id_usuario = usuarios_cf.id_usuario 
                         WHERE 
                             invitados.id_persona = :id_person
                         AND
@@ -439,7 +439,7 @@ class GuestModel extends Database
       $delete_guest_stmt->bindParam('id_invitado', $id_guest, PDO::PARAM_INT);
       $delete_guest_stmt->execute();
 
-      $delete_user_query = 'DELETE FROM usuarios WHERE id_usuario = :id_usuario';
+      $delete_user_query = 'DELETE FROM usuarios_cf WHERE id_usuario = :id_usuario';
       $delete_user_stmt = $this->pdo->prepare($delete_user_query);
       $delete_user_stmt->bindParam('id_usuario', $id_user, PDO::PARAM_INT);
       $delete_user_stmt->execute();
