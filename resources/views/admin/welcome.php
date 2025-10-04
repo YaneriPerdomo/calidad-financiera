@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-lg-6 col-12 ">
                         <figure class="img-welcome  flex-center-full">
-                            <img src="../img/welcome.jpg" alt="" class="img-fluid">
+                            <img src="../img/welcome.jpg" alt="" class="img-fluid" draggable="false">
                         </figure>
                     </div>
                 </div>

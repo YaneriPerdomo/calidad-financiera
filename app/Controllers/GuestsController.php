@@ -30,6 +30,7 @@ class GuestsController extends Controller
       $GetTotalIncome->GetTotalAnnualIncome($year, 'guest');
       $GetTotalIncome->GetTotalAnnualExpenses($year, 'guest');
       $GetTotalIncome->GetAnnualBudget($year, 'guest');
+      $GetTotalIncome->GetAllGraduationNameValue($month, $year, 'guest');
       $GetTotalIncome->GetAhorroAnual($year, 'guest');
       $sum_total_ahorro = 0;
       if ($GetTotalIncome->data_ahorro != '') {
@@ -46,11 +47,13 @@ class GuestsController extends Controller
          'each_month_total_income' => $GetTotalIncome->data_each_month_total_income,
          'each_month_total_graduation' => $GetTotalIncome->data_each_month_total_graduation,
          'all_income_name_value' => $GetTotalIncome->data_all_income_name_value,
+         'data_all_gradation_name_value' => $GetTotalIncome->data_all_gradation_name_value,
          'total_annual_income_stmt' => $GetTotalIncome->data_total_annual_income_stmt,
          'total_annual_expenses' => $GetTotalIncome->data_total_annual_expenses,
          'annual_budget' => $GetTotalIncome->data_annual_budget,
          'fechaCreacion' => $GetTotalIncome->fechaCreacion,
          'year' => $year,
+         'month' => $month,
          'sidebar_jump' => './../../',
          'header_break' => '../../',
          'header_break_login' => '../../../'

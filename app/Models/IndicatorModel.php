@@ -192,7 +192,7 @@ class indicatorModel extends Database
         $this->HTML_graduantion .= "<tr class='show'>";
         $this->HTML_graduantion .= "<td >" . $row['egreso'] . "</td>";
         $this->HTML_graduantion .= "<td>" . $row['categoria'] . "</td>";
-        if ($row['egreso'] != "Gastos") {
+        if ($row['egreso'] != "Otros gastos") {
           $this->HTML_graduantion .= "<td class='operations'>";
           $this->HTML_graduantion .= "  <form action='../../indicator/delete-graduation' method ='post' class='form-egreso__delete'>
                            <input type='hidden' value=" . $row['id_egreso'] . " name='id_egreso'>

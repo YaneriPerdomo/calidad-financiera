@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="es" class="full-heigh">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,24 +14,18 @@
     <link rel="stylesheet" href="../public/css/layouts/_base.css">
     <link rel="stylesheet" href="../public/css/layouts/_ico.css">
     <link rel="icon" type="image/x-icon" href="../public/img/logo.ico">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-
     </style>
-
 </head>
-
 <body>
     <?php
     include '../resources/views/components/header.php';
     ?>
     <main class="main main--content-login">
         <form action="login" method="post" class="form-login">
-
             <legend class="form-login__title font-bold  m-0">Inicia sesion</legend>
-
             <p class="title-green p-0 m-2">Accede a tu cuenta y toma el control de tus finanzas</p>
             <div class="form-login__content">
                 <div class="form-login__item">
@@ -61,17 +54,14 @@
                 </div>
             </div>
             <div class="ornament">
-
             </div>
         </form>
     </main>
     <?php
     include '../resources/views/components/footer.php';
     ?>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

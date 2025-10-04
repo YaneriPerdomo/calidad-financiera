@@ -64,8 +64,8 @@ function fc_number_format($number)
                                             11 => 'Noviembre',
                                             12 => 'Diciembre'
                                         );
-                                        $month_now = date('m');
-                                        $month_now = str_replace('0', '', $month_now);
+
+                                        $month_now = $month;
                                         foreach ($months as $key => $value) {
                                             if ($key == $month_now) {
                                                 echo '<option value="' . $key . '" selected> ' . $value . '</option>';
@@ -106,13 +106,11 @@ function fc_number_format($number)
                             let ItemButttonSearh = document.querySelector('.button--search');
                             let ItemSelectMonth = document.querySelector('.select--month');
                             let ItemSelectYear = document.querySelector('.select--year');
-
                             ItemButttonSearh.addEventListener('click', async e => {
                                 e.preventDefault();
                                 const monthValue = ItemSelectMonth.value == 12 || ItemSelectMonth.value == 11 || ItemSelectMonth.value == 10
                                     ? ItemSelectMonth.value : 0 + '' + ItemSelectMonth.value;
                                 return window.location.href = `../${monthValue}/${ItemSelectYear.value}`;
-
                             })
                         </script>
                     </div>
@@ -146,28 +144,58 @@ function fc_number_format($number)
                             ?>
                         </div>
                     </div>
-                    <div class="charts d-flex w-100">
-                        <div class="expenses-income__current-month">
+
+                    <div class="row  ">
+                        <div class="expenses-income__current-month col-xl-6 col-12 ">
                             <hr>
                             <canvas id="myChart"></canvas>
                         </div>
-                        <div class="all-income-name">
+                        <div class="col-md-6 col-12 ">
                             <hr>
-                            <pre>
+                            <span for="type" class="form__label form__label--required text-blue " style="margin: button 0.3rem;"> 
+                                <b>
+                                    Composición de
+                                    ingresos/egresos por fuente 
+                                </b>
+                            </span> 
+                            <div class="input-group mb-3">
+                                <span class="form__icon icon-composition input-group-text"><i class="bi bi-graph-up"></i></span>
+                                <select id="type" name="type"
+                                    class="form-control form__select form__select--bar-composition" required>
+                                    <option value="1">Ingresos</option>
+                                    <option value="2">Egresos</option>
+                                </select>
+                            </div>
+                            <div class="all-income-graduation" style="display:none">
+                                 <pre>
                                 <?php
-
-                                echo '<div style="display:none">';
+                                echo '<div >';
                                 foreach ($all_income_name_value as $value) {
                                     echo '<span data-value-bs-all-income="' . $value['valor_total_bs'] . '">' . $value['ingreso'] . '</span>';
                                 }
                                 echo '</div>';
                                 ?>
-                            </pre>
-                            <canvas id="myChart4" width="400" height="100"></canvas>
+                                </pre>
+                            </div>
+                                <canvas id="myChart4" width="400" height="100"></canvas>
+
+                            <div class="all-graduation" style="display:none">
+                                 <pre>
+                                <?php
+                                echo '<div  >';
+                                foreach ($data_all_gradation_name_value as $value) {
+                                    echo '<span data-value-bs-all-gradation="' . $value['valor_total_bs'] . '">' . $value['egreso'] . '</span>';
+                                }
+                                echo '</div>';
+                                ?>
+                                </pre>
+                            </div>
+                                                                <canvas id="myChart5" width="400" height="100 " style="display:none"></canvas>
+
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 col-12 ">
+                <div class="col-md-6 col-12 ">
                     <div class="d-flex gap-4 bg-blue p-3 flex-wrap">
                         <div>
                             <span class="fs-3 text-white"><b>Ingresos</b></span>
@@ -203,21 +231,67 @@ function fc_number_format($number)
                     </div>
                     <div class="expenses-income__every-month w-100">
                         <hr>
-                       <div>
-    <span for="type" class="form__label form__label--required fs-3 text-blue"><b>Resumen Anual por Tipo de Transacción</b></span><br>
-    <div class="input-group mb-3">
-        <span class="form__icon input-group-text"><i class="bi bi-graph-up"></i></span>
-        <select id="type" name="type" class="form-control form__select form__select--bar" required>
-            <option value="1">Ingresos</option>
-            <option value="2">Egresos</option>
-        </select>
-    </div>
-</div>
-                        <canvas id="myChart2"></canvas>
-                        <canvas id="myChart3" style="display: none;"></canvas>
+                        <div>
+                            <span for="type" class="form__label form__label--required fs-3 text-blue"><b>Resumen Anual
+                                    por Tipo de Transacción</b></span><br>
+                            <div class="input-group mb-3">
+                                <span class="form__icon icon-resumen-anual input-group-text"><i class="bi bi-graph-up"></i></span>
+                                <select id="type" name="type" class="form-control form__select form__select--bar"
+                                    required>
+                                    <option value="1">Ingresos</option>
+                                    <option value="2">Egresos</option>
+                                </select>
+                            </div>
+
+                            <canvas id="myChart2"></canvas>
+                            <canvas id="myChart3" style="display: none;"></canvas>
+                            <?php
+
+                            $months = array(
+                                1 => 'Enero',
+                                2 => 'Febrero',
+                                3 => 'Marzo',
+                                4 => 'Abril',
+                                5 => 'Mayo',
+                                6 => 'Junio',
+                                7 => 'Julio',
+                                8 => 'Agosto',
+                                9 => 'Septiembre',
+                                10 => 'Octubre',
+                                11 => 'Noviembre',
+                                12 => 'Diciembre'
+                            );
+
+
+                            $income = [];
+
+                            if (!empty($each_month_total_income) && is_array($each_month_total_income)) {
+                                foreach ($each_month_total_income as $value) {
+                                    if (isset($value['mes']) && isset($value['total_ingresos_bs'])) {
+                                        $mes = $value['mes'];
+                                        $income[$mes] = $value['total_ingresos_bs'];
+                                    }
+                                }
+                            }
+                            echo '<div style="display:none">';
+                            for ($i = 1; $i <= 12; $i++) {
+                                echo '<span data-month-income="' . $months[$i] . '">';
+                                if (isset($income[$i]) && $income[$i] != '') {
+                                    echo $income[$i];
+                                } else {
+                                    echo '0';
+                                }
+                                echo "</span><br>";
+                            }
+                            echo '</div>';
+
+                            ?>
+                        </div>
+
+
                         <?php
 
-                        $months = array(
+                        $months_ = array(
                             1 => 'Enero',
                             2 => 'Febrero',
                             3 => 'Marzo',
@@ -233,21 +307,21 @@ function fc_number_format($number)
                         );
 
 
-                        $income = [];
+                        $graduation = [];
 
-                        if (!empty($each_month_total_income) && is_array($each_month_total_income)) {
-                            foreach ($each_month_total_income as $value) {
-                                if (isset($value['mes']) && isset($value['total_ingresos_bs'])) {
+                        if (!empty($each_month_total_graduation) && is_array($each_month_total_graduation)) {
+                            foreach ($each_month_total_graduation as $value) {
+                                if (isset($value['mes']) && isset($value['total_egreso_bs'])) {
                                     $mes = $value['mes'];
-                                    $income[$mes] = $value['total_ingresos_bs'];
+                                    $graduation[$mes] = $value['total_egreso_bs'];
                                 }
                             }
                         }
-                        echo '<div style="display:none">';
+                        echo '<div style="display:none"  >';
                         for ($i = 1; $i <= 12; $i++) {
-                            echo '<span data-month-income="' . $months[$i] . '">';
-                            if (isset($income[$i]) && $income[$i] != '') {
-                                echo $income[$i];
+                            echo '<span data-month-graduation="' . $months_[$i] . '">';
+                            if (isset($graduation[$i]) && $graduation[$i] != '') {
+                                echo $graduation[$i];
                             } else {
                                 echo '0';
                             }
@@ -256,55 +330,11 @@ function fc_number_format($number)
                         echo '</div>';
 
                         ?>
+
+
+
                     </div>
-
-
-                    <?php
-
-                    $months_ = array(
-                        1 => 'Enero',
-                        2 => 'Febrero',
-                        3 => 'Marzo',
-                        4 => 'Abril',
-                        5 => 'Mayo',
-                        6 => 'Junio',
-                        7 => 'Julio',
-                        8 => 'Agosto',
-                        9 => 'Septiembre',
-                        10 => 'Octubre',
-                        11 => 'Noviembre',
-                        12 => 'Diciembre'
-                    );
-
-
-                    $graduation = [];
-
-                    if (!empty($each_month_total_graduation) && is_array($each_month_total_graduation)) {
-                        foreach ($each_month_total_graduation as $value) {
-                            if (isset($value['mes']) && isset($value['total_egreso_bs'])) {
-                                $mes = $value['mes'];
-                                $graduation[$mes] = $value['total_egreso_bs'];
-                            }
-                        }
-                    }
-                    echo '<div style="display:none"  >';
-                    for ($i = 1; $i <= 12; $i++) {
-                        echo '<span data-month-graduation="' . $months_[$i] . '">';
-                        if (isset($graduation[$i]) && $graduation[$i] != '') {
-                            echo $graduation[$i];
-                        } else {
-                            echo '0';
-                        }
-                        echo "</span><br>";
-                    }
-                    echo '</div>';
-
-                    ?>
-
-
-
                 </div>
-            </div>
         </article>
 
     </main>
@@ -320,7 +350,7 @@ function fc_number_format($number)
     <script src="../../../js/components/location_user.js" type="module"></script>
 
     </script>
- 
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -340,7 +370,7 @@ function fc_number_format($number)
 
     // Get the canvas parent to hide it
     const canvasContainer = ctx.parentNode;
-    
+
     // Get and parse the budget and income values
     const budgetValue = $VALUE_BUDGET ? parseVEF($VALUE_BUDGET.value) || 0 : 0;
     const incomeValue = $VALUE_INCOME ? parseVEF($VALUE_INCOME.value) || 0 : 0;
@@ -353,7 +383,7 @@ function fc_number_format($number)
         const total = budgetValue + incomeValue;
         let percentage_expenses = 0;
         let percentage_income = 0;
-        
+
         if (total > 0) {
             percentage_expenses = (budgetValue / total) * 100;
             percentage_income = (incomeValue / total) * 100;
@@ -529,6 +559,44 @@ function fc_number_format($number)
         data_all_income_value.push(parseVEF(element.getAttribute('data-value-bs-all-income')));
     });
 
+    const ctx5_ = document.getElementById('myChart5');
+    const $data_value_all_gradation_name = document.querySelectorAll('[data-value-bs-all-gradation]');
+    const data_all_gradation_name = [];
+    const data_all_gradation_value = [];
+
+    $data_value_all_gradation_name.forEach(element => {
+        data_all_gradation_name.push(element.textContent);
+        data_all_gradation_value.push(parseVEF(element.getAttribute('data-value-bs-all-gradation')));
+    });
+
+    const miGrafico_5 = new Chart(ctx5_, {
+        type: 'pie',
+        data: {
+            labels: data_all_gradation_name,
+            datasets: [{
+                label: '',
+                data: data_all_gradation_value,
+                borderColor: ['white'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                colors: {
+                    forceOverride: true
+                },
+                title: {
+                    display: true,
+                    text: 'Composición de egresos por fuente'
+                }
+            }
+        }
+    });
+
     const miGrafico_4 = new Chart(ctx4_, {
         type: 'pie',
         data: {
@@ -550,24 +618,47 @@ function fc_number_format($number)
                     forceOverride: true
                 },
                 title: {
-                    display: false,
-                    text: 'Ejemplo de Gráfico de Pastel'
+                    display: true,
+                    text: 'Composición de ingresos por fuente'
                 }
             }
         }
     });
 
     const $FORM_SELECT_BAR = document.querySelector('.form__select--bar');
+    const $ICON_COMPOSITION =  document.querySelector('.icon-composition > i');
+    const $ICON_RESUMEN_ANUAL = document.querySelector('.icon-resumen-anual > i');
     $FORM_SELECT_BAR.addEventListener('change', e => {
         const value_selected = e.target.value;
         switch (value_selected) {
             case '1':
+                $ICON_RESUMEN_ANUAL.setAttribute('class',  'bi bi-graph-up');
                 ctx3_.style.display = 'none';
                 ctx2_.removeAttribute('style');
                 break;
             case '2':
+                $ICON_RESUMEN_ANUAL.setAttribute('class', 'bi bi-graph-down' );
                 ctx2_.style.display = 'none';
                 ctx3_.removeAttribute('style');
+                break;
+            default:
+                break;
+        }
+    });
+
+    const $FORM_SELECT_BAR_COMPOSITION = document.querySelector('.form__select--bar-composition');
+      $FORM_SELECT_BAR_COMPOSITION.addEventListener('change', e => {
+        const value_selected = e.target.value;
+        switch (value_selected) {
+            case '1':
+                ctx5_.style.display = 'none';
+                $ICON_COMPOSITION.setAttribute('class', 'bi bi-graph-up');
+                ctx4_.removeAttribute('style');
+                break;
+            case '2':
+                $ICON_COMPOSITION.setAttribute('class', 'bi bi-graph-down')
+                ctx4_.style.display = 'none';
+                ctx5_.removeAttribute('style');
                 break;
             default:
                 break;

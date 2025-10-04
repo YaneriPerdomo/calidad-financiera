@@ -12,6 +12,8 @@ class DashboardModel extends Database
   public $HTML = '';
 
   public $data_total_income;
+
+  public $data_all_gradation_name_value;
   public $data_total_graduation;
   public $status = false;
 
@@ -182,6 +184,42 @@ class DashboardModel extends Database
 
     if ($get_all_income_name_value_stmt->rowCount() > 0) {
       $this->data_all_income_name_value = $get_all_income_name_value_stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+  }
+
+   public function GetAllGraduationNameValue($month, $year, $type_rol)
+  {
+    if ($type_rol == 'user') {
+      $get_id_person_query = 'SELECT id_persona FROM personas WHERE id_usuario =:id_user';
+      $get_id_person_stmt = $this->pdo->prepare($get_id_person_query);
+      $get_id_person_stmt->bindParam('id_user', $_SESSION['id_usuario'], PDO::PARAM_INT);
+      $get_id_person_stmt->execute();
+      $row_id_person = $get_id_person_stmt->fetch(PDO::FETCH_ASSOC);
+      $id_person = $row_id_person['id_persona'];
+    } else {
+      $id_person = $_SESSION['id_persona'];
+    }
+
+    $get_all_gradation_name_value_query = 'SELECT 
+                                            egresos.egreso, SUM(transacciones.valor_bs) AS valor_total_bs
+                                         FROM 
+                                            transacciones 
+                                         INNER JOIN 
+                                            egresos 
+                                         ON 
+                                            transacciones.id_egreso = egresos.id_egreso 
+                                         WHERE 
+                                            id_persona = :id_person AND  YEAR(fecha) = :year_ AND  month(fecha) = :month_ AND egresos.id_egreso is not null 
+                                         GROUP BY 
+                                            egresos.id_egreso';
+    $get_all_gradation_name_value_stmt = $this->pdo->prepare($get_all_gradation_name_value_query);
+    $get_all_gradation_name_value_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
+    $get_all_gradation_name_value_stmt->bindParam('year_', $year, PDO::PARAM_INT);
+    $get_all_gradation_name_value_stmt->bindParam('month_', $month, PDO::PARAM_INT);
+    $get_all_gradation_name_value_stmt->execute();
+
+    if ($get_all_gradation_name_value_stmt->rowCount() > 0) {
+      $this->data_all_gradation_name_value = $get_all_gradation_name_value_stmt->fetchAll(PDO::FETCH_ASSOC);
     }
   }
 

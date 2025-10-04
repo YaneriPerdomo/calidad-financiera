@@ -27,6 +27,7 @@ class UserController extends Controller
       $GetTotalIncome->GetTotalGraduation($month, $year, 'user');
       $GetTotalIncome->GetAllIncomeNameValue($month, $year, 'user');
       $GetTotalIncome->GetTotalQuote($month, $year, 'user');
+       $GetTotalIncome->GetAllGraduationNameValue($month, $year, 'user');
       $GetTotalIncome->GetEachMonthTotalIncome($year, 'user');
       $GetTotalIncome->GetEachMonthTotalGraduation($year, 'user');
       $GetTotalIncome->GetTotalAnnualIncome($year, 'user');
@@ -40,7 +41,7 @@ class UserController extends Controller
             $sum_total_ahorro = $sum_total_ahorro + $value['total'] * $value['porcentaje_ahorro'] / 100;
          }
       }
-
+ 
 
       return $this->view('user.dashboard', [
          'main_jump' => './',
@@ -54,6 +55,8 @@ class UserController extends Controller
          'total_annual_income_stmt' => $GetTotalIncome->data_total_annual_income_stmt,
          'total_annual_expenses' => $GetTotalIncome->data_total_annual_expenses,
          'annual_budget' => $GetTotalIncome->data_annual_budget,
+         'month' => $month,
+         'data_all_gradation_name_value' => $GetTotalIncome->data_all_gradation_name_value,
          'fechaCreacion' => $GetTotalIncome->fechaCreacion,
          'year' => $year,
          'sidebar_jump' => '../../',
