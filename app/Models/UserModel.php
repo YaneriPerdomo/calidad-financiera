@@ -52,7 +52,7 @@ class UserModel extends Database
     }
   }
 
-  public function update($POST = [])
+  public function update($POST = [], $rol = 'user')
   {
     $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE (usuario = :user and id_usuario != :id_user)';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
@@ -81,9 +81,15 @@ class UserModel extends Database
 
 
       // Actualizar tabla usuarios_cf
-      $update_user_query = 'UPDATE usuarios_cf SET usuario = :usuario , estado = :estado WHERE id_usuario = :id_usuario';
+      if($rol == 'admin'){
+        $update_user_query = 'UPDATE usuarios_cf SET usuario = :usuario , estado = :estado WHERE id_usuario = :id_usuario';
+      }else{
+        $update_user_query = 'UPDATE usuarios_cf SET usuario = :usuario  WHERE id_usuario = :id_usuario';
+      }
       $update_user_stmt = $this->pdo->prepare($update_user_query);
-      $update_user_stmt->bindParam('estado', $POST['status'], PDO::PARAM_INT);
+      if($rol == 'admin'){
+        $update_user_stmt->bindParam('estado', $POST['status'], PDO::PARAM_INT);
+      }
       $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
       $update_user_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
       $update_user_stmt->execute();
@@ -95,32 +101,43 @@ class UserModel extends Database
       $update_person_stmt->bindParam('apellido', $POST['apellido'], PDO::PARAM_STR);
       $update_person_stmt->bindParam('correo_electronico', $POST['correo_electronico'], PDO::PARAM_STR);
       $update_person_stmt->bindParam('id_actividad', $POST['id_actividad'], PDO::PARAM_INT);
-      $update_person_stmt->bindParam('id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
+      if ($rol == 'user') {
+        $update_person_stmt->bindParam('id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
+      } else {
+        $update_person_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
+      }
       $update_person_stmt->execute();
       $update_password_result = false;
-      if (!isset($POST['old-password'])) {
-        $update_password_result = $this->updatePassword([
-          'new-password' => $POST['new-password'],
-          'confirm-password' => $POST['confirm-password']
-        ]);
-      } else {
-        $update_password_result = $this->updateOldPassword([
-          'new-password' => $POST['new-password'],
-          'confirm-password' => $POST['confirm-password'],
-          'old-password' => $POST['old-password']
-        ]);
+
+      if ($rol == 'admin') {
+        if (!isset($POST['old-password'])) {
+          $update_password_result = $this->updatePassword([
+            'new-password' => $POST['new-password'],
+            'confirm-password' => $POST['confirm-password']
+          ]);
+        } else {
+          $update_password_result = $this->updateOldPassword([
+            'new-password' => $POST['new-password'],
+            'confirm-password' => $POST['confirm-password'],
+            'old-password' => $POST['old-password']
+          ]);
+        }
       }
 
       if ($update_person_stmt->rowCount() > 0 || $update_user_stmt->rowCount() > 0 || $update_password_result == true) {
         $this->pdo->commit();
+        if ($rol == 'user') {
+          $_SESSION['usuario'] = $POST['usuario'];
+          $_SESSION['correo_electronico'] = $POST['correo_electronico'];
+        }
         return $this->status = true;
       }
     } catch (PDOException $ex) {
       $this->pdo->rollBack();
-      throw new RuntimeException("Error de PDO: " . $ex->getMessage());
+      $this->msg =  $ex->getMessage();
     } catch (Exception $exception) {
       $this->pdo->rollBack();
-      error_log("Error general: " . $exception->getMessage());
+       $this->msg =   $exception->getMessage();
     }
   }
 
@@ -209,7 +226,7 @@ class UserModel extends Database
     $delete_data_invitados_stmt = $this->pdo->prepare($delete_data_invitados_query);
     $delete_data_invitados_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
     $delete_data_invitados_stmt->execute();
-    
+
     $delete_data_person_query = 'DELETE FROM personas WHERE id_persona = :id_person';
     $delete_data_person_stmt = $this->pdo->prepare($delete_data_person_query);
     $delete_data_person_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);

@@ -38,16 +38,14 @@
         <div class="flex-center-full w-100">
             <form action="../<?php echo $data['id_usuario'] ?>-user/modify" method="post" class="form">
                 <?php
-
-
                 echo '<input type="hidden" name="id_user" value="' . trim($data['id_usuario']) . '">';
-
                 ?>
                 <?php
                 echo !is_array($data) ? '<input type="hidden" name="id_person"value="' . $data['id_persona'] . '">' : '' ?>
                 <legend class="form__title">
                      <b> Modificar usuario </b> 
                 </legend>
+                <input type="hidden" name="rol" value="admin">
                 <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
                     actualizar tu perfil en cualquier momento. </p>
                 <hr class="form__separator">

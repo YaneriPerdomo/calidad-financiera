@@ -74,7 +74,7 @@ class ProfileController extends Controller
          'nombre' => $_POST['name'],
          'apellido' => $_POST['lastname'],
          'id_actividad' => $_POST['id_actividad']
-      ]);
+      ], 'user');
 
       
       if ($update_data_profile->status == true) {

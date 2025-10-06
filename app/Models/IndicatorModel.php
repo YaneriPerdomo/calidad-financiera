@@ -56,7 +56,7 @@ class indicatorModel extends Database
                             ingreso, id_ingreso
                          FROM
                             ingresos
-                        
+                            ORDER BY ingreso ASC
                              LIMIT 
                                 :inicio, :registros_por_pagina';
     $start_i = ($current_page_i - 1) * $records_page_i;
@@ -174,7 +174,7 @@ class indicatorModel extends Database
                                 categorias_egreso 
                              ON
                                 egresos.id_categoria_egreso = categorias_egreso.id_categoria_egreso
-                              
+                              ORDER BY egresos.egreso ASC
                              LIMIT 
                                 :inicio, :registros_por_pagina';
     $start_e = ($current_page_e - 1) * $records_page_e;

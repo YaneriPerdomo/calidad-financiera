@@ -312,7 +312,7 @@ class AdminModel extends Database
 
   public function countUsers()
   {
-    $total_users_query = 'SELECT count(usuario) AS total_users FROM `usuarios_cf` WHERE NOT id_usuario = 73';
+    $total_users_query = 'SELECT count(usuario) AS total_users FROM `usuarios_cf` WHERE NOT id_usuario = 1 AND NOT id_rol = 3';
     $total_users_stmt = $this->pdo->prepare($total_users_query);
     $total_users_stmt->execute();
     $total_users_row = $total_users_stmt->fetch(PDO::FETCH_ASSOC);

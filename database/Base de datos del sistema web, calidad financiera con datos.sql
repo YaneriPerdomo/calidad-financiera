@@ -135,10 +135,12 @@ CREATE TABLE `ingresos` (
 -- Volcado de datos para la tabla `ingresos`
 --
 
-INSERT INTO `ingresos` (`id_ingreso`, `ingreso`) VALUES
+ INSERT INTO `ingresos` (`id_ingreso`, `ingreso`) VALUES
 (7, 'Otros'),
-(20, 'Emprendimiento');
-
+(20, 'Emprendimiento'),
+(21, 'Sueldo'),
+(22, 'Banco'),
+(23, 'Intereses');
 --
 -- Disparadores `ingresos`
 --

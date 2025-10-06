@@ -99,7 +99,7 @@ class UserController extends Controller
          'new-password' => trim($_POST['new-password']),
          'confirm-password' => trim($_POST['confirm-password']),
          'status' => trim($_POST['status'] ?? 0)
-      ]);
+      ], 'admin');
 
 
       if ($update_user->status == true) {
@@ -108,7 +108,7 @@ class UserController extends Controller
          </script>';
       } else {
          echo '<script>alert("Sucedio un error al actualizar los datos")
-         location.href = "./profile"
+         location.href = "../users/1"
          </script>';
       }
    }
