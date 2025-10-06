@@ -30,11 +30,11 @@ function fc_number_format($number)
 
 <body>
     <?php
-    include '../resources/views/components/user/header.php';
+    include '../resources/views/components/guest/header.php';
     ?>
     <main class="main main--content-login">
         <?php
-        include '../resources/views/components/user/sidebar.php';
+        include '../resources/views/components/guest/sidebar.php';
         ?>
 
         <article class="style-border control-panel">
@@ -347,7 +347,7 @@ function fc_number_format($number)
 
     <script src="../../../js/components/presentation_system_web.js" type="module"></script>
 
-    <script src="../../../js/components/location_user.js" type="module"></script>
+    <script src="../../../js/components/location_guest.js" type="module"></script>
 
     </script>
 

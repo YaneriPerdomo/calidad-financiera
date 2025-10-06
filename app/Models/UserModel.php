@@ -87,7 +87,7 @@ class UserModel extends Database
         $update_user_query = 'UPDATE usuarios_cf SET usuario = :usuario  WHERE id_usuario = :id_usuario';
       }
       $update_user_stmt = $this->pdo->prepare($update_user_query);
-      if($rol == 'admin'){
+      if($rol == 'user'){
         $update_user_stmt->bindParam('estado', $POST['status'], PDO::PARAM_INT);
       }
       $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
