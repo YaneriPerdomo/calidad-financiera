@@ -38,8 +38,13 @@ class CreateAccountController extends Controller
          'password' => $password
       ]);
 
-      return $model->status == false
-         ? '<script>alert("'.$model->msg.'"); location.href = "./create-account"</script>'
-         : '<script>alert("Usuario creado correctamente"); location.href = "./login"</script>';
+      if(!$model->status){
+          $this->sessionCreation('alert-danger', $model->msg);
+            header('Location: ./create-account');
+      }else{
+          $this->sessionCreation('alert-success', 'El Usuario ha sido creado correctamente');
+            header('Location: ./login');
+      }
+     
    }
 }

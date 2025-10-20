@@ -252,13 +252,13 @@ class dataModel extends Database
       $this->HTML .= "<span class='show_quantity'>Mostrando " . $total_records . " de " . $records_page . " 
                     <span class='show_quantity__message'> " . $display_log_message . "</span></span>";
       if ($current_page > 1) {
-        $this->HTML .= "<a href='?page=" . ($current_page - 1) . "'>Anterior</a> ";
+        $this->HTML .= "<a href='/" . ($current_page - 1) . "'>Anterior</a> ";
       }
       for ($i = 1; $i <= $total_pages; $i++) {
-        $this->HTML .= "<a href='?page=$i'>" . ($i == $current_page ? '<b>' . $i . '</b>' : $i) . "</a> ";
+        $this->HTML .= "<a href='./$i'>" . ($i == $current_page ? '<b>' . $i . '</b>' : $i) . "</a> ";
       }
       if ($current_page < $total_pages) {
-        $this->HTML .= "<a href='?page=" . ($current_page + 1) . "'>Siguiente</a>";
+        $this->HTML .= "<a href='./" . ($current_page + 1) . "'>Siguiente</a>";
       }
       $this->HTML .= " </section>";
     } else {

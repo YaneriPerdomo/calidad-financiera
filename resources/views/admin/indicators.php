@@ -1,4 +1,4 @@
-<?php // Vista del panel de control del usuario ?>
+<?php ?>
 <!doctype html>
 <html lang="es" class="full-heigh">
 
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../../../public/css/components/_header.css">
     <link rel="stylesheet" href="../../../../public/css/components/_body.css">
     <link rel="stylesheet" href="../../../../public/css/components/_table.css">
+    <link rel="stylesheet" href="../../../../public/css/components/_modal.css">
     <link rel="stylesheet" href="../../../../public/css/components/_presentation-system-web.css">
     <link rel="stylesheet" href="../../../../public/css/components/_sidebar.css">
     <link rel="stylesheet" href="../../../../public/css/components/_pagination.css">
@@ -28,11 +29,11 @@
 <body>
     <?php
     include '../resources/views/components/admin/header.php';
-    ?>
+?>
     <main class="main main--content-login">
         <?php
-        include '../resources/views/components/admin/sidebar.php';
-        ?>
+    include '../resources/views/components/admin/sidebar.php';
+?>
         <div class="style-border">
             <section class="flex-space-between ">
                 <h1 class="fs-3"><strong>Gestion de Indicadores</strong></h1>
@@ -42,6 +43,24 @@
                     </button>
                 </div>
             </section>
+               <?php
+            if (isset($_SESSION['alert-danger'])) {
+                echo '
+                        <div class="alert alert-danger" role="alert">
+                            '.$_SESSION['alert-danger'].'
+                        </div>';
+                unset($_SESSION['alert-danger']);
+            }
+?>
+                <?php
+    if (isset($_SESSION['alert-success'])) {
+        echo '
+                            <div class="alert alert-success" role="alert">
+                                '.$_SESSION['alert-success'].' </div>';
+        unset($_SESSION['alert-success']);
+    }
+?>
+
             <div class="row">
                 <div class="col-lg-6 col-12 ">
                     <div class="flex-space-between">
@@ -58,8 +77,8 @@
                                 </tr>
                             </thead>
                             <?php
-                            echo $HTML_graduantion;
-                            ?>
+            echo $HTML_graduantion;
+?>
                 </div>
                 <div class="col-lg-6 col-12 ">
                     <div>
@@ -75,16 +94,85 @@
                                 </tr>
                             </thead>
                             <?php
-                            echo $HTML_insome;
-                            ?>
+echo $HTML_insome;
+?>
                 </div>
             </div>
         </div>
     </main>
     <?php
     include '../resources/views/components/footer.php';
-    ?>
+?>
+     <div class="model model--delete-indicator" style="display:none">
+        <form action="" method="post" class="model__form">
+            <input type="hidden" name="" class="model__input">
+            <div class="model__header">
+                <span class="model_title">
+Confirmar la eliminación del indicador financiero
+                 </span>
+            </div>
+            <div class="model__body">
+                <p class="model__p">
+                    ¡Atención! La eliminación de esta cuenta es una acción permanente e irreversible. ¿Estás seguro <br>
+                    de que no prefieres solo desactivarla?
+                </p>
+            </div>
+            <div class="model__buttons">
+                <button class="model__exit button__exit btn-exit button--cancel" type="button">
+                    No, Cancelar
+                </button>
 
+                <button class="model__submit   button--delete ">
+                    Si, eliminar permanentemente
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        
+        let buttonExitModal = document.querySelector('.button__exit');
+        let modal = document.querySelector(".model--delete-indicator");
+        let modalReport = document.querySelector(".model--selection-report");
+
+        let dataModelJs = document.querySelector("[data-model='js']");
+        let inputIdPerson = document.querySelector('[name="id_persona"]')
+        let inputIdUser = document.querySelector('[name="id_usuario"]');
+        //model__exit-report
+        let buttonExitModalReport = document.querySelector('.button__exit-report');
+
+
+        document.addEventListener('click', e => {
+
+            if(e.target.matches('.model__exit')){
+                modal.style.display = 'none'
+            }
+            if (e.target.matches("[data-model='js']")) {
+                let modelForm = document.querySelector('.model__form');
+                let modelInput = document.querySelector('.model__input');
+                let modelP = document.querySelector('.model__p')
+                let linkForm = e.target.dataset.link;
+                modelInput.name = e.target.dataset.type;
+                modelInput.value = e.target.dataset.id;
+                if(e.target.dataset.type == 'id_egreso'){
+                    modelP.innerHTML = '¿Estás seguro de que quieres eliminar este indicador de egreso? Esta acción es irreversible.';
+
+                }else{
+                    modelP.innerHTML = '¿Estás seguro de que quieres eliminar este indicador de ingreso? Esta acción es irreversible.';
+                }
+                modelForm.action = linkForm;
+                console.info(linkForm)
+                modal.removeAttribute('style');
+                
+            }
+
+            if (e.target.matches("[data-model='js_report']")) {
+
+                modalReport.removeAttribute('style');
+
+            }
+        })
+    </script>
     <script>
         //form-egreso__delete
         let formDeleteAccount = document.querySelector('.form-egreso__delete');
@@ -120,8 +208,8 @@
     </script>
 
     <?php
-    include '../resources/views/components/admin/presentation.php';
-    ?>
+include '../resources/views/components/admin/presentation.php';
+?>
 
     <script src="../../../js/components/presentation_system_web.js" type="module"></script>
     <script src="../../../js/components/location_admin.js" type="module"></script>

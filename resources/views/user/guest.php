@@ -46,12 +46,29 @@
                 ?>
                 <?php
                 echo $title == 'Modificar' ? '<input type="hidden" name="id_person"value="' . $data['id_persona'] . '">' : '' ?>
-                <legend class="form__title">
+                <legend class="form__title m-0">
                     <b> <?php
                     echo $title ?> persona invitada</b>
                 </legend>
-                <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
-                    actualizar tu perfil en cualquier momento. </p>
+                <p class="form__description"> Al <?php echo $title == 'Modificar' ? 'modificar':'registrar';?> un usuario invitado, usted autoriza la visualización de su información financiera y transacciones. 
+                    Ejerza el control total sobre la privacidad y recuerde que puede actualizar o revocar este acceso desde su perfil en cualquier momento. </p>
+                           <?php
+                    if (isset($_SESSION['alert-danger'])) {
+                        echo '
+                        <div class="alert alert-danger" role="alert">
+                            '.$_SESSION['alert-danger'].'
+                        </div>';
+                        unset($_SESSION['alert-danger']);
+                    }
+                ?>
+                <?php
+                    if (isset($_SESSION['alert-success'])) {
+                        echo '
+                            <div class="alert alert-success" role="alert">
+                                '.$_SESSION['alert-success'].' </div>';
+                        unset($_SESSION['alert-success']);
+                    }
+                ?>
                 <hr class="form__separator">
                <div class="form__data">
     <div class="row form__row">
@@ -63,13 +80,13 @@
             <div class="input-group mb-3">
                 <span class="form__icon input-group-text"><i class="bi bi-person-circle"></i></span>
                 <input type="text" name="name" class="form__input form__input--item form-control"
-                    placeholder="Tu nombre" aria-label="Nombre" value="<?php echo $data['nombre'] ?? '' ?>">
+                    placeholder="Su nombre" aria-label="Nombre" value="<?php echo $data['nombre'] ?? '' ?>">
             </div>
             <label for="lastname" class="form__label form__label--required">Apellido</label><br>
             <div class="input-group mb-3">
                 <span class="form__icon input-group-text"><i class="bi bi-person-badge"></i></span>
                 <input type="text" name="lastname" class="form__input form__input--item form-control"
-                    placeholder="Tu apellido" aria-label="Apellido" value="<?php echo $data['apellido'] ?? ''?>">
+                    placeholder="Su apellido" aria-label="Apellido" value="<?php echo $data['apellido'] ?? ''?>">
             </div>
             <label for="email" class="form__label form__label--required">Correo electrónico</label><br>
             <div class="input-group mb-3">
@@ -91,11 +108,11 @@
             <div class="input-group mb-3">
                 <span class="form__icon input-group-text"><i class="bi bi-person-fill"></i></span>
                 <input type="text" name="user" class="form__input form__input--item form-control"
-                    placeholder="Tu nombre de usuario" aria-label="Nombre de usuario"
+                    placeholder="Su nombre de usuario" aria-label="Nombre de usuario"
                     value="<?php echo $data['usuario'] ?? '' ?>">
             </div>
             <?php
-            echo $title != 'Agregar' ? "<small>Para cambiar tu contraseña, ingresa una nueva. De lo contrario, deja los campos vacíos.</small> <br>" : '';
+            echo $title != 'Agregar' ? "<small>Para cambiar su contraseña, ingresa una nueva. De lo contrario, deja los campos vacíos.</small> <br>" : '';
             ?>
             <label for="password"
                 class="form__label <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Contraseña</label><br>
@@ -111,7 +128,7 @@
             <div class="input-group mb-3">
                 <span class="form__icon input-group-text"><i class="bi bi-shield-lock"></i></span>
                 <input type="password" name="confirm-password"
-                    class="form__input form__input--item form-control" placeholder="Confirma tu contraseña"
+                    class="form__input form__input--item form-control" placeholder="Confirma su contraseña"
                     aria-label="Confirmar contraseña" value="">
             </div>
             <div>
@@ -130,9 +147,9 @@
                     <button class="form__button button--back" type="button">
 
                         <a href="<?php echo $button_back ?>guests/1" class="text-black text-decoration-none"> 
-                            <i class="bi bi-arrow-left-square-fill"></i>Regresar</a>
+                            <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
                     </button>
-                    <button class="form__button form__button--submit" type="submit"><i class="bi bi-check-circle-fill"></i>Actualizar datos</button>
+                    <button class="form__button form__button--submit" type="submit"><i class="bi bi-check-circle-fill"></i> <?php echo $title;?> datos</button>
                 </div>
             </form>
         </div>

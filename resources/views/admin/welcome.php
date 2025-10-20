@@ -77,14 +77,7 @@
                 <div class="card">
                     <h2 class="card__title fs-5">Acciones Rápidas</h2>
                     <div class="card__content">
-                        <div class="card__block card_categorys">
-                            <i class="bi bi-file-earmark-bar-graph fs-4 card__icon"></i>
-                            <a href="./users/data-report" class="text-decoration-none text-color-black">
-                                <div class="card__quantity-content">
-                                    <span class="card__sub-title">Generar Reporte de Usuarios</span>
-                                </div>
-                            </a>
-                        </div>
+                         
                         <div class="card__block card_categorys">
                             <i class="bi bi-plus-circle-fill fs-4 card__icon"></i>
                             <a href="./indicator/add" class="text-decoration-none text-color-black">

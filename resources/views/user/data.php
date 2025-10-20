@@ -33,7 +33,7 @@
     <main class="main ">
         <?php
         include '../resources/views/components/user/sidebar.php';
-        ?>
+    ?>
         <article class="style-border">
             <div class="row ">
                 <div class="col-lg-6 col-12 ">
@@ -46,6 +46,23 @@
                             </button>
                         </div>
                     </div>
+                       <?php
+                if (isset($_SESSION['alert-danger'])) {
+                    echo '
+                        <div class="alert alert-danger" role="alert">
+                            '.$_SESSION['alert-danger'].'
+                        </div>';
+                    unset($_SESSION['alert-danger']);
+                }
+    ?>
+                <?php
+        if (isset($_SESSION['alert-success'])) {
+            echo '
+                            <div class="alert alert-success" role="alert">
+                                '.$_SESSION['alert-success'].' </div>';
+            unset($_SESSION['alert-success']);
+        }
+    ?>
                     <section class='table'>
                         <table class='dataTable'>
                             <thead>
@@ -59,8 +76,8 @@
                                 </tr>
                             </thead>
                             <?php
-                            echo $HTML;
-                            ?>
+                echo $HTML;
+    ?>
                 </div>
                 <div class="col-lg-6 col-12 ">
                     <div class="main__budget ">
@@ -70,10 +87,10 @@
                                 <span class="meta__title">
                                     <i>
                                         Año: <?php
-                                        //fecha actual
-                                        $ano_actual = date('Y');
-                                        echo $ano_actual
-                                            ?>
+                // fecha actual
+                $ano_actual = date('Y');
+    echo $ano_actual
+    ?>
                                     </i>
                                 </span>
                             </div>
@@ -97,7 +114,7 @@
                                 </thead>
                                 <?php
 
-                                $months = array(
+                                $months = [
                                     1 => 'Enero',
                                     2 => 'Febrero',
                                     3 => 'Marzo',
@@ -109,41 +126,40 @@
                                     9 => 'Septiembre',
                                     10 => 'Octubre',
                                     11 => 'Noviembre',
-                                    12 => 'Diciembre'
-                                );
+                                    12 => 'Diciembre',
+                                ];
 
-                                $presupuesto = array_fill(1, 12, ''); // Más eficiente que escribir manualmente
-                                $ahorro = array_fill(1, 12, '');
-                                $id_presupuesto_ahorro = array_fill(1, 12, '');
-                                $count = 0;
-                                $test = '';
-                                $array = [];
-                                $count = 0;
+    $presupuesto = array_fill(1, 12, ''); // Más eficiente que escribir manualmente
+    $ahorro = array_fill(1, 12, '');
+    $id_presupuesto_ahorro = array_fill(1, 12, '');
+    $count = 0;
+    $test = '';
+    $array = [];
+    $count = 0;
 
-                                if ($budget != '') {
-                                    foreach ($budget as $value) {
-                                        $mes = $value['mes']; // Asume que $value['mes'] es un número (0-11)
-                                        if (isset($presupuesto[$mes])) { // Verifica si la clave existe
-                                            $presupuesto[$mes] = $value['monto_total'];
-                                            $ahorro[$mes] = $value['porcentaje_ahorro'];
-                                            $id_presupuesto_ahorro[$mes] = $value['id_presupuesto_ahorro'];
-                                        }
-                                    }
-                                }
+    if ($budget != '') {
+        foreach ($budget as $value) {
+            $mes = $value['mes']; // Asume que $value['mes'] es un número (0-11)
+            if (isset($presupuesto[$mes])) { // Verifica si la clave existe
+                $presupuesto[$mes] = $value['monto_total'];
+                $ahorro[$mes] = $value['porcentaje_ahorro'];
+                $id_presupuesto_ahorro[$mes] = $value['id_presupuesto_ahorro'];
+            }
+        }
+    }
 
-
-                                for ($i = 1; $i <= 12; $i++) {
-                                    echo "<tr class='show'>";
-                                    echo "<td>" . $months[$i] . "</td>";
-                                    if ($presupuesto[$i] == '') {
-                                        echo "<td> No disponible</td>";
-                                    } else {
-                                        echo "<td>" . number_format($presupuesto[$i], 2, ',', '.') . ' Bs.' . "</td>";
-                                    }
-                                    if ($ahorro[$i] == '') {
-                                        echo "<td> No disponible</td>";
-                                    } else {
-                                        echo "<td>
+    for ($i = 1; $i <= 12; $i++) {
+        echo "<tr class='show'>";
+        echo '<td>'.$months[$i].'</td>';
+        if ($presupuesto[$i] == '') {
+            echo '<td> No disponible</td>';
+        } else {
+            echo '<td>'.number_format($presupuesto[$i], 2, ',', '.').' Bs.'.'</td>';
+        }
+        if ($ahorro[$i] == '') {
+            echo '<td> No disponible</td>';
+        } else {
+            echo "<td>
                                                 <div class='input-group'>
                                                     <span class='input-group-text form__icon'><i class='bi bi-piggy-bank'></i></span>
                                                     <select name='ahorro'
@@ -152,24 +168,24 @@
                                                             Seleccione una opcion
                                                         </option>
                                                 </div>";
-                                        for ($j = 0; $j <= 100; $j++) {
-                                            if ($ahorro[$i] == $j) {
-                                                echo "<option value='$j'selected data-id='$id_presupuesto_ahorro[$i]'>$ahorro[$i]%</option>";
-                                            } else {
-                                                echo "<option value='$j' data-id='$id_presupuesto_ahorro[$i]'>  $j% </option>";
-                                            }
-                                        }
-                                        echo "</td>";
-                                    }
-                                    if ($ahorro[$i] == '') {
-                                        echo "<td> No disponible</td>";
-                                    } else {
-                                        $paso_ahorro = $presupuesto[$i] * $ahorro[$i] / 100;
-                                        echo "<td>" . number_format($paso_ahorro, 2, ',', '.') . ' Bs.' . "</td>";
-                                    }
-                                    echo '</tr>';
-                                }
-                                ?>
+            for ($j = 0; $j <= 100; $j++) {
+                if ($ahorro[$i] == $j) {
+                    echo "<option value='$j'selected data-id='$id_presupuesto_ahorro[$i]'>$ahorro[$i]%</option>";
+                } else {
+                    echo "<option value='$j' data-id='$id_presupuesto_ahorro[$i]'>  $j% </option>";
+                }
+            }
+            echo '</td>';
+        }
+        if ($ahorro[$i] == '') {
+            echo '<td> No disponible</td>';
+        } else {
+            $paso_ahorro = $presupuesto[$i] * $ahorro[$i] / 100;
+            echo '<td>'.number_format($paso_ahorro, 2, ',', '.').' Bs.'.'</td>';
+        }
+        echo '</tr>';
+    }
+    ?>
                             </table>
                         </section>
                     </div>

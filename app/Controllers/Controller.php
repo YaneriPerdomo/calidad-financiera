@@ -2,35 +2,32 @@
 
 namespace App\Controllers;
 
-use Lib\Database;
-
 class Controller
 {
-   public function view($route, $data = [])
-   {
-      // Destructurar arreglo
-      extract($data); // Convierte las claves del arreglo $data en variables
+    public function view($route, $data = [])
+    {
+        extract($data);
+        $route = str_replace('.', '/', $route);
+        if (file_exists("../resources/views/{$route}.php")) {
+            ob_start();
+            include "../resources/views/{$route}.php";
+            $content = ob_get_clean();
 
-      $route = str_replace('.', '/', $route); //opcional
-      if (file_exists("../resources/views/{$route}.php")) {
+            return $content;
+        } else {
+            return 'El archivo no existe';
+        }
+    }
 
-         ob_start();
-         include "../resources/views/{$route}.php";
-         $content = ob_get_clean();
+    public function redirect($route)
+    {
+        header("Location: {$route}");
+    }
 
-         return $content;
-      } else {
-         return "El archivo no existe";
-      }
-   }
-
-
-
-   public function redirect($route)
-   {
-      header("Location: {$route}");
-   }
-
-   //Verificar si el usuario esta logueado
-
+    public function sessionCreation($nameSession, $msg)
+    {
+        session_start();
+        $_SESSION[$nameSession] = $msg;
+        session_write_close();
+    }
 }

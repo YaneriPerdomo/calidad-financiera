@@ -49,10 +49,19 @@ class ChangesPasswordController extends Controller
 
        
      
-   
-     return $update_password->status == false
-     ? '<script>alert("'.$update_password->msg .'"); location.href = "./changes-password"</script>' 
-     : '<script>alert("Contraseña cambiada correctamente"); location.href = "./changes-password"</script>';
-  
+       if($update_password->status == true){
+          $this->sessionCreation(
+                'alert-success',
+                'La contraseña ha sido actualizada correctamente.'
+            );
+            header('location: ./changes-password', true, 302);
+      }else{
+              $this->sessionCreation(
+                'alert-danger',
+                $update_password->msg
+            );
+            header('location: ./changes-password', true, 302);
+      }
+    
     }
 }

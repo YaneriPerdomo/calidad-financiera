@@ -44,7 +44,24 @@
                     <legend class="form__title form__title--profile"><b>Perfil</b></legend>
                     <p class="form__description form__description--profile"> Controla tu información protegiendo tu
                         privacidad y puedes actualizar tu perfil en cualquier momento. </p>
-                    <hr class="form__separator">
+                      <?php
+                    if (isset($_SESSION['alert-danger'])) {
+                        echo '
+                        <div class="alert alert-danger" role="alert">
+                            '.$_SESSION['alert-danger'].'
+                        </div>';
+                        unset($_SESSION['alert-danger']);
+                    }
+                ?>
+                <?php
+                    if (isset($_SESSION['alert-success'])) {
+                        echo '
+                            <div class="alert alert-success" role="alert">
+                                '.$_SESSION['alert-success'].' </div>';
+                        unset($_SESSION['alert-success']);
+                    }
+                ?>
+                        <hr class="form__separator">
                     <div class="form__data form__data--profile">
                         <div class="form__row form__row--account-data row ">
                             <div class="form__col form__col--title col-lg-4 col-12">

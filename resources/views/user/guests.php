@@ -1,4 +1,4 @@
-<?php // Vista del panel de control del usuario 
+<?php // Vista del panel de control del usuario
 ?>
 <!doctype html>
 <html lang="es" class="full-heigh">
@@ -26,12 +26,15 @@
         href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../css/components/_sidebar.css">
     <link rel="stylesheet"
         href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../css/components/_pagination.css">
+         <link rel="stylesheet"
+        href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../css/components/_modal.css">
     <link rel="stylesheet"
         href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../css/pages/_about.css">
     <link rel="stylesheet"
         href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../css/utilities.css">
     <link rel="stylesheet"
         href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../css/layouts/_base.css">
+        
     <link rel="icon" type="image/x-icon"
         href="<?php echo $searchUsers == false ? '../../' : '../../../' ?>public/../img/logo.ico">
     <link rel="stylesheet"
@@ -46,11 +49,11 @@
 <body>
     <?php
     include '../resources/views/components/user/header.php';
-    ?>
+?>
     <main class="main main--content-login">
         <?php
-        include '../resources/views/components/user/sidebar.php';
-        ?>
+    include '../resources/views/components/user/sidebar.php';
+?>
         <div class="style-border">
             <section class="flex-space-between ">
                 <div>
@@ -81,9 +84,9 @@
                         src="<?php echo $searchUsers == false ? '../../' : '../../../' ?>js/components/button_search.js"></script>
                 </div>
                 <div class="button-pdf">
-                    <button type="button" class="button--orange m-2" title="Descargar un reporte en PDF">
-                        <a href="<?php echo $searchUsers == false ? '../' : '../../' ?>guest/data-report"
-                            class="text-decoration-none text-white">Reporte en <b>PDF</b></a>
+                    <button type="button" class="button--orange m-2" title="Descargar un reporte en PDF" data-model='js_report'>
+                                           Generar Reporte 
+
                     </button>
                     <button type="button" class="button--azul" title="Agregar persona invitada">
                         <a href="<?php echo $searchUsers == false ? '../' : '../../' ?>guest/add"
@@ -91,6 +94,22 @@
                     </button>
                 </div>
             </section>
+            <?php if (isset($_SESSION['alert-danger'])) {
+                echo '
+                        <div class="alert alert-danger" role="alert">
+                            '.$_SESSION['alert-danger'].'
+                        </div>';
+                unset($_SESSION['alert-danger']);
+            }
+?>
+            <?php
+    if (isset($_SESSION['alert-success'])) {
+        echo '
+                                    <div class="alert alert-success" role="alert">
+                                        '.$_SESSION['alert-success'].' </div>';
+        unset($_SESSION['alert-success']);
+    }
+?>
             <section class='table'>
                 <table class='dataTable'>
                     <thead>
@@ -106,86 +125,125 @@
                         </tr>
                     </thead>
                     <?php
-                    echo $HTML;
-                    ?>
+        echo $HTML;
+?>
         </div>
-        <script>
-            let formDeleteAccount = document.querySelector('.form-guest__delete');
-            formDeleteAccount.addEventListener('submit', e => {
-                e.preventDefault();
-                let resp = confirm('¿Quieres eliminar a este invitado? Ten en cuenta que, al hacerlo, ya no podrá ver el avance de tu cuenta.');
-                if (resp) {
-                    e.target.submit();
-                }
-
-            })
-        </script>
+        <!-- #region -->
     </main>
     <?php
     include '../resources/views/components/footer.php';
-    ?>
+?>
 
-    <article class="modal modal--delete" style="display:none">
-        <div class="modal__content modal__content--delete">
-            <div class="modal__header">
-                <div class="modal__header-container">
-                    <h2 class="modal__title modal__title--delete">Eliminar cuenta</h2>
-                    <p class="modal__text">
-                        ¿Estás seguro de que deseas eliminar tu cuenta Profesional en "Espacio N"?
-                        Esta acción es irreversible y eliminará todos tus datos,
-                        incluyendo a las cuentas de los usuarios que hayas creado.
-                    </p>
-                </div>
-            </div>
-            <form action="./guest/delete" class="modal__form" data-js-form="delete" method="post">
-                <div class="modal__body">
-                    <input type="hidden" name="id_user" value="" class="modal__input  ">
-                </div>
-                <div class="modal__footer flex-end-full gap-3">
-                    <button type="button" class="modal__button button--cancel" data-js-cancel="delete">Cancelar</button>
-                    <button type="submit" class="modal__button button--delete">Sí, eliminar</button>
-                </div>
-            </form>
+ <div class="model model--selection-report" style="display:none">
+    <form action="<?php echo $searchUsers == false ? '../' : '../../' ?>guest/data-report" method="post" class="model__form">
+
+        <div class="model__header  bg-dorado">
+            <span class="model_title">
+                Generar Reporte de Usuarios
+            </span>
         </div>
-    </article>
-    <script>
+        <div class="model__body">
+            
+            <p class="form__label">Seleccione el formato para descargar el reporte de usuarios.</p>
 
-        let $DATA_ID_GUEST = document.querySelector('[data-id_guest]');
-        let $modal_input_id_user = document.querySelector("[name='id_user']");
-        let $MODAL_DELETE = document.querySelector('.modal--delete');
-        let $DATA_JS_FORM = document.querySelector("[data-js-form]")
+            <label for="report-format" class="form__label form__label--required">Formato de Salida</label><br>
+            <div class="input-group w-100">
+                <span class="input-group-text form__icon" id="basic-addon1"><i class="bi bi-file-earmark-spreadsheet"></i></span>
+                <select id="report-format" name="report_format" class="form-control form__select" required>
+                    <option value="0">-- Seleccione un formato --</option>
+                    <option value="1">PDF</option>
+                    <option value="2">Excel (CSV)</option>
+                </select>
+            </div>
+            
+        </div>
+        <div class="model__buttons" style="margin-left: 1rem; margin-right: 1rem;">
+            <button class="model__exit model__exit-report button__exit button--cancel" type="button">
+                Cancelar
+            </button>
+
+            <button class="model__submit button--orange">
+                Descargar Reporte
+            </button>
+        </div>
+    </form>
+</div>
+   <div class="model model__delete-user" style="display:none">
+<form action="<?php echo $header_break; ?>guest/delete" method="post" class="model__form">
+    <input type="hidden" name="id_usuario">
+    <input type="hidden" name="id_invitado">
+    <div class="model__header">
+        <span class="model_title">
+            Confirmar Eliminación de Cuenta de Invitado
+        </span>
+    </div>
+    <div class="model__body">
+        <p class="model__p">
+            Advertencia: Está a punto de eliminar esta cuenta de invitado de forma permanente. 
+            
+            Esta acción es irreversible y resultará en la pérdida total de los datos asociados y el acceso al sistema. Una vez eliminada, la cuenta no podrá recuperarse ni utilizarse para iniciar sesión.
+        </p>
+    </div>
+    <div class="model__buttons">
+        <button class="model_exit button__exit btn-exit button--cancel" type="button">
+            No, Mantener la Cuenta
+        </button>
+        <button class="model__submit button--delete ">
+            Sí, Eliminar Permanentemente
+        </button>
+    </div>
+</form>
+</div>
+<script>
+    
+        let modalReport = document.querySelector(".model--selection-report");
+     let buttonExitModal = document.querySelector('.button__exit');
+        let modal = document.querySelector(".model__delete-user");
+        let dataModelJs = document.querySelector("[data-model='js']");
+        let inputIdPerson = document.querySelector('[name="id_invitado"]')
+        let inputIdUser = document.querySelector('[name="id_usuario"]');
+      
 
         document.addEventListener('click', e => {
-            if (e.target.matches('.js-open-modal-delete')) {
-                $id_guest = e.target.getAttribute('data-id_guest');
-                open_modal('delete', $MODAL_DELETE, $id_guest);
+
+            if(e.target.matches('.model__exit-report')){
+                modalReport.style.display = 'none'
+            }
+          
+            if (e.target.matches("[data-model='js_report']")) {
+                modalReport.removeAttribute('style');
             }
 
-            if (e.target.matches('[data-js-cancel="delete"]')) {
-                close_modal($MODAL_DELETE);
+             if (e.target.matches("[data-model='js_delete_guest']")) {
+                modal.removeAttribute('style');
+                inputIdUser.value = e.target.dataset.idUser;
+                inputIdPerson.value = e.target.getAttribute('data-id-guest');
+            }
 
+            if(e.target.matches('.button__exit')){
+                modal.style.display = 'none'
             }
         })
+                    
+       
 
-        function open_modal($modal_type, $modal_element, $item_id = null) {
-            $item_id != null ? $modal_input_id_user.value = $item_id : null;
-            switch ($modal_type) {
-                case 'delete':
-                    $modal_element.removeAttribute('style')
-                    break;
+         
 
-                default:
-                    break;
-            }
-        }
+        buttonExitModal.addEventListener("click", e => {
+            modal.style.display = 'none'
+        })
 
-        function close_modal($modal_element) {
-            $modal_element.style.display = 'none';
-        }
-    </script>
+</script>
+    
+   
+                      <script>
+       
+                    </script>
+   
+  
     <?php
-    include '../resources/views/components/presentation.php';
-    ?>
+include '../resources/views/components/presentation.php';
+?>
 
     <script src="<?php echo $searchUsers == false ? '../../' : '../../../' ?>js/components/presentation_system_web.js" type="module"></script>
     <script src="<?php echo $searchUsers == false ? '../../' : '../../../' ?>js/components/location_user.js"

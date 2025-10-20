@@ -1,3 +1,8 @@
+
+<?php
+                session_start();
+
+?>
 <!doctype html>
 <html lang="es" class="full-heigh">
 <head>
@@ -27,6 +32,31 @@
         <form action="login" method="post" class="form-login">
             <legend class="form-login__title font-bold  m-0">Inicia sesion</legend>
             <p class="title-green p-0 m-2">Accede a tu cuenta y toma el control de tus finanzas</p>
+            
+            <?php
+               
+                if (isset($_SESSION['alert-danger'])) {
+                    echo '
+                    <div class="alert alert-danger m-0" role="alert">
+                        '.$_SESSION['alert-danger'].'
+                    </div>';
+
+                    unset($_SESSION['alert-danger']);
+                }
+            ?>
+
+             <?php
+               
+                if (isset($_SESSION['alert-success'])) {
+                    echo '
+                    <div class="alert alert-success m-0" role="alert">
+                        '.$_SESSION['alert-success'].'
+                    </div>';
+                    unset($_SESSION['alert-success']);
+                }
+            ?>
+
+ 
             <div class="form-login__content">
                 <div class="form-login__item">
                     <label for="user" class="form-login__label form__label--required">Usuario</label><br>

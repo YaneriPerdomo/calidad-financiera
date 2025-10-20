@@ -1,3 +1,8 @@
+
+<?php
+                session_start();
+
+?>
 <!doctype html>
 <html lang="es" class="full-heigh">
 <head>
@@ -25,6 +30,25 @@
         <form action="create-account " method='POST' class="form-create m-3">
             <legend class="form-create__title font-bold m-0">Crea una cuenta</legend>
             <p class="title-green p-0 m-2 text-center">Regístrate en minutos y comienza a alcanzar tus objetivos</p>
+             <?php
+                 if (isset($_SESSION['alert-danger'])) {
+                    echo '
+                    <div class="alert alert-danger m-0" role="alert">
+                        '.$_SESSION['alert-danger'].'
+                    </div>';
+                    unset($_SESSION['alert-danger']);
+                }
+            ?>
+             <?php
+                 if (isset($_SESSION['alert-success'])) {
+                    echo '
+                    <div class="alert alert-success m-0" role="alert">
+                        '.$_SESSION['alert-success'].'
+                    </div>';
+                    unset($_SESSION['alert-success']);
+                }
+            ?>
+           
             <div class="form-create__content">
                 <div class="form__data">
                     <div class="row form__row">
@@ -60,7 +84,7 @@
                             <div class="input-group">
                                 <span class="input-group-text form__icon"><i class="bi bi-person-workspace"></i></span>
                                 <select id="actividad" name="actividad"
-                                    class="form-control form__input form__input--select" required>
+                                    class="form-control form__input form__input--select"  >
                                     <option value="" disabled selected> Selecciona una actividad</option>
                                     <?php
                                     echo $actividades

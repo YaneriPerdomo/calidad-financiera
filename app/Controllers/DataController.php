@@ -18,9 +18,12 @@ class DataController extends Controller
     public function store()
     {
         if (empty($_POST)) {
-            echo '<script>alert("No se han recibido datos para agregar")
-            location.href = "./user"
-            </script>';
+            $this->sessionCreation(
+                'alert-success',
+                'No se han recibido datos para agregar'
+            );
+           return header('location: ./user', true, 302);
+         
         }
 
         $value = str_replace('.', '', $_POST['value']);
@@ -36,15 +39,20 @@ class DataController extends Controller
             'observations' => $_POST['observations']
         ]);
 
-        if ($add_data_user->status == true) {
-            echo '<script>alert("La transaccion ha sido registrada exitosamente")
-            location.href = "./data/1"
-            </script>';
+         if ($add_data_user->status) {
+            $this->sessionCreation(
+                'alert-success',
+                'La transaccion ha sido registrada exitosamente'
+            );
+            header('location: ./data/1', true, 302);
         } else {
-            echo '<script>alert("'.$add_data_user->msg.'")
-            location.href = "./add-transaction"
-            </script>';
+            $this->sessionCreation(
+                'alert-danger',
+                $add_data_user->msg ?? 'Error: No se pudo completar la operación.'
+            );
+            header('location: ./add-transaction', true, 302);
         }
+      
     }
 
     public function index($page_number)

@@ -28,3 +28,10 @@ p {
 .bg-blue {
   background-color: var(--color-azul);
 }
+
+@media screen and (max-width: 768px) {
+  .monthly-balance {
+    width: 100%;
+    text-align: center;
+  }
+}

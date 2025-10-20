@@ -1,4 +1,4 @@
-<?php // Vista del panel de control del usuario 
+<?php // Vista del panel de control del usuario
 ?>
 <!doctype html>
 <html lang="es" class="full-heigh">
@@ -35,39 +35,52 @@
 <body>
     <?php
     include '../resources/views/components/admin/header.php';
-    ?>
+?>
     <main class="main main--content-login">
         <?php
-        include '../resources/views/components/admin/sidebar.php';
-        ?>
-        <?php
-        if (isset($_SESSION['error_message'])) {
-            echo '<script>alert("' . $_SESSION['error_message'] . '");</script>';
-            unset($_SESSION['error_message']);
-        }
-        ?>
+    include '../resources/views/components/admin/sidebar.php';
+?>
+        
         <div class="flex-center-full w-100">
             <form action="<?php echo isset($indicator) ? "../$id-{$type}/modify" : '../indicator/add' ?>" method="POST"
                 class="form form--guest">
                 <input type="hidden" name="operation" value="<?php echo empty($indicator) ? 'add' : 'update' ?>">
                 <input type="hidden" name="id" value="<?php echo $id ?? '' ?>">
                 <input type="hidden" name="type_indicator" value="<?php
-                if (isset($indicator)) {
-                    if ($type == 'ingreso') {
-                        echo 'ingreso';
-                    } else if ($type == 'egreso') {
-                        echo 'egreso';
-                    } else {
-                        echo '';
-                    }
-                }
-                ?>">
+        if (isset($indicator)) {
+            if ($type == 'ingreso') {
+                echo 'ingreso';
+            } elseif ($type == 'egreso') {
+                echo 'egreso';
+            } else {
+                echo '';
+            }
+        }
+?>">
                 <legend class="form__title">
                     <b> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> indicador</b>
                 </legend>
                 <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
                     actualizar tu perfil en cualquier momento. </p>
-                <hr class="form__separator">
+                     <?php
+                    if (isset($_SESSION['alert-danger'])) {
+                        echo '
+                                        <div class="alert alert-danger" role="alert">
+                                            '.$_SESSION['alert-danger'].'
+                                        </div>';
+                        unset($_SESSION['alert-danger']);
+                    }
+                    ?>
+                    <?php
+                        if (isset($_SESSION['alert-success'])) {
+                            echo '
+                                        <div class="alert alert-success" role="alert">
+                                            '.$SESSION['alert-success'].'
+                                        </div>';
+                            unset($_SESSION['alert-success']);
+                        }
+                    ?>
+                    <hr class="form__separator">
                 <div class="form__data">
                     <div class="row form__row">
                         <div class="col-12 col-lg-4 form__col form__col--title">
@@ -82,19 +95,19 @@
                                     required>
                                     <option value="" selected disabled>Seleccione una opción</option>
                                     <?php
-                                    if (isset($indicator)) {
-                                        if ($type == 'ingreso') {
-                                            echo '<option value="1" selected>Ingreso</option>
+                            if (isset($indicator)) {
+                                if ($type == 'ingreso') {
+                                    echo '<option value="1" selected>Ingreso</option>
                                     <option value="2" disabled>Egreso</option>';
-                                        } else {
-                                            echo '<option value="1" disabled>Ingreso</option>
+                                } else {
+                                    echo '<option value="1" disabled>Ingreso</option>
                                     <option value="2" selected >Egreso</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="1">Ingreso</option>
+                                }
+                            } else {
+                                echo '<option value="1">Ingreso</option>
                                 <option value="2">Egreso</option>';
-                                    }
-                                    ?>
+                            }
+?>
                                 </select>
                             </div>
                             <div class="graduation-group hidden">
@@ -107,21 +120,21 @@
                                         class="form-control form__select" required>
                                         <?php
 
-                                        if (isset($indicator['id_categoria_egreso'])) {
-                                            $selectedCategoryId = $indicator['id_categoria_egreso'];
-                                        } else {
-                                            echo '<option value="0" disabled selected>Seleccione una opción</option>';
-                                            $selectedCategoryId = null;
-                                        }
+    if (isset($indicator['id_categoria_egreso'])) {
+        $selectedCategoryId = $indicator['id_categoria_egreso'];
+    } else {
+        echo '<option value="0" disabled selected>Seleccione una opción</option>';
+        $selectedCategoryId = null;
+    }
 
-                                        foreach ($data as $value) {
-                                            $categoryId = $value['id_categoria_egreso'];
-                                            $categoryName = $value['categoria'];
-                                            $selected = ($categoryId == $selectedCategoryId) ? 'selected' : '';
+foreach ($data as $value) {
+    $categoryId = $value['id_categoria_egreso'];
+    $categoryName = $value['categoria'];
+    $selected = ($categoryId == $selectedCategoryId) ? 'selected' : '';
 
-                                            echo '<option value="' . $categoryId . '" ' . $selected . '> ' . $categoryName . '</option>';
-                                        }
-                                        ?>
+    echo '<option value="'.$categoryId.'" '.$selected.'> '.$categoryName.'</option>';
+}
+?>
                                     </select>
                                 </div>
                                 <label for="graduation" class="form__label form__label--required">Egreso</label><br>
@@ -156,14 +169,14 @@
                             <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
                     </button>
                     <button class="form__button form__button--submit" type="submit">
-                        <i class="bi bi-check-circle-fill"></i>Actualizar datos</button>
+                        <i class="bi bi-check-circle-fill"></i> Actualizar datos</button>
                 </div>
             </form>
         </div>
     </main>
     <?php
     include '../resources/views/components/footer.php';
-    ?>
+?>
 
 
     <script>
@@ -193,8 +206,8 @@
         })
     </script>
     <?php
-    include '../resources/views/components/admin/presentation.php';
-    ?>
+include '../resources/views/components/admin/presentation.php';
+?>
 
     <script src="<?php echo $js_jump ?>js/components/presentation_system_web.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/components/location_admin.js" type="module"></script>

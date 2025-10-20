@@ -1,4 +1,4 @@
-<?php // Vista del panel de control del usuario 
+<?php // Vista del panel de control del usuario
 ?>
 <!doctype html>
 <html lang="es" class="full-heigh">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
+    <link rel="stylesheet" href="../../public/css/components/_modal.css">
     <link rel="stylesheet" href="../../public/css/components/_header.css">
     <link rel="stylesheet" href="../../public/css/components/_body.css">
     <link rel="stylesheet" href="../../public/css/components/_sidebar.css">
@@ -27,21 +28,21 @@
 <body>
     <?php
     include '../resources/views/components/user/header.php';
-    ?>
+?>
     <main class="main">
         <?php
-        include '../resources/views/components/user/sidebar.php';
-        ?>
+    include '../resources/views/components/user/sidebar.php';
+?>
         <div class="row p-2 m-0">
             <div class="col-12 col-lg-3 configuration-profile h-100">
                 <?php
-                include '../resources/views/components/user/profile-nav.php';
-                ?>
+        include '../resources/views/components/user/profile-nav.php';
+?>
             </div>
             <div class="col-12 col-lg-9">
                 <div class="functionality functionality--account-delete">
                     <button class="button--back" type="button">
-                        <a href="./dashboard/<?php echo Date('m/Y') ?>" class="text-decoration-none text-black"> 
+                        <a href="./dashboard/<?php echo date('m/Y') ?>" class="text-decoration-none text-black"> 
                                 <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
                     </button>
                     <legend class="functionality__title functionality__title--account-delete"><b>Eliminar cuenta</b>
@@ -49,30 +50,61 @@
                     <p class="functionality__description functionality__description--account-delete "> Controla tu
                         información protegiendo tu privacidad y recuerda que puedes actualizar tu perfil en cualquier
                         momento. </p>
-                    <form action="../user/account-delete" class="functionality__description-form" method="post">
-                        <button class="functionality__description-button button--delete">Eliminar cuenta</button>
-                    </form>
-                    <script>
-                        let formDeleteAccount = document.querySelector('.functionality__description-form');
-                        formDeleteAccount.addEventListener('submit', e => {
-                            e.preventDefault();
-                            let resp = confirm('¿Esta seguro que quiere eliminar tu cuenta de calidad financiera por completo?');
-                            if (resp) {
-                                e.target.submit();
-                            }
-
-                        })
-                    </script>
+                         <button class="functionality__description-button button--delete"data-model='js'>Eliminar cuenta</button>
+    
                 </div>
             </div>
         </div>
     </main>
+
+      <div class="model" style="display:none">
+    <form action="../user/account-delete" method="post" class="model__form">
+        <input type="hidden" name="id_usuario">
+        <input type="hidden" name="id_persona">
+        <div class="model__header">
+            <span class="model_title">
+                    ¿Seguro quiere eliminar la cuenta?
+            </span>
+        </div>
+        <div class="model__body">
+            <p class="model__p">
+                ¡Atención! Está a punto de eliminar su cuenta de manera permanente. Esta acción es irreversible. Después de la eliminación, no podrá volver a iniciar sesión.
+            </p>
+        </div>
+        <div class="model__buttons">
+            <button class="model_exit button__exit btn-exit button--cancel" type="button">
+                No, cancelar
+            </button>
+            <button class="model__submit button--delete ">
+                Sí, eliminar permanentemente
+            </button>
+        </div>
+    </form>
+</div>
+                      <script>
+                        let buttonExitModal = document.querySelector('.button__exit');
+        let modal = document.querySelector(".model");
+        let dataModelJs = document.querySelector("[data-model='js']");
+   
+
+        document.addEventListener('click', e => {
+            if (e.target.matches("[data-model='js']")) {
+
+                modal.removeAttribute('style');
+             
+            }
+        })
+
+        buttonExitModal.addEventListener("click", e => {
+            modal.style.display = 'none'
+        })
+                    </script>
     <?php
     include '../resources/views/components/footer.php';
-    ?>
+?>
     <?php
-    include '../resources/views/components/presentation.php';
-    ?>
+include '../resources/views/components/presentation.php';
+?>
 
     <script src="../js/components/presentation_system_web.js" type="module"></script>
 

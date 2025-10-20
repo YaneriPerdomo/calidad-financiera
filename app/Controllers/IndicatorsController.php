@@ -2,161 +2,197 @@
 
 namespace App\Controllers;
 
-use App\Controllers\AuthController;
 use App\Models\indicatorModel;
-use FontLib\TrueType\Header;
 
 class IndicatorsController extends Controller
 {
-   public function __construct()
-   {
+    public function __construct()
+    {
+        AuthController::checkSession([1]);
+    }
 
-      AuthController::checkSession([1]);
-   }
+    public function index($page_e = 1, $page_i = 1)
+    {
+        $show_indicators = new indicatorModel;
+        $show_indicators->show($page_e, $page_i);
+        return $this->view('admin.indicators', [
+            'HTML_graduantion' => $show_indicators->HTML_graduantion,
+            'HTML_insome' => $show_indicators->HTML_insome,
+            'sidebar_jump' => '../../',
+            'header_jump' => '../../',
+            'header_break_login' => '../../../',
+        ]);
+    }
 
-   public function index($page_e = 1, $page_i = 1)
-   {
-      $show_indicators = new indicatorModel();
-      $show_indicators->show($page_e, $page_i);
+    public function deleteGraduation()
+    {
+        $delete_graduation = new indicatorModel;
+        $delete_graduation->deleteGraduation(['id_egreso' => $_POST['id_egreso']]);
+        if ($delete_graduation->status) {
+            $this->sessionCreation(
+                'alert-success',
+                'Indicador eliminado correctamente'
+            );
+            header('location: ../indicators/1/1', true, 302);
+        } else {
+            $this->sessionCreation(
+                'alert-danger',
+                'Error: No se pudo completar la operación.'
+            );
+            header('location: ../indicators/1/1', true, 302);
+        }
+    }
 
+    public function deleteInsome()
+    {
+        $delete_insome = new indicatorModel;
+        $delete_insome->deleteinsome(['id_ingreso' => $_POST['id_ingreso']]);
+        if ($delete_insome->status) {
+            $this->sessionCreation(
+                'alert-success',
+                'Indicador eliminado correctamente'
+            );
+            header('location: ../indicators/1/1', true, 302);
+        } else {
+            $this->sessionCreation(
+                'alert-danger',
+                'Error: No se pudo completar la operación.'
+            );
+            header('location: ../indicators/1/1', true, 302);
+        }
+    }
 
-      return $this->view('admin.indicators', [
-         'HTML_graduantion' => $show_indicators->HTML_graduantion,
-         'HTML_insome' => $show_indicators->HTML_insome,
-         'sidebar_jump' => '../../',
-         'header_jump' => '../../'
-         ,
-         'header_break_login' => '../../../'
-      ]);
-   }
+    public function Create()
+    {
+        $get_graduation_categories = new indicatorModel;
+        $get_graduation_categories->ShowGraduationCategories();
+        return $this->view('admin.indicator', [
+            'data' => $get_graduation_categories->data,
+            'sidebar_jump' => '../',
+            'header_jump' => '../',
+            'js_jump' => '../../',
+            'jump_indicators' => '../',
+            'header_break_login' => '../../',
+        ]);
+    }
 
-   public function deleteGraduation()
-   {
-      $delete_graduation = new indicatorModel();
-      $delete_graduation->deleteGraduation(['id_egreso' => $_POST['id_egreso']]);
+    public function Operation()
+    {
+        if ($_POST['operation'] == 'update') {
+            $this->Update();
+        } else {
+            $this->AddIndicator();
+        }
+    }
 
-      return $delete_graduation->status == false
-         ? '<script>alert("Sucedio un error"); location.href = "./indicator/add"</script>'
-         : '<script>alert("Indicador eliminado correctamente"); location.href = "../indicators/1/1"</script>';
+    public function Modify($id)
+    {
+        $type_indicator = '';
+        $url = $_SERVER['REQUEST_URI'];
+        if (strpos($url, 'ingreso')) {
+            $type_indicator = 'ingreso';
+        } else {
+            $type_indicator = 'egreso';
+        }
+        preg_match_all('/\d+/', $url, $coincidencias);
+        $id = implode($coincidencias[0]);
+        $get_indicator = new indicatorModel;
+        $get_indicator->ShowIndicator($id, $type_indicator);
+        $get_graduation_categories = new indicatorModel;
+        $get_graduation_categories->ShowGraduationCategories();
+        return $this->view('admin.indicator', [
+            'data' => $get_graduation_categories->data,
+            'indicator' => $get_indicator->data,
+            'type' => $type_indicator,
+            'id' => $id,
+            'type_indicator',
+            'jump_indicators' => '../../',
+            'sidebar_jump' => '../../',
+            'header_jump' => '../../',
+            'header_break_login' => '../../../',
+            'js_jump' => '../../../',
+        ]);
+    }
 
-   }
+    public function Update()
+    {
+        $msg = '';
+        if ($_POST['type-indicator'] == 1) { // Ingreso
+            if ($_POST['income'] == '') {
+                $msg = 'Por favor, ingrese el nombre del indicador de ingreso correctamente.';
+                $type = match ($_POST['type-indicator']) {
+                    '1' => 'ingreso',
+                    '2' => 'egreso',
+                };
+                $id = trim($_POST['id']);
+                $this->sessionCreation('alert-danger', $msg);
+                return header("Location: ../../indicator/{$id}-{$type}/modify");
+            }
+        } else {
+            if ($_POST['graduation'] == '') {
+                $msg = 'Por favor, ingrese el nombre del indicador de ingreso correctamente.';
+                $type = match ($_POST['type-indicator']) {
+                    '1' => 'ingreso',
+                    '2' => 'egreso',
+                };
+                $id = trim($_POST['id']);
+                $this->sessionCreation('alert-danger', $msg);
+                return header("Location: ../../indicator/{$id}-{$type}/modify");
+            }
+        }
+        $update_indicator = new indicatorModel;
+        $update_indicator->UpdateIndicator([
+            'id' => $_POST['id'],
+            'operation' => $_POST['operation'],
+            'type-indicator' => $_POST['type-indicator'] ?? '',
+            'id_graduation-categorys' => $_POST['id_graduation-category'] ?? '',
+            'graduation' => $_POST['graduation'] ?? '',
+            'income' => $_POST['income'] ?? '',
+        ]);
+        if ($update_indicator->status == true) {
+            $type = match ($_POST['type-indicator']) {
+                '1' => 'Ingreso',
+                '2' => 'Egreso',
+            };
+            $this->sessionCreation(
+                'alert-success',
+                $type.' actualizado con éxito.'
+            );
+            header('location: ../../indicators/1/1', true, 302);
+        } else {
+            $type = match ($_POST['type-indicator']) {
+                '1' => 'ingreso',
+                '2' => 'egreso',
+            };
+            $id = trim($_POST['id']);
+            $this->sessionCreation(
+                'alert-danger',
+                $update_indicator->msg ?? 'Error: No se pudo completar la operación.'
+            );
+            header("Location: ../../indicator/{$id}-{$type}/modify");
+        }
+    }
 
-   public function deleteInsome()
-   {
-      $delete_insome = new indicatorModel();
-      $delete_insome->deleteinsome(['id_ingreso' => $_POST['id_ingreso']]);
-
-      return $delete_insome->status == false
-         ? '<script>alert("Sucedio un error"); location.href = "./indicator/add"</script>'
-         : '<script>alert("Indicador eliminado correctamente"); location.href = "../indicators/1/1"</script>';
-
-   }
-
-
-   public function Create()
-   {
-      $get_graduation_categories = new indicatorModel();
-      $get_graduation_categories->ShowGraduationCategories();
-
-      return $this->view('admin.indicator', [
-         'data' => $get_graduation_categories->data,
-         'sidebar_jump' => '../',
-         'header_jump' => '../',
-         'js_jump' => '../../',
-         'jump_indicators' => '../',
-         'header_break_login' => '../../'
-      ]);
-   }
-
-   public function Operation()
-   {
-      if ($_POST['operation'] == 'update') {
-         $this->Update();
-      } else {
-         $this->AddIndicator();
-      }
-   }
-   public function Modify($id)
-   {
-      //imprimir toda la url
-      $type_indicator = '';
-      $url = $_SERVER['REQUEST_URI'];
-      if (strpos($url, 'ingreso')) {
-         $type_indicator = 'ingreso';
-      } else {
-         $type_indicator = 'egreso';
-      }
-
-      preg_match_all('/\d+/', $url, $coincidencias);
-
-      $id = implode($coincidencias[0]);
-
-      $get_indicator = new indicatorModel();
-      $get_indicator->ShowIndicator($id, $type_indicator);
-
-      $get_graduation_categories = new indicatorModel();
-      $get_graduation_categories->ShowGraduationCategories();
-
-
-      return $this->view('admin.indicator', [
-         'data' => $get_graduation_categories->data,
-         'indicator' =>
-            $get_indicator->data,
-         'type' => $type_indicator,
-         'id' => $id,
-         'type_indicator',
-         'jump_indicators' => '../../',
-         'sidebar_jump' => '../../',
-         'header_jump' => '../../',
-         'header_break_login' => '../../../',
-         'js_jump' => '../../../'
-      ]);
-
-      /*
-      $get_indicator = new indicatorModel();
-      $get_indicator->ShowIndicator($_GET['id']);
-
-      */
-   }
-
-   public function Update()
-   {
-
-      $update_indicator = new indicatorModel();
-      $update_indicator->UpdateIndicator([
-         'id' => $_POST['id'],
-         'operation' => $_POST['operation'],
-         'type-indicator' => $_POST['type-indicator'] ?? '',
-         'id_graduation-categorys' => $_POST['id_graduation-category'] ?? '',
-         'graduation' => $_POST['graduation'] ?? '',
-         'income' => $_POST['income'] ?? ''
-      ]);
-
-      if ($update_indicator->status == true) {
-         header('location: ../../indicators/1/1', true, 302);
-      } else {
-         $_SESSION['error_message'] = "$update_indicator->msg";
-         $type = match ($_POST['type-indicator']) {
-            "1" => 'ingreso',
-            "2" => 'egreso',
-         };
-         $id = trim($_POST['id']);
-         header("Location: ../../indicator/{$id}-{$type}/modify");
-      }
-   }
-   public function AddIndicator()
-   {
-
-      $add_indicator = new indicatorModel();
-      $add_indicator->AddIndicator([
-         'type-indicator' => $_POST['type-indicator'] ?? '',
-         'id_graduation-categorys' => $_POST['id_graduation-category'] ?? '',
-         'graduation' => $_POST['graduation'] ?? '',
-         'income' => $_POST['income'] ?? ''
-      ]);
-
-      return $add_indicator->status == false
-         ? '<script>alert("'.$add_indicator->msg.'"); location.href = "../indicator/add"</script>'
-         : '<script>alert("Indicador agregado correctamente"); location.href = "../indicators/1/1"</script>';
-   }
+    public function AddIndicator()
+    {
+        $add_indicator = new indicatorModel;
+        $add_indicator->AddIndicator([
+            'type-indicator' => $_POST['type-indicator'] ?? '',
+            'id_graduation-categorys' => $_POST['id_graduation-category'] ?? '',
+            'graduation' => $_POST['graduation'] ?? '',
+            'income' => $_POST['income'] ?? '',
+        ]);
+        if (! $add_indicator->status) {
+            $this->sessionCreation(
+                'alert-danger',
+                $add_indicator->msg
+            );
+            header('Location: ../indicator/add');
+            exit();
+        } else {
+            $this->sessionCreation('alert-success', 'Indicador agregado correctamente');
+            header('Location: ../indicators/1/1');
+            exit();
+        }
+    }
 }

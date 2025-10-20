@@ -43,7 +43,24 @@
                     <legend class="form__title form__title--profile"><b>Cambiar contraseña</b></legend>
                     <p class="form__description form__description--profile"> Protege tu cuenta actualizando tu
                         contraseña de forma segura. </p>
-                    <hr class="form__separator">
+                           <?php
+                    if (isset($_SESSION['alert-danger'])) {
+                        echo '
+                        <div class="alert alert-danger" role="alert">
+                            '.$_SESSION['alert-danger'].'
+                        </div>';
+                        unset($_SESSION['alert-danger']);
+                    }
+                ?>
+                <?php
+                    if (isset($_SESSION['alert-success'])) {
+                        echo '
+                            <div class="alert alert-success" role="alert">
+                                '.$_SESSION['alert-success'].' </div>';
+                        unset($_SESSION['alert-success']);
+                    }
+                ?>
+                        <hr class="form__separator">
 
                     <label for="old-password" class="form__label form__label--required">Contraseña actual</label><br>
                     <div class="input-group mb-3">

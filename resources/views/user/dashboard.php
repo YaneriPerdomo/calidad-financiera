@@ -27,7 +27,9 @@ function fc_number_format($number)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+    <style>
 
+    </style>
 <body>
     <?php
     include '../resources/views/components/user/header.php';
@@ -134,7 +136,7 @@ function fc_number_format($number)
                             echo '<data value="' . $total_graduation_ . '" class="text-red fs-3 monthly-data-total__value--budget"><b>' . $total_graduation_ . ' Bs</b></data>';
                             ?>
                         </div>
-                        <div class="monthly-data-total__block">
+                        <div class="monthly-data-total__block monthly-balance">
                             <span class="monthly-data-total__title"> <i class="bi bi-briefcase-fill fs-2"> </i><b>Saldo
                                     mensual</b></span><br>
                             <?php

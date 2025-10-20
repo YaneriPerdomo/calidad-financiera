@@ -29,7 +29,7 @@ Route::get('/signOut', [SignOutController::class, 'signOut']);
 // Rutas de usuario (con autenticación)
 Route::get('/user/dashboard/:month/:year', [UserController::class, 'index']);
 Route::get('/user/guests/:page', [GuestsController::class, 'show']);
-Route::get('/user/guest/data-report', [GuestsController::class, 'reportGuests']);
+Route::post('/user/guest/data-report', [GuestsController::class, 'reportGuests']);
 Route::get('/user/guests/:nameUserSearch/:page', [GuestsController::class, 'searchGuest']);
 Route::get('/user/add-guest', [GuestsController::class, 'showAddForm']);
 Route::post('/user/add-guest', [GuestsController::class, 'addData']);
@@ -72,7 +72,7 @@ Route::post('/admin/indicator/:id-ingreso/modify', [IndicatorsController::class,
 Route::get('/admin/:id-user/modify', [UserController::class, 'edit']);
 Route::post('/admin/:id-user/modify', [UserController::class, 'update']);
 Route::get('/admin/user/:id/progress', [IndicatorsController::class, 'Operation']);
-Route::get('/admin/users/data-report', [UserController::class, 'reportUsers']);
+Route::post('/admin/users/data-report', [UserController::class, 'reportUsers']);
 Route::post('/admin/user/delete', [UserController::class, 'destroy']);
 
 

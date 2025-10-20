@@ -20,13 +20,17 @@ class ProfileAdminController extends Controller{
          'usuario' => $_POST['user'],
       ]);
       if($update_data_profile->status == true){
-         echo '<script>alert("Datos actualizados correctamente")
-         location.href = "./profile"
-         </script>';
+          $this->sessionCreation(
+                'alert-success',
+                'El nombre de usuario ha sido actualizado correctamente.'
+            );
+            header('location: ./profile', true, 302);
       }else{
-         echo '<script>alert("'.$update_data_profile->msg.'")
-         location.href = "./profile"
-         </script>';
+              $this->sessionCreation(
+                'alert-danger',
+                $$update_data_profile->msg
+            );
+            header('location: ../indicators/1/1', true, 302);
       }
    }
    
