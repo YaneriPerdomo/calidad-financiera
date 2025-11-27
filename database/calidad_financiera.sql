@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2025 a las 03:29:16
+-- Tiempo de generación: 27-11-2025 a las 17:46:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -169,14 +169,6 @@ CREATE TABLE `invitados` (
   `correo_electronico` varchar(80) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `invitados`
---
-
-INSERT INTO `invitados` (`id_invitado`, `id_usuario`, `id_persona`, `nombre`, `apellido`, `correo_electronico`) VALUES
-(45, 128, 27, 'Caja', 'Perdomo', 'perdomo@gmail.com'),
-(46, 130, 28, 'Yaneri', 'Perdomo', 'perdomopaolaabrrios@gmail.com');
-
 -- --------------------------------------------------------
 
 --
@@ -193,14 +185,6 @@ CREATE TABLE `personas` (
   `correo_electronico` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `personas`
---
-
-INSERT INTO `personas` (`id_persona`, `id_actividad`, `id_usuario`, `nombre`, `apellido`, `correo_electronico`) VALUES
-(27, 1, 127, 'Mateo', 'Perdomo', 'perdomopaolabarrio@gmail.com'),
-(28, 2, 129, 'Yaneri', 'Perdomo', 'perdomopaolabarrios@gmail.com');
-
 -- --------------------------------------------------------
 
 --
@@ -211,18 +195,10 @@ DROP TABLE IF EXISTS `presupuestos_ahorros`;
 CREATE TABLE `presupuestos_ahorros` (
   `id_presupuesto_ahorro` int(10) NOT NULL,
   `id_persona` int(10) DEFAULT NULL,
-  `monto_total` decimal(10,3) DEFAULT NULL,
+  `monto_total` decimal(20,3) DEFAULT NULL,
   `porcentaje_ahorro` int(11) NOT NULL DEFAULT 0,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `presupuestos_ahorros`
---
-
-INSERT INTO `presupuestos_ahorros` (`id_presupuesto_ahorro`, `id_persona`, `monto_total`, `porcentaje_ahorro`, `fecha`) VALUES
-(13, 27, 2089.000, 0, '2025-11-05'),
-(14, 28, 9999999.999, 19, '2025-11-20');
 
 -- --------------------------------------------------------
 
@@ -263,21 +239,6 @@ CREATE TABLE `transacciones` (
   `anulado` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `transacciones`
---
-
-INSERT INTO `transacciones` (`id_transaccion`, `id_persona`, `id_egreso`, `id_ingreso`, `fecha`, `valor_bs`, `notas`, `anulado`) VALUES
-(106, 27, NULL, 37, '2025-11-05 10:47:02', 2323.320, '', 0),
-(107, 27, 32, NULL, '2025-11-05 10:47:15', 1323.320, '', 0),
-(108, 27, NULL, 37, '2025-11-06 06:04:39', 1323.320, '', 0),
-(109, 27, 32, NULL, '2025-11-11 23:22:21', 232.320, '', 0),
-(117, 27, NULL, 7, '2025-11-13 09:38:35', 0.000, '', 0),
-(121, 27, NULL, 7, '2025-11-13 09:44:02', 0.000, '', 0),
-(122, 28, NULL, 37, '2025-11-20 19:34:31', 9999999.999, 'XXX\r\n', 1),
-(123, 28, NULL, 37, '2025-11-20 19:34:41', 23232.000, '', 1),
-(124, 28, NULL, 7, '2025-11-20 21:45:51', 2323.000, '', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -300,18 +261,7 @@ CREATE TABLE `usuarios_cf` (
 --
 
 INSERT INTO `usuarios_cf` (`id_usuario`, `id_rol`, `usuario`, `clave`, `fecha_creacion`, `ultimo_acceso`, `estado`) VALUES
-(1, 2, 'admin', '$2y$10$u6kqmLq.I6.FlwcXlMDJ/.dpAmaKZAZwMKpkXRYxHrRWzla1cycvq', '2025-09-01 20:49:55', '2025-11-20 22:17:12', b'1'),
-(99, 3, 'edgarMaldonado2001', '$2y$10$eD23crygaNiQ9DOHjlpp5.xd4stpTXgJhfparlogr8s3pJx1l3QGq', '2025-08-20 17:12:32', '2025-09-24 09:30:01', b'1'),
-(100, 3, 'dustinJame', '$2y$10$ZDaKOtEEBYZDcxJs3m3ws.sTNamqcegdh5apdIVBuoxuTkkET0kei', '2025-08-20 17:13:49', NULL, b'1'),
-(101, 3, 'Moises', '$2y$10$4YZfxiEfvPOdfWg7OcAr7uigE6vhjwcATAAsfdezPSk7DmsMbcyvK', '2025-08-20 17:14:17', NULL, b'1'),
-(102, 3, 'Yaneri2024', '$2y$10$VlKeXXIEDjARZU04hk8dn.BRcRs0ph.qe3u7hRI5m4MOgliynUmsS', '2025-08-20 17:14:42', NULL, b'1'),
-(103, 3, 'Messi37', '$2y$10$Vf7vs2gdE8tYEkcL.wRb1esXuHQcPh.KdPt.wHclCZIsi00mc/MmW', '2025-08-20 17:15:13', NULL, b'1'),
-(105, 3, 'fanny2025', '$2y$10$wMEh7hKl6.c.RiA3G7roOOgytKkuY.TjdfGE4a8dMfc3AaibeIjsu', '2025-09-27 19:27:01', '2025-10-03 22:09:25', b'1'),
-(126, 3, 'perdomo', '$2y$10$/u7k6fsud2c3.kcp9tXbvujpgPgGP252ngvIfWQqQM/8Zy4uuiu3a', '2025-11-05 09:07:18', '2025-11-05 09:07:29', b'1'),
-(127, 1, 'mateo', '$2y$10$OfbvbzDDSMrFXCWSLe/96eO7FIw1G15XMUmpxYUnF7bz5bSq04FKK', '2025-11-05 10:44:40', '2025-11-13 12:50:35', b'1'),
-(128, 3, 'yaya', '$2y$10$Xr1SXtRQbIJCbOmdTgBOI./5.UAEKTH.2PPU6rgA5FmtgYjBLN3aO', '2025-11-11 23:33:36', NULL, b'1'),
-(129, 1, 'yaneri', '$2y$10$g1H9YTLKcmbYykIytWun1eC9Z7UNoQyGNDahptlQVifHg4JPidy4i', '2025-11-12 21:55:36', '2025-11-20 22:23:19', b'1'),
-(130, 3, 'Yane212', '$2y$10$iLOgGVdOv1jFlgeAEmQMcu4Mj1pC2Diug7o7Uo5vk4Zh3YE09DzW6', '2025-11-20 20:00:42', '2025-11-20 22:17:33', b'1');
+(1, 2, 'admin', '$2y$10$u6kqmLq.I6.FlwcXlMDJ/.dpAmaKZAZwMKpkXRYxHrRWzla1cycvq', '2025-11-27 12:44:27', '2025-11-27 12:44:53', b'1');
 
 --
 -- Índices para tablas volcadas
@@ -423,19 +373,19 @@ ALTER TABLE `ingresos`
 -- AUTO_INCREMENT de la tabla `invitados`
 --
 ALTER TABLE `invitados`
-  MODIFY `id_invitado` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_invitado` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `presupuestos_ahorros`
 --
 ALTER TABLE `presupuestos_ahorros`
-  MODIFY `id_presupuesto_ahorro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_presupuesto_ahorro` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -447,13 +397,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
-  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_cf`
 --
 ALTER TABLE `usuarios_cf`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
