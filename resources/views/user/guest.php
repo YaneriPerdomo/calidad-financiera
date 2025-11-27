@@ -1,12 +1,11 @@
-<?php // Vista del panel de control del usuario 
-?>
+ 
 <!doctype html>
 <html lang="es" class="full-heigh">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo empty(!$data) ? 'Modificar' : 'Agregar' ?> persona invitada | Calidad financiera</title>
+    <title><?php echo empty(!$data) ? 'Modificar' : 'Agregar' ?> Persona Invitada | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_buttons.css">
     <link rel="stylesheet" href="<?php echo $style_jump ?>css/components/_footer.css">
@@ -23,7 +22,11 @@
     <link rel="icon" type="image/x-icon" href="<?php echo $style_jump ?>/img/logo.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <style>
+        [name="status"], [for="1"], [for="0"]{
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -48,7 +51,7 @@
                 echo $title == 'Modificar' ? '<input type="hidden" name="id_person"value="' . $data['id_persona'] . '">' : '' ?>
                 <legend class="form__title m-0">
                     <b> <?php
-                    echo $title ?> persona invitada</b>
+                    echo $title ?> Persona Invitada</b>
                 </legend>
                 <p class="form__description"> Al <?php echo $title == 'Modificar' ? 'modificar':'registrar';?> un usuario invitado, usted autoriza la visualización de su información financiera y transacciones. 
                     Ejerza el control total sobre la privacidad y recuerde que puede actualizar o revocar este acceso desde su perfil en cualquier momento. </p>
@@ -73,7 +76,7 @@
                <div class="form__data">
     <div class="row form__row">
         <div class="col-12 col-lg-4 form__col form__col--title">
-            <span class="form__subtitle">Datos personales: </span>
+            <span class="form__subtitle">Datos Personales: </span>
         </div>
         <div class="col-12 col-lg-8 form__col form__col--inputs">
             <label for="name" class="form__label form__label--required">Nombre</label><br>
@@ -88,11 +91,11 @@
                 <input type="text" name="lastname" class="form__input form__input--item form-control"
                     placeholder="Su apellido" aria-label="Apellido" value="<?php echo $data['apellido'] ?? ''?>">
             </div>
-            <label for="email" class="form__label form__label--required">Correo electrónico</label><br>
+            <label for="email" class="form__label form__label--required">Correo Electrónico</label><br>
             <div class="input-group mb-3">
                 <span class="form__icon input-group-text"><i class="bi bi-envelope-fill"></i></span>
                 <input type="text" name="email" class="form__input form__input--item form-control"
-                    placeholder="ejemplo@correo.com" aria-label="Correo electrónico"
+                    placeholder="Su correo electrónico" aria-label="Correo electrónico"
                     value="<?php echo $data['correo_electronico'] ?? '' ?>">
             </div>
         </div>
@@ -101,7 +104,7 @@
     <hr class="form__separator">
     <div class="row form__row">
         <div class="col-12 col-lg-4 form__col form__col--title">
-            <span class="form__subtitle">Datos de la cuenta: </span>
+            <span class="form__subtitle">Datos de la Cuenta: </span>
         </div>
         <div class="col-12 col-lg-8 form__col form__col--inputs">
             <label for="user" class="form__label form__label--required">Usuario</label><br>
@@ -124,20 +127,36 @@
             </div>
             <label for="confirm-password" class="form__label 
                 <?php echo $title == 'Agregar' ? " form__label--required" : ''; ?> ">Confirmar
-                contraseña</label><br>
+                Contraseña</label><br>
             <div class="input-group mb-3">
                 <span class="form__icon input-group-text"><i class="bi bi-shield-lock"></i></span>
-                <input type="password" name="confirm-password"
+                <input type="password" name="confirm_password"
                     class="form__input form__input--item form-control" placeholder="Confirma su contraseña"
                     aria-label="Confirmar contraseña" value="">
             </div>
-            <div>
-                <label for="status">Estado de la cuenta</label>
-                <input type="checkbox" name="status" value="1" id="status" <?php
-                if ($title != 'Agregar') {
-                    echo $data['estado'] == 1 ? 'checked' : '';
-                }
-                ?>>
+                <label for="status">Estado de la Cuenta</label>
+                <div style="display:flex; gap:0.5rem"> 
+                <div>
+                    <label for="1">Activo/a</label>
+                    <input type="radio" name="status" checked value="1" id="1"
+                    <?php
+                    if ($title != 'Agregar') {
+                        echo $data['estado'] == 1 ? 'checked' : '';
+                    }
+                    ?>
+                    >
+                </div>
+                <div>
+                    <label for="0">Inactivo/a</label>
+                    <input type="radio" name="status" value="0" id="0"
+                    <?php
+                    if ($title != 'Agregar') {
+                        echo $data['estado'] == 0 ? 'checked' : '';
+                    }
+                    ?>
+                    >
+                </div>
+  
             </div>
         </div>
     </div>
@@ -147,9 +166,11 @@
                     <button class="form__button button--back" type="button">
 
                         <a href="<?php echo $button_back ?>guests/1" class="text-black text-decoration-none"> 
-                            <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
+                            <i class="bi bi-arrow-left-square"></i> Regresar</a>
                     </button>
-                    <button class="form__button form__button--submit" type="submit"><i class="bi bi-check-circle-fill"></i> <?php echo $title;?> datos</button>
+                    <button class="form__button form__button--submit" type="submit">
+                        
+                        <i class="<?php echo $title == 'Agregar' ? 'bi bi-person-plus' : 'bi bi-person-lines-fill'?>"></i> <?php echo $title;?> Persona Invitada</button>
                 </div>
             </form>
         </div>
@@ -157,12 +178,9 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
-    <?php
-    include '../resources/views/components/presentation.php';
-    ?>
+  
 
-    <script src="<?php echo $js_jump ?>js/components/presentation_system_web.js" type="module"></script>
-    <script src="<?php echo $js_jump ?>js/cdn.js" type="module"></script>
+     <script src="<?php echo $js_jump ?>js/cdn.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/components/location_user.js" type="module"></script>
   
 </body>

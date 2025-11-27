@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AdminModel;
+use App\Models\GuestModel;
 
 class AdminController extends Controller
 {
@@ -58,5 +59,32 @@ class AdminController extends Controller
       ]);
    }
    
+   
+    public function changeState(){
+
+       
+        $change_state_user = new GuestModel();
+        $change_state_user->changeStateGuest([
+            'id_user' => trim($_POST['id_usuario_guest']),
+            'state' => intval(trim($_POST['new_status'])),
+        ]);
+
+      
+        if ($change_state_user->status == true) {
+            $this->sessionCreation(
+                'alert-success',
+                'El cambio de estado se ha actualizado correctamente.'
+            );
+            header('location: ../users/1', true, 302);
+        } else {
+            if ($change_state_user->msg != 'Nada que modificar') {
+                $this->sessionCreation(
+                    'alert-danger',
+                    $change_state_user->msg
+                );     }
+                header('location: ../users/1', true, 302);
+       
+        }
+    }
 
 }

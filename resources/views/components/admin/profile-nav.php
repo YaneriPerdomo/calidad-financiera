@@ -9,7 +9,7 @@
         </div>
         <div class="nav__item">
             <i class="nav__icon bi bi-key-fill"></i>
-            <a href="./changes-password" class="nav__link">Cambiar contraseña</a>
+            <a href="./changes-password" class="nav__link">Cambiar Contraseña</a>
         </div>
     </nav>
 </div>

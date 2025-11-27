@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Indicadores | Calidad financiera</title>
+    <title>Indicadores | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../../../public/css/components/_footer.css">
@@ -39,7 +39,8 @@
                 <h1 class="fs-3"><strong>Gestion de Indicadores</strong></h1>
                 <div class="">
                     <button type="button" class="button--azul" title="Agregar indicador">
-                        <a href="../../indicator/add" class="text-decoration-none text-white">+ Agregar indicador</a>
+                        <a href="../../indicator/add" class="text-decoration-none text-white">
+                            <i class="bi bi-plus-circle"></i> Agregar Indicador</a>
                     </button>
                 </div>
             </section>
@@ -207,11 +208,8 @@ Confirmar la eliminación del indicador financiero
         });
     </script>
 
-    <?php
-include '../resources/views/components/admin/presentation.php';
-?>
+   
 
-    <script src="../../../js/components/presentation_system_web.js" type="module"></script>
     <script src="../../../js/components/location_admin.js" type="module"></script>
     <script src="../../../js/cdn.js" type="module"></script>
  

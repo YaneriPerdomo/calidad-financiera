@@ -1,13 +1,15 @@
 <header class="header-index">
     <div class="logo">
-          <figure class="m-0">
-            <img src="./img/logo.png" alt="" style="  width: 88px;" draggable="false" >
+          <a href="./index">
+            <figure class="m-0">
+            <img src="./img/logo.png"  draggable="false" alt="" style="  width: 88px;" draggable="false" >
         </figure>
+          </a>
     </div>
     <div>
         <nav>
             <button class="btn button-r font-bold">
-                <a href="./login" class="text-decoration-none">COMENZAR</a>
+                <a href="./login" class="text-decoration-none">Iniciar Sesión</a>
             </button>
         </nav>
     </div>

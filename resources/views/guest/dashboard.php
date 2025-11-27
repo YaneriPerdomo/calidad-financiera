@@ -10,7 +10,7 @@ function fc_number_format($number)
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Panel de control | Calidad financiera</title>
+    <title>Inicio | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../../../public/css/components/_footer.css">

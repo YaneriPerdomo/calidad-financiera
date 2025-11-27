@@ -8,7 +8,8 @@ use PDO;
 use PDOException;
 use RuntimeException;
 
-class ProfileAdminModel extends Database{
+class ProfileAdminModel extends Database
+{
 
     public $data = [];
     public $status = false;
@@ -19,8 +20,9 @@ class ProfileAdminModel extends Database{
         parent::__construct();
     }
 
-    public function showData($id_user = null){
-        if($id_user == null || !is_numeric($id_user)){
+    public function showData($id_user = null)
+    {
+        if ($id_user == null || !is_numeric($id_user)) {
             throw new InvalidArgumentException("El ID de usuario no es válido."); //Indicar que un argumento pasado a una función o método no es válido.
         }
         $get_data_query = 'SELECT 
@@ -39,31 +41,44 @@ class ProfileAdminModel extends Database{
         }
     }
 
-    public function updateData($POST = []){
-        if($POST['usuario'] == ""){
-            return $this->msg = 'Por favor, rellene el nombre de usuario.';
+    public function updateData($POST = [])
+    {
+
+        $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE (usuario = :user and id_usuario != :id_user)';
+        $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
+        $search_name_user_not_you_stmt->bindParam('user', $POST['usuario'], PDO::PARAM_STR);
+        $search_name_user_not_you_stmt->bindParam('id_user', $POST['id_usuario'], PDO::PARAM_INT);
+        $search_name_user_not_you_stmt->execute();
+        if ($search_name_user_not_you_stmt->rowCount() > 0) {
+            return $this->msg = 'Ese nombre de usuario ya está en uso. Por favor, elige uno diferente.';
         }
-        $update_user_query = 'UPDATE 
+
+       
+        try {
+             $update_user_query = 'UPDATE 
                                 usuarios_cf 
                             SET 
                                 usuario = :usuario
                             WHERE 
                                 id_usuario = :id_usuario';
-        try {
             $update_user_stmt = $this->pdo->prepare($update_user_query);
             $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
             $update_user_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
             $update_user_stmt->execute();
-            if($update_user_stmt->execute()){
+            if ($update_user_stmt->rowCount() > 0) {
                 $_SESSION['usuario'] = $POST['usuario'];
                 return $this->status = true;
+            } else {
+                $this->status = false;
+                return $this->msg = 'Nada que modificar';
             }
         } catch (PDOException $ex) {
             throw new RuntimeException("Error al actualizar los datos del usuario: " . $ex->getMessage());
         }
     }
 
-    public function updatePassword($POST=[]){
+    public function updatePassword($POST = [])
+    {
         $get_password_query = 'SELECT 
                                     clave 
                                 FROM 
@@ -75,8 +90,8 @@ class ProfileAdminModel extends Database{
             $get_password_stmt->bindParam('id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
             $get_password_stmt->execute();
             $password = $get_password_stmt->fetch(PDO::FETCH_ASSOC);
-            if(password_verify($POST['old-password'], $password['clave'])){
-                if($POST['new-password'] === $POST['confirm-password']){
+            if (password_verify($POST['old-password'], $password['clave'])) {
+                if ($POST['new-password'] === $POST['confirm-password']) {
                     $update_password_query = 'UPDATE 
                                                 usuarios_cf 
                                             SET 
@@ -87,13 +102,13 @@ class ProfileAdminModel extends Database{
                     $hash = password_hash($POST['new-password'], PASSWORD_DEFAULT);
                     $update_password_stmt->bindParam('clave', $hash, PDO::PARAM_STR);
                     $update_password_stmt->bindParam('id_usuario', $_SESSION['id_usuario'], PDO::PARAM_INT);
-                    if($update_password_stmt->execute()){
+                    if ($update_password_stmt->execute()) {
                         return $this->status = true;
                     }
                 }
             }
 
-          
+
         } catch (PDOException $ex) {
             throw new RuntimeException("Error al actualizar la contraseña del usuario: " . $ex->getMessage());
         }

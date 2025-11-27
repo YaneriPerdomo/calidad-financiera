@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bienvenido/a | Calidad financiera</title>
+    <title>Inicio | Calidad Financiera</title>
     <link rel="stylesheet" href="../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
     <link rel="stylesheet" href="../../public/css/components/_header.css">
@@ -90,7 +90,7 @@
                             <i class="bi bi-person-gear fs-4 card__icon"></i>
                             <a href="./profile" class="text-decoration-none text-color-black">
                                 <div class="card__quantity-content">
-                                    <span class="card__sub-title">Administrar tu cuenta</span>
+                                    <span class="card__sub-title">Administrar tu Cuenta</span>
                                 </div>
                             </a>
                         </div>

@@ -9,11 +9,11 @@
         </div>
         <div class="nav__item">
             <i class="nav__icon bi bi-key-fill"></i>
-            <a href="./changes-password" class="nav__link">Cambiar contraseña</a>
+            <a href="./changes-password" class="nav__link">Cambiar Contraseña</a>
         </div>
         <div class="nav__item">
-            <i class="nav__icon bi bi-person-gear"></i>
-            <a href="./account" class="nav__link">Cuenta</a>
+            <i class="nav__icon bi bi-trash "></i>
+            <a href="./account" class="nav__link">Eliminar Cuenta</a>
         </div>
     </nav>
 </div>

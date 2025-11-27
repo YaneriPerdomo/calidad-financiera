@@ -26,7 +26,7 @@ class UserModel extends Database
 
     public function edit($id = null)
     {
-        if ($id == null || ! is_numeric($id)) {
+        if ($id == null || !is_numeric($id)) {
             throw new InvalidArgumentException('El ID de usuario no es válido.');
         }
         try {
@@ -51,7 +51,42 @@ class UserModel extends Database
 
             return $this->data = $get_user_stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $ex) {
-            throw new RuntimeException('Error al obtener los datos del usuario: '.$ex->getMessage()); // Error que sucede aunque se cuenta en el flujo de ejercucion
+            throw new RuntimeException('Error al obtener los datos del usuario: ' . $ex->getMessage()); // Error que sucede aunque se cuenta en el flujo de ejercucion
+        }
+    }
+
+    public function updateAdmin($POST = [])
+    {
+        $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE (usuario = :user and id_usuario != :id_user)';
+        $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
+        $search_name_user_not_you_stmt->bindParam('user', $POST['usuario'], PDO::PARAM_STR);
+        $search_name_user_not_you_stmt->bindParam('id_user', $POST['id_usuario'], PDO::PARAM_INT);
+        $search_name_user_not_you_stmt->execute();
+        if ($search_name_user_not_you_stmt->rowCount() > 0) {
+            return $this->msg = 'Ese nombre de usuario ya está en uso. Por favor, elige uno diferente.';
+        }
+        try {
+            $this->pdo->beginTransaction();
+            $update_user_query = 'UPDATE usuarios_cf SET usuario = :usuario  WHERE id_usuario = :id_usuario';
+            $update_user_stmt = $this->pdo->prepare($update_user_query);
+            $update_user_stmt->bindParam('usuario', $POST['usuario'], PDO::PARAM_STR);
+            $update_user_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
+            $update_user_stmt->execute();
+            if ($update_user_stmt->rowCount() > 0) {
+                $this->pdo->commit();
+                $_SESSION['usuario'] = $POST['usuario'];
+                return $this->status = true;
+
+            } else {
+                $this->status = false;
+                return $this->msg = 'Nada que modificar';
+            }
+        } catch (PDOException $ex) {
+            $this->pdo->rollBack();
+            $this->msg = $ex->getMessage();
+        } catch (Exception $exception) {
+            $this->pdo->rollBack();
+            $this->msg = $exception->getMessage();
         }
     }
 
@@ -74,13 +109,17 @@ class UserModel extends Database
         if ($search_email_stmt->rowCount() > 0) {
             return $this->msg = 'El correo electrónico que ingresaste ya está registrado.';
         }
-        try {
-            $this->pdo->beginTransaction(); // Inicia la transacción
 
-            // Validación de datos
-            if ($POST['usuario'] == '' || $POST['id_usuario'] == '' ||
-            $POST['nombre'] == '' || $POST['apellido'] == '' || $POST['correo_electronico'] == ''
-            || $POST['id_actividad'] == '') {
+
+
+        try {
+            $this->pdo->beginTransaction();
+
+            if (
+                $POST['usuario'] == '' || $POST['id_usuario'] == '' ||
+                $POST['nombre'] == '' || $POST['apellido'] == '' || $POST['correo_electronico'] == ''
+                || $POST['id_actividad'] == ''
+            ) {
                 return $this->msg = 'Datos de entrada incompletos.';
             }
 
@@ -111,31 +150,36 @@ class UserModel extends Database
                 $update_person_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
             }
             $update_person_stmt->execute();
-            $update_password_result = false;
+            $update_password_result = 'false';
 
             if ($rol == 'admin') {
-                if (! isset($POST['old-password'])) {
-                    $update_password_result = $this->updatePassword([
-                        'new-password' => $POST['new-password'],
-                        'confirm-password' => $POST['confirm-password'],
-                    ]);
-                } else {
+              
+                if (isset($POST['old-password'])) {
                     $update_password_result = $this->updateOldPassword([
                         'new-password' => $POST['new-password'],
                         'confirm-password' => $POST['confirm-password'],
                         'old-password' => $POST['old-password'],
                     ]);
+                } else {
+                   
+                    $update_password_result = $this->updatePassword([
+                        'new-password' => $POST['new-password'],
+                        'id_usuario' => $POST['id_usuario']
+                    ]);
+                   
                 }
             }
-
-            if ($update_person_stmt->rowCount() > 0 || $update_user_stmt->rowCount() > 0 || $update_password_result == true) {
+         
+            if ($update_person_stmt->rowCount() > 0 || $update_user_stmt->rowCount() > 0 || $update_password_result === 'true') {
                 $this->pdo->commit();
                 if ($rol == 'user') {
                     $_SESSION['usuario'] = $POST['usuario'];
                     $_SESSION['correo_electronico'] = $POST['correo_electronico'];
+                    $_SESSION['nombre'] = $POST['nombre'];
                 }
-
                 return $this->status = true;
+            } else {
+                return $this->msg = 'Nada que modificar';
             }
         } catch (PDOException $ex) {
             $this->pdo->rollBack();
@@ -148,7 +192,8 @@ class UserModel extends Database
 
     protected function updatePassword($POST = [])
     {
-        if ($POST['new-password'] === $POST['confirm-password']) {
+
+        if ($POST['new-password'] != '') {
             $update_password_query = 'UPDATE 
                 usuarios_cf 
             SET 
@@ -159,11 +204,15 @@ class UserModel extends Database
             $hash = password_hash($POST['new-password'], PASSWORD_DEFAULT);
             $update_password_stmt->bindParam('clave', $hash, PDO::PARAM_STR);
             $update_password_stmt->bindParam('id_usuario', $POST['id_usuario'], PDO::PARAM_INT);
-
-            if ($update_password_stmt->execute()) {
-                return true;
+            $update_password_stmt->execute();
+            if ($update_password_stmt->rowCount() > 0) {
+                return 'true';
+            } else {
+                return 'false';
             }
         }
+
+
     }
 
     public function updateOldPassword($POST = [])
@@ -197,7 +246,7 @@ class UserModel extends Database
                 }
             }
         } catch (PDOException $ex) {
-            throw new RuntimeException('Error al actualizar la contraseña del usuario: '.$ex->getMessage());
+            throw new RuntimeException('Error al actualizar la contraseña del usuario: ' . $ex->getMessage());
         }
     }
 

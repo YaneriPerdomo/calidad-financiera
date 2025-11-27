@@ -48,7 +48,8 @@ class ProfileController extends Controller
             $show_data_profile->ShowData($_SESSION['id_usuario']);
             $type_rol = 'guest';
 
-            return $this->view('guest.profile', ['data' => $show_data_profile->data,
+            return $this->view('guest.profile', [
+                'data' => $show_data_profile->data,
                 'header_break_login' => '../',
                 'sidebar_jump' => './',
                 'header_break' => './',
@@ -64,6 +65,29 @@ class ProfileController extends Controller
             echo '<script>alert("No se han recibido datos para actualizar")
          location.href = "./profile"
          </script>';
+        }
+
+        $post = [
+            'name' => trim($_POST['name'] ?? ''),
+            'lastname' => trim($_POST['lastname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'user' => trim($_POST['user'] ?? ''),
+            'id_actividad' => trim($_POST['id_actividad'] ?? ''),
+
+        ];
+
+        $rules = [
+            'name' => ['required:Nombre', 'regex:name'],
+            'lastname' => ['required:Apellido', 'regex:lastname'],
+            'email' => ['required:Correo electrónico', 'regex:email'],
+            'id_actividad' => ['required:actividad'],
+            'user' => ['required:Usuario', 'regex:user'],
+
+        ];
+        $userStoreRequest = Validation::request($post, $rules);
+        if ($userStoreRequest != '') {
+            $this->sessionCreation('alert-danger', $userStoreRequest);
+            return header('Location: ./profile');
         }
         $update_data_profile = new UserModel;
         $update_data_profile->update([
@@ -82,10 +106,12 @@ class ProfileController extends Controller
             );
             header('location: ./profile', true, 302);
         } else {
-            $this->sessionCreation(
-                'alert-danger',
-                  'Error: No se pudo completar la operación.'
-            );
+            if ($update_data_profile->msg != 'Nada que modificar') {
+                $this->sessionCreation(
+                    'alert-danger',
+                   $$update_data_profile->msg ?? 'Error: No se pudo completar la operación.'
+                );
+            }
             header('location: ./profile', true, 302);
         }
 

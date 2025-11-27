@@ -21,6 +21,9 @@
   justify-content: center;
 }
 
+.text-line-th{
+    text-decoration: line-through;
+}
 .text--red{
   color: var(--color-rojo) !important;
 }

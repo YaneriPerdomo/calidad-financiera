@@ -19,7 +19,7 @@ class TransactionController  extends Controller{
         $get_insome = new indicatorModel();
         $get_insome->getInsome();
         
-
+         
         return $this->view('user.add-transaction', [
             'data' => $get_graduation_categories->data,
             'all_insome' => $get_insome->data_insome,

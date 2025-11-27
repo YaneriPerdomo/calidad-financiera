@@ -1,0 +1,11 @@
+  @media screen and (max-width : 1000px) {
+      .input-group__percentage>span {
+          display: none;
+      }
+
+      .input-group__percentage>select {
+          padding: 0;
+          margin: 0;
+          border: 0;
+      }
+  }

@@ -42,7 +42,7 @@ class ChangesPasswordModel extends Database
     $search_password_stmt->fetch(PDO::FETCH_ASSOC);
     $password = $search_password_stmt;
     return $id_user;
-    if ($POST['new-password'] === $POST['confirm-password']) {
+    if ($POST['new-password'] === $POST['confirm_password']) {
       $update_password_query = 'UPDATE 
                 usuarios_cf 
             SET 
@@ -61,7 +61,7 @@ class ChangesPasswordModel extends Database
   }
   public function updateOldPassword($POST = [])
   {
-    if ($POST['old-password'] == "" && $POST['new-password'] == "" && $POST['confirm-password'] == "") {
+    if ($POST['old-password'] == "" && $POST['new-password'] == "" && $POST['confirm_password'] == "") {
       return $this->msg = 'Por favor, rellene todos los campos.';
 
     }
@@ -86,7 +86,7 @@ class ChangesPasswordModel extends Database
         return $this->status = false;
       }*/
       if (password_verify($POST['old-password'], $password['clave'])) {
-        if ($POST['new-password'] === $POST['confirm-password']) {
+        if ($POST['new-password'] === $POST['confirm_password']) {
           $update_password_query = 'UPDATE 
                                                 usuarios_cf 
                                             SET 
@@ -101,9 +101,11 @@ class ChangesPasswordModel extends Database
             return $this->status = true;
           }
         }
+      } else {
+      return $this->msg = 'Verificación fallida: Debes introducir tu contraseña actual correcta para poder cambiarla.';
       }
     } catch (PDOException $ex) {
-      $this->msg = 'Sucedio un error';
+      $this->msg = 'Sucedio un error: ' . $ex->getMessage();
       throw new RuntimeException("Error al actualizar la contraseña del usuario: " . $ex->getMessage());
     }
   }

@@ -1,8 +1,10 @@
 <header class="header-index">
     <div class="logo">
-        <figure class="m-0">
+        <a href="<?php echo $sidebar_jump?>welcome">
+             <figure class="m-0">
             <img src="<?php echo $header_jump ?>../img/logo.png" alt="" draggable="false" style="  width: 88px;">
         </figure>
+        </a>
     </div>
     <div class="profile">
         <span><?php echo '¡Hola, ' . $_SESSION['usuario'] . '!' ?? '' ?></span>
@@ -19,14 +21,14 @@
                 </li>
                 <li class="text-center">
                     <a href="<?php echo $header_jump ?>profile" class="text-decoration-none text__blue"><button
-                            class="dropdown-item" type="button">Administrar tu cuenta</button></a>
+                            class="dropdown-item" type="button">Administrar tu Cuenta</button></a>
                 </li>
                 <li clasS="text-center">
                     <a  href="<?php echo $header_break_login ?>signOut" 
                         class="text-decoration-none"> 
                             <button
                                 class="dropdown-item text--red" 
-                                type="button">  Cerrar sesion 
+                                type="button">  Cerrar Sesión 
                             </button>
                         </a>
                 </li>

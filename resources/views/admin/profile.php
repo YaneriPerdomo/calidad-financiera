@@ -79,7 +79,9 @@
                                 <label for="account-type" class="form__label  ">Tipo de
                                     cuenta</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="account-type-icon"><i class="bi bi-person-lines-fill"></i></span>
+                                    <span class="input-group-text form__icon" id="account-type-icon">
+                                        <i class="bi bi-person-rolodex"></i>
+                                    </span>
                                     <input type="text" name="account-type"
                                         class="form-control form__input form__input--item "
                                         placeholder="Administrador(a)" aria-label="Tipo de cuenta"
@@ -92,11 +94,13 @@
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
                             <a href="./welcome" class="text-decoration-none text-black">
-                                <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
+                                <i class="bi bi-arrow-left-square"></i> Regresar
+                            </a>
                         </button>
                         <button class="form__button form__button--submit" type="submit">
-                        <i class="bi bi-check-circle-fill"></i>    
-                        Actualizar datos</button>
+                             <i class="bi bi-person-lines-fill"></i>
+                            Modificar Perfil
+                        </button>
                     </div>
                 </form>
             </div>
@@ -105,11 +109,8 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
-    <?php
-    include '../resources/views/components/admin/presentation.php';
-    ?>
+   
 
-    <script src="../js/components/presentation_system_web.js" type="module"></script>
     <script src="../js/components/location.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>
 

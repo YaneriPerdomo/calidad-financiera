@@ -10,7 +10,7 @@ function fc_number_format($number)
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Panel de control | Calidad financiera</title>
+    <title>Inicio | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../../../public/css/components/_footer.css">
@@ -362,7 +362,6 @@ function fc_number_format($number)
     const $VALUE_BUDGET = document.querySelector('.monthly-data-total__value--budget');
     const $VALUE_INCOME = document.querySelector(".monthly-data-total__value--income");
 
-    // Helper function to correctly parse numbers with ',' as a decimal separator
     function parseVEF(value) {
         if (typeof value === 'string') {
             return parseFloat(value.replace(/\./g, '').replace(',', '.'));
@@ -370,14 +369,11 @@ function fc_number_format($number)
         return parseFloat(value);
     }
 
-    // Get the canvas parent to hide it
     const canvasContainer = ctx.parentNode;
 
-    // Get and parse the budget and income values
     const budgetValue = $VALUE_BUDGET ? parseVEF($VALUE_BUDGET.value) || 0 : 0;
     const incomeValue = $VALUE_INCOME ? parseVEF($VALUE_INCOME.value) || 0 : 0;
 
-    // Conditionally hide the doughnut chart if there are no values
     if (budgetValue === 0 && incomeValue === 0) {
         canvasContainer.style.display = 'none';
     } else {

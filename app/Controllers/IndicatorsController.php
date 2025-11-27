@@ -156,7 +156,7 @@ class IndicatorsController extends Controller
             };
             $this->sessionCreation(
                 'alert-success',
-                $type.' actualizado con éxito.'
+                $type . ' actualizado con éxito.'
             );
             header('location: ../../indicators/1/1', true, 302);
         } else {
@@ -175,6 +175,27 @@ class IndicatorsController extends Controller
 
     public function AddIndicator()
     {
+
+       
+        $post = [
+            'type-indicator' => trim($_POST['type-indicator'] ?? ''),
+            'id_graduation-categorys' => trim($_POST['id_graduation-category'] ?? ''),
+            'graduation' => trim($_POST['graduation'] ?? ''),
+            'income' => trim($_POST['income'] ?? ''),
+        ];
+
+        
+        $rules = [
+            'type-indicator' => ['required:Tipo de indicador'],
+            'graduation' => [ 'regex:indicator'],
+        ];
+        $userStoreRequest = Validation::request($post, $rules);
+        if ($userStoreRequest != '') {
+            $this->sessionCreation('alert-danger', $userStoreRequest);
+            return header('Location:  ../indicator/add');
+        }
+
+
         $add_indicator = new indicatorModel;
         $add_indicator->AddIndicator([
             'type-indicator' => $_POST['type-indicator'] ?? '',
@@ -182,7 +203,7 @@ class IndicatorsController extends Controller
             'graduation' => $_POST['graduation'] ?? '',
             'income' => $_POST['income'] ?? '',
         ]);
-        if (! $add_indicator->status) {
+        if (!$add_indicator->status) {
             $this->sessionCreation(
                 'alert-danger',
                 $add_indicator->msg

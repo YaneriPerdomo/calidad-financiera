@@ -6,6 +6,7 @@ use App\Controllers\AdminController;
 use App\Controllers\AhorroController;
 use App\Controllers\ChangesPasswordController;
 use App\Controllers\DataController;
+use App\Controllers\IndexController;
 use App\Controllers\IndicatorsController;
 use App\Controllers\LoginController;
 use App\Controllers\CreateAccountController;
@@ -19,6 +20,8 @@ use Lib\Route;
 
 
 // Rutas públicas (sin autenticación)
+Route::get('/', [IndexController::class, 'index']);
+Route::get('/index', [IndexController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authentication']);
 Route::get('/create-account', [CreateAccountController::class, 'index']);
@@ -30,12 +33,14 @@ Route::get('/signOut', [SignOutController::class, 'signOut']);
 Route::get('/user/dashboard/:month/:year', [UserController::class, 'index']);
 Route::get('/user/guests/:page', [GuestsController::class, 'show']);
 Route::post('/user/guest/data-report', [GuestsController::class, 'reportGuests']);
+Route::post('/user/transactions/report', [DataController::class, 'reportData']);
 Route::get('/user/guests/:nameUserSearch/:page', [GuestsController::class, 'searchGuest']);
 Route::get('/user/add-guest', [GuestsController::class, 'showAddForm']);
 Route::post('/user/add-guest', [GuestsController::class, 'addData']);
 Route::post('/user/guest', [GuestsController::class, 'operationData']);
 Route::get('/user/guest/add', [GuestsController::class, 'create']);
 Route::get('/user/guest/:id/modify', [GuestsController::class, 'showData']);
+Route::post('/user/guest/change-state', [GuestsController::class, 'changeState']);
 Route::post('/user/guest/delete', [GuestsController::class, 'destroy']);
 Route::get('/user/profile', [ProfileController::class, 'index']);
 Route::post('/user/profile', [ProfileController::class, 'updateData']);
@@ -43,7 +48,11 @@ Route::get('/user/changes-password', [ChangesPasswordController::class, 'index']
 Route::post('/user/changes-password', [ChangesPasswordController::class, 'update']);
 Route::get('/user/account', [AccountController::class, 'index']);
 Route::get('/user/data/:page', [DataController::class, 'index']);
+Route::get('/user/transactions/:page', [DataController::class, 'index']);
+Route::post('/user/transactions/:page', [DataController::class, 'Annulment']);
+
 Route::post('/user/data', [DataController::class, 'store']);
+Route::get('/user/sudgeting-and-savings', [AhorroController::class, 'index']);
 Route::post('/user/data/add-number-ahorro/:porcentaje/:id', [AhorroController::class, 'store']);
 Route::get('/user/add-transaction', [TransactionController::class, 'index']);
 Route::get('/user/indicators', [IndicatorsController::class, 'index']);
@@ -54,6 +63,7 @@ Route::post('/user/account-delete', [UserController::class, 'deleteAccount']);
 Route::get('/admin/welcome', [AdminController::class, 'index']);
 Route::get('/admin/users/:page', [AdminController::class, 'users']);
 Route::get('/admin/users/:searchUsers/:page', [AdminController::class, 'searchUsers']);
+Route::post('/admin/user/change-state', [AdminController::class, 'changeState']);
 Route::get('/admin/about', [AboutController::class, 'index']);
 Route::get('/admin/profile', [ProfileController::class, 'index']);
 Route::post('/admin/profile', [ProfileAdminController::class, 'updateData']);
@@ -80,7 +90,9 @@ Route::post('/admin/user/delete', [UserController::class, 'destroy']);
 Route::get('/guest/dashboard/:month/:year' , [GuestsController::class, 'index']);
 Route::get('/guest/profile' , [ProfileController::class, 'index']);
 Route::get('/guest/about' , [AboutController::class, 'index']);
-Route::get('/guest/data/:page', [DataController::class, 'index']);
+Route::get('/guest/transactions/:page', [DataController::class, 'index']);
+Route::post('/guest/transactions/report', [DataController::class, 'reportData']);
+Route::get('/guest/sudgeting-and-savings', [AhorroController::class, 'index']);
 
 Route::dispatch();
 

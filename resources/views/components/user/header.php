@@ -1,11 +1,15 @@
 <header class="header-index">
     <div class="logo">
-        <figure class="m-0">
-            <img src="<?php echo $header_break ?>../img/logo.png" draggable="false" alt="" style="  width: 88px;">
+    <a href="<?php echo $sidebar_jump.'dashboard/'. date('m/Y')?>">
+            <figure class="m-0">
+            <img src="<?php echo $header_break ?>../img/logo.png" draggable="false" 
+            alt="" 
+            style="  width: 88px;">
         </figure>
+        </a>
     </div>
     <div class="profile">
-        <span class=""><?php echo '¡Hola, ' . $_SESSION['usuario'] . '!' ?? '' ?></span>
+        <span class=""><?php echo '¡Hola, '.$_SESSION['nombre'].'!' ?? '' ?></span>
         <div class="btn-group dropstart">
 
             <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static"
@@ -17,17 +21,17 @@
                     <span class="dropdown-menu__information-email"> <?php echo $_SESSION['correo_electronico'] ?? '' ?>
                     </span>
                     <img src=" " class="dropdown-menu__img" alt="">
-                    <h2 style="  text-align: center;"> <?php echo '¡Hola, ' . $_SESSION['usuario'] . '!' ?? '' ?></h2>
+                    <h2 style="  text-align: center;"> <?php echo '¡Hola, '.$_SESSION['nombre'].'!' ?? '' ?></h2>
                 </li>
                 <li class="text-center">
                     <a href="<?php echo $header_break ?? './' ?>profile" class="text-decoration-none text__blue"><button
-                            class="dropdown-item" type="button">Administrar tu cuenta</button></a>
+                            class="dropdown-item" type="button">Administrar tu Cuenta</button></a>
                 </li>
                 <li clasS="text-center">
                     <a href="<?php echo $header_break_login ?>signOut" class="text-decoration-none">
                         <button class="dropdown-item text--red"" type=" button">
                             Cerrar
-                            sesion
+                            Sesión
                         </button>
                     </a>
                 </li>

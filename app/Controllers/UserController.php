@@ -86,6 +86,39 @@ class UserController extends Controller
 
     public function update()
     {
+
+
+        $post = [
+            'name' => trim($_POST['name'] ?? ''),
+            'lastname' => trim($_POST['lastname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'user' => trim($_POST['user'] ?? ''),
+            'id_actividad' => trim($_POST['id_actividad'] ?? ''),
+            'new-password' => trim($_POST['new-password'] ?? ''),
+            'confirm_password' => trim($_POST['confirm_password'] ?? '')
+        ];
+
+        $rules = [
+            'name' => ['required:Nombre', 'regex:name'],
+            'lastname' => ['required:Apellido', 'regex:lastname'],
+            'email' => ['required:Correo electrónico', 'regex:email'],
+            'actividad' => ['required:actividad'],
+            'user' => ['required:Usuario', 'regex:user'],
+            'new-password' => [
+                'nullable',
+                'confirmed',
+            ],
+            'confirm_password' => ['nullable']
+
+        ];
+
+        $userStoreRequest = Validation::request($post, $rules);
+
+        if ($userStoreRequest != '') {
+            $this->sessionCreation('alert-danger', $userStoreRequest);
+            return header('Location:  ../../admin/' . $_POST['id_user'] . '-user/modify');
+        }
+
         $update_user = new UserModel;
         $update_user->update([
             'id_usuario' => trim($_POST['id_user']),
@@ -95,7 +128,7 @@ class UserController extends Controller
             'apellido' => trim($_POST['lastname']),
             'id_actividad' => trim($_POST['id_actividad']),
             'new-password' => trim($_POST['new-password']),
-            'confirm-password' => trim($_POST['confirm-password']),
+            'confirm_password' => trim($_POST['confirm_password']),
             'status' => trim($_POST['status'] ?? 0),
         ], 'admin');
 
@@ -103,8 +136,10 @@ class UserController extends Controller
             $this->sessionCreation('alert-success', 'Datos actualizados correctamente');
             header('Location: ../users/1');
         } else {
-            $this->sessionCreation('alert-danger', 'Sucedio un error al actualizar los datos');
-            header('Location: ../users/1');
+            if ($update_user->msg != 'Nada que modificar') {
+                $this->sessionCreation('alert-danger', $update_user->msg ?? 'Sucedio un error al actualizar los datos');
+            }
+            header('Location: ../'.$_POST['id_user'].'-user/modify');
 
         }
     }
@@ -129,39 +164,47 @@ class UserController extends Controller
     public function reportUsers()
     {
         if ($_POST['report_format'] == 0) {
-                $this->sessionCreation(
-                'alert-danger',
-                'Por favor, Seleccione un formato.'
+            $this->sessionCreation(
+                'alert-danger__wm',
+                'Error al generar el reporte de usuarios: El formato de reporte seleccionado no es válido.'
             );
-            header('location: ../users/1', true, 302);
+            return header('location: ../users/1', true, 302);
         }
-        // 1. Obtener los datos (Asumiendo que esta parte funciona)
         $users = new AdminModel;
         $users->reportUsers();
-        $users_data = $users->users; // Usamos esto para la iteración
+        $users_data = $users->users;
 
         if ($users_data == '') {
-              $this->sessionCreation(
-                'alert-danger',
+            $this->sessionCreation(
+                'alert-danger__wm',
                 'No hay datos disponibles para generar este reporte en este momento.'
             );
-            header('location: ../users/1', true, 302);
+            return header('location: ../users/1', true, 302);
         }
 
         if ($_POST['report_format'] == 2) {
-             $date_parts = explode('-', date('Y-m-d'));
+            $date_parts = explode('-', date('Y-m-d'));
             $month_map = [
-                '01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril',
-                '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto',
-                '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre',
+                '01' => 'Enero',
+                '02' => 'Febrero',
+                '03' => 'Marzo',
+                '04' => 'Abril',
+                '05' => 'Mayo',
+                '06' => 'Junio',
+                '07' => 'Julio',
+                '08' => 'Agosto',
+                '09' => 'Septiembre',
+                '10' => 'Octubre',
+                '11' => 'Noviembre',
+                '12' => 'Diciembre',
             ];
-            $formatted_date = $date_parts[2].' de '.$month_map[$date_parts[1]].' de '.$date_parts[0];
+            $formatted_date = $date_parts[2] . ' de ' . $month_map[$date_parts[1]] . ' de ' . $date_parts[0];
 
             // 3. Establecer el tipo de contenido y el nombre del archivo
-            $filename = 'reporte_usuarios_'.date('Ymd_His').'.csv';
+            $filename = 'reporte_usuarios_' . date('Ymd_His') . '.csv';
 
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Pragma: no-cache');
             header('Expires: 0');
 
@@ -169,7 +212,7 @@ class UserController extends Controller
             $output = fopen('php://output', 'w');
 
             // Escribir el BOM para UTF-8 (necesario para acentos)
-            fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+            fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
             // 🛑 PASO CLAVE: ESCRIBIR EL ENCABEZADO MANUAL Y LA FECHA
 
@@ -177,7 +220,7 @@ class UserController extends Controller
             fputcsv($output, ['Calidad Financiera'], ';');
 
             // Línea 2: Fecha de generación
-            fputcsv($output, ['Fecha de Generación: '.$formatted_date], ';');
+            fputcsv($output, ['Fecha de Generación: ' . $formatted_date], ';');
 
             // Línea 3: Dejar una línea en blanco para separar
             fputcsv($output, [''], ';');
@@ -212,12 +255,12 @@ class UserController extends Controller
             foreach ($users->users as $data) {
                 $status = $data['estado'] == 1 ? 'Activo/a' : 'Desactivado/a';
                 $value .= "<tr class='show'>
-                              <td>".$data['usuario'].'</td>
-                             <td>'.$data['nombre'].'</td>
-                              <td>'.$data['apellido'].'</td>
-                               <td>'.$data['correo_electronico'].'</td>
-                                <td>'.$data['actividad'].'</td>
-                                 <td>'.$status.'</td>
+                              <td>" . $data['usuario'] . '</td>
+                             <td>' . $data['nombre'] . '</td>
+                              <td>' . $data['apellido'] . '</td>
+                               <td>' . $data['correo_electronico'] . '</td>
+                                <td>' . $data['actividad'] . '</td>
+                                 <td>' . $status . '</td>
                          </tr>';
             }
 
@@ -242,8 +285,12 @@ class UserController extends Controller
 
             $monthWritten = $writtenEveryMonth[$completion_date[1]];
 
-            $created_at_last_session = $completion_date[2].' de '.$monthWritten.' de '.$completion_date[0];
-            // Contenido HTML
+
+            $created_at_last_session = $completion_date[2] . ' de ' . $monthWritten . ' de ' . $completion_date[0];
+            $filename = __DIR__ . '/../../public/img/logo.png';
+
+            $img = "data:image/png;base64," . base64_encode(file_get_contents($filename));
+
             $html = '
     <head>
         <style>
@@ -272,8 +319,11 @@ class UserController extends Controller
         </style>
     </head>
     <body>
-        <strong> Calidad Financiera </strong>
-        <div class="text-r"> '.$created_at_last_session.'<div>
+         <div > 
+                <img src="' . $img . '" style="width:120px" >
+         </div>
+      
+        <div class="text-r"> ' . $created_at_last_session . '<div>
         <div style="width: 100%;">
             <table class="table">
                 <thead>
@@ -287,7 +337,7 @@ class UserController extends Controller
                     </tr>
                 </thead>
                 <tbody class="dataTable">
-                    '.$value.'
+                    ' . $value . '
                 </tbody>
             </table>
         </div>
@@ -310,7 +360,7 @@ class UserController extends Controller
             $dompdf->render();
 
             // Descargar el PDF
-            $name_pdf = date('d-m-Y').'-todos-los-usuarios.pdf';
+            $name_pdf = date('d-m-Y') . '-todos-los-usuarios.pdf';
 
             return $dompdf->stream($name_pdf, ['Attachment' => 1]);
         }

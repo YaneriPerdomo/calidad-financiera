@@ -41,7 +41,7 @@ class indicatorModel extends Database
         // ingresos
 
         $current_page_i = $page_i;
-        $count_insome_query = 'SELECT COUNT(*) as total_ingresos FROM ingresos WHERE ingreso != "Otros"';
+        $count_insome_query = 'SELECT COUNT(*) as total_ingresos FROM ingresos  ';
         $count_insome_stmt = $this->pdo->prepare($count_insome_query);
         $count_insome_stmt->execute();
         $row_total_insome = $count_insome_stmt->fetch(PDO::FETCH_ASSOC);
@@ -54,7 +54,7 @@ class indicatorModel extends Database
                             ingreso, id_ingreso
                          FROM
                             ingresos
-                            WHERE ingreso != "Otros"
+                            
                             ORDER BY ingreso ASC
                              LIMIT 
                                 :inicio, :registros_por_pagina';
@@ -158,7 +158,7 @@ class indicatorModel extends Database
 
         // egresos
         $current_page_e = $page_e;
-        $count_graduation_query = 'SELECT COUNT(*) as total_egresos FROM egresos WHERE egreso != "Otros gastos"';
+        $count_graduation_query = 'SELECT COUNT(*) as total_egresos FROM egresos  ';
         $count_graduation_stmt = $this->pdo->prepare($count_graduation_query);
         $count_graduation_stmt->execute();
         $row_total_graduation = $count_graduation_stmt->fetch(PDO::FETCH_ASSOC);
@@ -176,7 +176,7 @@ class indicatorModel extends Database
                                 categorias_egreso 
                              ON
                                 egresos.id_categoria_egreso = categorias_egreso.id_categoria_egreso
-                                WHERE egreso != "Otros gastos"
+                               
                               ORDER BY egresos.egreso ASC
                              LIMIT 
                                 :inicio, :registros_por_pagina';
@@ -339,7 +339,7 @@ class indicatorModel extends Database
 
         $this->graduantion[3] = $get_all_data_meal_category_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $get_all_data_others_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =4 AND egreso != "Otros gastos"';
+        $get_all_data_others_category_query = 'SELECT * FROM egresos WHERE id_categoria_egreso =4 ';
         $get_all_data_others_category_stmt = $this->pdo->prepare($get_all_data_others_category_query);
         $get_all_data_others_category_stmt->execute();
 
@@ -516,7 +516,7 @@ class indicatorModel extends Database
 
     public function getInsome()
     {
-        $get_insome_query = 'SELECT * FROM ingresos WHERE ingreso != "Otros"';
+        $get_insome_query = 'SELECT * FROM ingresos  ';
         $get_insome_stmt = $this->pdo->prepare($get_insome_query);
         $get_insome_stmt->execute();
 

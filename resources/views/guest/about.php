@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Acerca de | Calidad financiera</title>
+    <title>Acerca de | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
@@ -65,17 +65,21 @@
                     <div class="col-lg-6 col-12 about__col--right">
                         <div class="mission">
                             <h3 class="mission__title"><b>Mision</b></h3>
-                            <p class="mission__description">Nuestra visión es empoderar a los usuarios para que tomen el
-                                control de sus finanzas personales de manera segura, intuitiva y eficiente, ofreciendo
-                                una plataforma flexible que se adapte a sus necesidades y les permita alcanzar sus metas
-                                financieras con confianza y tranquilidad.</p>
+                            <p class="mission__description">
+                                Nuestra misión es crear una comunidad activa y comprometida
+                                que aproveche al máximo las funcionalidades del sistema, fomentando la mejora continua y
+                                adaptándonos a las necesidades individuales de cada usuario para ofrecer herramientas de
+                                control financiero cada vez más completas y personalizadas
+                            </p>
                         </div>
                         <div class="vision">
                             <h3 class="vision"><b>Vision</b></h3>
-                            <p class="vision__description">Nuestra misión es crear una comunidad activa y comprometida
-                                que aproveche al máximo las funcionalidades del sistema, fomentando la mejora continua y
-                                adaptándonos a las necesidades individuales de cada usuario para ofrecer herramientas de
-                                control financiero cada vez más completas y personalizadas</p>
+                            <p class="vision__description">
+                                Nuestra visión es empoderar a los usuarios para que tomen el
+                                control de sus finanzas personales de manera segura, intuitiva y eficiente, ofreciendo
+                                una plataforma flexible que se adapte a sus necesidades y les permita alcanzar sus metas
+                                financieras con confianza y tranquilidad.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -85,14 +89,11 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
-    <?php
-    include '../resources/views/components/presentation.php';
-    ?>
 
-    <script src="../js/components/presentation_system_web.js" type="module"></script>
+
     <script src="../js/cdn.js" type="module"></script>
-    <script src="../js/components/location.js" type="module"></script>
- 
+    <script src="../js/components/location_guest.js" type="module"></script>
+
 </body>
 
 </html>

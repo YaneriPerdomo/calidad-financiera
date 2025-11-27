@@ -1,12 +1,11 @@
-<?php // Vista del panel de control del usuario 
-?>
+ 
 <!doctype html>
 <html lang="es" class="full-heigh">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cambiar contraseña | Calidad financiera</title>
+    <title>Cambiar Contraseña | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
@@ -41,7 +40,7 @@
             <div class="col-12 col-lg-9">
                 <form action="./changes-password" method="post" class="form form--profile">
 
-                    <legend class="form__title form__title--profile"><b>Cambiar contraseña</b></legend>
+                    <legend class="form__title form__title--profile"><b>Cambiar Contraseña</b></legend>
                     <p class="form__description form__description--profile"> Protege tu cuenta actualizando tu
                         contraseña de forma segura. </p>
                         <?php
@@ -63,7 +62,7 @@
                 ?>
                         <hr class="form__separator">
 
-                    <label for="old-password" class="form__label form__label--required">Contraseña actual</label><br>
+                    <label for="old-password" class="form__label form__label--required">Contraseña Actual</label><br>
                     <div class="input-group mb-3">
                         <span class="input-group-text form__icon" id="old-password-icon"><i
                                 class="bi bi-lock"></i></span>
@@ -72,7 +71,7 @@
                             aria-describedby="old-password-icon" autocomplete='off' value="">
                     </div>
 
-                    <label for="new-password" class="form__label form__label--required">Nueva contraseña</label><br>
+                    <label for="new-password" class="form__label form__label--required">Nueva Contraseña</label><br>
                     <div class="input-group mb-3">
                         <span class="input-group-text form__icon" id="new-password-icon"><i
                                 class="bi bi-key"></i></span>
@@ -81,12 +80,12 @@
                             aria-describedby="new-password-icon" autocomplete='off' value="">
                     </div>
 
-                    <label for="confirm-password" class="form__label form__label--required">Confirmar nueva
+                    <label for="confirm-password" class="form__label form__label--required">Confirmar Nueva
                         contraseña</label><br>
                     <div class="input-group mb-3">
                         <span class="input-group-text form__icon" id="confirm-password-icon"><i
                                 class="bi bi-shield-lock"></i></span>
-                        <input type="password" name="confirm-password"
+                        <input type="password" name="confirm_password"
                             class="form-control form__input form__input--item"
                             placeholder="Confirma tu nueva contraseña" aria-label="Confirmar nueva contraseña"
                             aria-describedby="confirm-password-icon" autocomplete='off' value="">
@@ -95,11 +94,12 @@
                     <div class="form__actions flex-center-full gap-3">
                         <button class="form__button button--back" type="button">
                             <a href="./welcome" class="text-decoration-none text-black">
-                                <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
+                                <i class="bi bi-arrow-left-square"></i> Regresar</a>
                         </button>
                         <button class="form__button form__button--submit" type="submit">
-                            <i class="bi bi-check-circle-fill"></i>
-                            Cambiar contraseña</button>
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Cambiar Contraseña
+                        </button>
                     </div>
                 </form>
             </div>
@@ -108,11 +108,8 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
-    <?php
-    include '../resources/views/components/admin/presentation.php';
-    ?>
+   
 
-    <script src="../js/components/presentation_system_web.js" type="module"></script>
 
     <script src="../js/components/location.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>

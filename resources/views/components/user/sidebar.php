@@ -5,7 +5,10 @@
                 <a href="<?php echo $sidebar_jump ?? '/'?>dashboard/<?php echo Date('m/Y') ?> " id="start" class="text-decoration-none">Inicio</a>
             </li>
             <li class="sidebar__menu-item">
-                <a href="<?php echo $sidebar_jump ?? './'?>data/1" id="data" class="text-decoration-none">Datos</a>
+                <a href="<?php echo $sidebar_jump ?? './'?>transactions/1" id="transactions" class="text-decoration-none">Transacciones</a>
+            </li>
+            <li class="sidebar__menu-item">
+                <a href="<?php echo $sidebar_jump ?? './'?>sudgeting-and-savings" id="sudgeting-and-savings" class="text-decoration-none">Presupuesto y Ahorro</a>
             </li>
             <li class="sidebar__menu-item">
                 <a href="<?php echo $sidebar_jump ?? './'?>guests/1" id="guest" class="text-decoration-none">Invitados</a>

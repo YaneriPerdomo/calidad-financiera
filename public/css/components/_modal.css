@@ -52,8 +52,7 @@
 }
 .model__form {
   margin-top: 1rem;
-  max-width: 500px;
-  min-width: 200px;
+    width: clamp(500px, 50vw, 300px);
 }
 
 .model__header {

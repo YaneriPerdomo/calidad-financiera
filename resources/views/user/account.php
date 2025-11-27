@@ -1,12 +1,10 @@
-<?php // Vista del panel de control del usuario
-?>
 <!doctype html>
 <html lang="es" class="full-heigh">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Eliminar cuenta | Calidad financiera</title>
+    <title>Eliminar Cuenta | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
@@ -43,14 +41,16 @@
                 <div class="functionality functionality--account-delete">
                     <button class="button--back" type="button">
                         <a href="./dashboard/<?php echo date('m/Y') ?>" class="text-decoration-none text-black"> 
-                                <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
+                                <i class="bi bi-arrow-left-square"></i> Regresar</a>
                     </button>
-                    <legend class="functionality__title functionality__title--account-delete"><b>Eliminar cuenta</b>
+                    <legend class="functionality__title functionality__title--account-delete"><b>Eliminar Cuenta</b>
                     </legend>
                     <p class="functionality__description functionality__description--account-delete "> Controla tu
                         información protegiendo tu privacidad y recuerda que puedes actualizar tu perfil en cualquier
                         momento. </p>
-                         <button class="functionality__description-button button--delete"data-model='js'>Eliminar cuenta</button>
+                         <button class="functionality__description-button button--delete"data-model='js'>
+                         <i class="bi bi-trash "></i>
+                         Eliminar Cuenta</button>
     
                 </div>
             </div>
@@ -73,10 +73,12 @@
         </div>
         <div class="model__buttons">
             <button class="model_exit button__exit btn-exit button--cancel" type="button">
-                No, cancelar
+                <i class="bi bi-arrow-left-square"></i>
+                No, Cancelar
             </button>
             <button class="model__submit button--delete ">
-                Sí, eliminar permanentemente
+                <i class="bi bi-trash "></i>
+                Sí, Eliminar Permanentemente
             </button>
         </div>
     </form>
@@ -102,11 +104,9 @@
     <?php
     include '../resources/views/components/footer.php';
 ?>
-    <?php
-include '../resources/views/components/presentation.php';
-?>
+     
 
-    <script src="../js/components/presentation_system_web.js" type="module"></script>
+  
 
     <script src="../js/components/location_user.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>

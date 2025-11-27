@@ -16,10 +16,21 @@ class LoginController extends Controller
         $user = $_POST['user'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        if (empty($user) || empty($password)) {
-            $this->sessionCreation('alert-danger', 'Por favor, ingrese usuario y contraseña.');
-            header('Location: ./login');
-            exit();
+        $post = [
+            'user' => trim($_POST['user'] ?? ''),
+            'password' => trim($_POST['password'] ?? ''),
+        ];
+
+        $rules = [
+            'user' => ['required:Nombre'],
+            'password' => ['required:Apellido'],
+        ];
+
+        $userStoreRequest = Validation::request($post, $rules);
+
+        if ($userStoreRequest != '') {
+            $this->sessionCreation('alert-danger', $userStoreRequest);
+            return header('Location: ./login');
         }
         $authentication = new LoginModel;
         $authentication->login(['user' => $user, 'password' => $password]);
@@ -40,14 +51,14 @@ class LoginController extends Controller
                 case 1:
                     echo 'hola';
                     $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';
-                    header('Location: ./user/dashboard/'.date('m/Y'), true, 301);
+                    header('Location: ./user/dashboard/' . date('m/Y'), true, 301);
                     break;
                 case 2:
                     header('Location: ./admin/welcome', true, 301);
                     break;
                 case 3:
                     $_SESSION['id_persona'] = $authentication->user['id_persona'] ?? '';
-                    header('Location: ./guest/dashboard/'.date('m/Y'), true, 301);
+                    header('Location: ./guest/dashboard/' . date('m/Y'), true, 301);
                     break;
                 default:
                     header('Location: ./login', true, 301);
@@ -56,7 +67,7 @@ class LoginController extends Controller
 
             exit();
         } else {
-            $this->sessionCreation('alert-danger', 'Usuario o contraseña incorrecta');
+            $this->sessionCreation('alert-danger', 'Usuario o Contraseña incorrecta');
             header('Location: ./login');
             exit();
         }

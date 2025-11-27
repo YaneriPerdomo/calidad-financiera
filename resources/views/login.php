@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Iniciar sesion | Calidad financiera</title>
+    <title>Iniciar Sesion | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../public/css/components/_footer.css">
@@ -22,19 +22,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
+        .logo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
-    <?php
-    include '../resources/views/components/header.php';
-    ?>
+ 
     <main class="main main--content-login">
-        <form action="login" method="post" class="form-login">
-            <legend class="form-login__title font-bold  m-0">Inicia sesion</legend>
-            <p class="title-green p-0 m-2">Accede a tu cuenta y toma el control de tus finanzas</p>
+        <div >
+            <section class="logo">
+           <a href="./index">
+            <figure class="m-0">
+            <img src="./img/logo.png" alt="" style="  width: 238px;" draggable="false" >
+        </figure>
+           </a>
+                    <p class="title-green p-0  " style="  margin: 0.5rem 1rem 0.5rem 1rem;">
+                        Accede a tu cuenta y toma el control de tus finanzas
+                    </p>
+
+    </section>  
+        <form action="login" method="post" class="form-login" style="  margin-top: 0.5rem !important;">
+            <legend class="form-login__title font-bold  m-0">Inicia Sesión</legend>
             
             <?php
-               
+
                 if (isset($_SESSION['alert-danger'])) {
                     echo '
                     <div class="alert alert-danger m-0" role="alert">
@@ -43,18 +58,18 @@
 
                     unset($_SESSION['alert-danger']);
                 }
-            ?>
+?>
 
              <?php
-               
-                if (isset($_SESSION['alert-success'])) {
-                    echo '
+
+    if (isset($_SESSION['alert-success'])) {
+        echo '
                     <div class="alert alert-success m-0" role="alert">
                         '.$_SESSION['alert-success'].'
                     </div>';
-                    unset($_SESSION['alert-success']);
-                }
-            ?>
+        unset($_SESSION['alert-success']);
+    }
+?>
 
  
             <div class="form-login__content">
@@ -76,7 +91,9 @@
                 </div>
                 <button type="submit" class="form-login__button-send button-r">
                     <i class="fas fa-sign-in-alt form-login__icon"></i>
-                    <span class="form--login__text">Acceder</span>
+                    <span class="form--login__text">
+                        Acceder <i class="bi bi-arrow-right"></i>
+                    </span>
                 </button>
                 <div class="form-login__link p-2 text-center ">
                     ¿No tienes una cuenta?
@@ -86,10 +103,9 @@
             <div class="ornament">
             </div>
         </form>
+        </div>
     </main>
-    <?php
-    include '../resources/views/components/footer.php';
-    ?>
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

@@ -93,61 +93,60 @@ class GuestsController extends Controller
 
     public function reportGuests()
     {
-         if ($_POST['report_format'] == 0) {
-                $this->sessionCreation(
-                'alert-danger',
-                'Por favor, Seleccione un formato.'
+        if ($_POST['report_format'] == 0) {
+            $this->sessionCreation(
+                'alert-danger__wm',
+                'Error al generar el reporte de invitados: El formato de reporte seleccionado no es válido.'
             );
-            header('location: ../guests/1', true, 302);
+            return header('location: ../guests/1', true, 302);
         }
         $users = new GuestModel;
         $users->reportGuests($_SESSION['id_persona']);
         $data = $users->data;
-        
+
         if ($data == '') {
-              $this->sessionCreation(
-                'alert-danger',
+            $this->sessionCreation(
+                'alert-danger__wm',
                 'No hay datos disponibles para generar este reporte en este momento.'
             );
-            header('location: ../guests/1', true, 302);
+            return header('location: ../guests/1', true, 302);
         }
-         if ($_POST['report_format'] == 1) {
-        $value = '';
-        foreach ($users->data as $data) {
-            $status = $data['estado'] == 1 ? 'Activo/a' : 'Desactivado/a';
-            $value .= "<tr class='show'>
-                              <td>".$data['usuario'].'</td>
-                             <td>'.$data['nombre'].'</td>
-                              <td>'.$data['apellido'].'</td>
-                               <td>'.$data['correo_electronico'].'</td>
-                                 <td>'.$status.'</td>
+        if ($_POST['report_format'] == 1) {
+            $value = '';
+            foreach ($users->data as $data) {
+                $status = $data['estado'] == 1 ? 'Activo/a' : 'Desactivado/a';
+                $value .= "<tr class='show'>
+                              <td>" . $data['usuario'] . '</td>
+                             <td>' . $data['nombre'] . '</td>
+                              <td>' . $data['apellido'] . '</td>
+                               <td>' . $data['correo_electronico'] . '</td>
+                                 <td>' . $status . '</td>
                          </tr>';
-        }
+            }
 
-        $created_at_last_session = substr(date('Y-m-d'), 0, 10);
+            $created_at_last_session = substr(date('Y-m-d'), 0, 10);
 
-        $completion_date = explode('-', $created_at_last_session);
+            $completion_date = explode('-', $created_at_last_session);
 
-        $writtenEveryMonth = [
-            '01' => 'Enero',
-            '02' => 'Febrero',
-            '03' => 'Marzo',
-            '04' => 'Abril',
-            '05' => 'Mayo',
-            '06' => 'Junio',
-            '07' => 'Julio',
-            '08' => 'Agosto',
-            '09' => 'Septiembre',
-            '10' => 'Octubre',
-            '11' => 'Noviembre',
-            '12' => 'Diciembre',
-        ];
-
-        $monthWritten = $writtenEveryMonth[$completion_date[1]];
-
-        $created_at_last_session = $completion_date[2].' de '.$monthWritten.' de '.$completion_date[0];
-        // Contenido HTML
-        $html = '
+            $writtenEveryMonth = [
+                '01' => 'Enero',
+                '02' => 'Febrero',
+                '03' => 'Marzo',
+                '04' => 'Abril',
+                '05' => 'Mayo',
+                '06' => 'Junio',
+                '07' => 'Julio',
+                '08' => 'Agosto',
+                '09' => 'Septiembre',
+                '10' => 'Octubre',
+                '11' => 'Noviembre',
+                '12' => 'Diciembre',
+            ];
+            $monthWritten = $writtenEveryMonth[$completion_date[1]];
+            $created_at_last_session = $completion_date[2] . ' de ' . $monthWritten . ' de ' . $completion_date[0];
+            $filename = __DIR__ . '/../../public/img/logo.png';
+            $img = "data:image/png;base64," . base64_encode(file_get_contents($filename));
+            $html = '
     <head>
         <style>
             .table {
@@ -175,8 +174,10 @@ class GuestsController extends Controller
         </style>
     </head>
     <body>
-        <strong> Calidad Financiera </strong>
-        <div class="text-r"> '.$created_at_last_session.'<div>
+          <div > 
+                <img src="' . $img . '" style="width:120px" >
+         </div>
+        <div class="text-r"> ' . $created_at_last_session . '<div>
         <div style="width: 100%;">
             <table class="table">
                 <thead>
@@ -189,59 +190,65 @@ class GuestsController extends Controller
                     </tr>
                 </thead>
                 <tbody class="dataTable">
-                    '.$value.'
+                    ' . $value . '
                 </tbody>
             </table>
         </div>
     </body>
     ';
 
-        $dompdf = new Dompdf; // Objeto domPdf
+            $dompdf = new Dompdf; // Objeto domPdf
 
-        $options = $dompdf->getOptions();
-        $options->set(['isRemoteEnabled' => true]);
-        $dompdf->setOptions($options);
+            $options = $dompdf->getOptions();
+            $options->set(['isRemoteEnabled' => true]);
+            $dompdf->setOptions($options);
 
-        // Cargar el contenido HTML
-        $dompdf->loadHtml($html);
+            // Cargar el contenido HTML
+            $dompdf->loadHtml($html);
 
-        // (Opcional) Configurar el tamaño del papel, orientación, etc.
-        $dompdf->setPaper('letter');
+            // (Opcional) Configurar el tamaño del papel, orientación, etc.
+            $dompdf->setPaper('letter');
 
-        // Renderizar el PDF
-        $dompdf->render();
+            // Renderizar el PDF
+            $dompdf->render();
 
-        // Descargar el PDF
-        $name_pdf = date('d-m-Y').'-todos-los-invitados-de-'.$_SESSION['usuario'].'.pdf';
+            // Descargar el PDF
+            $name_pdf = date('d-m-Y') . '-todos-los-invitados-de-' . $_SESSION['usuario'] . '.pdf';
 
-        return $dompdf->stream($name_pdf, ['Attachment' => 1]);
-    }else{
-          $date_parts = explode('-', date('Y-m-d'));
+            return $dompdf->stream($name_pdf, ['Attachment' => 1]);
+        } else {
+            $date_parts = explode('-', date('Y-m-d'));
             $month_map = [
-                '01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril',
-                '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto',
-                '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre',
+                '01' => 'Enero',
+                '02' => 'Febrero',
+                '03' => 'Marzo',
+                '04' => 'Abril',
+                '05' => 'Mayo',
+                '06' => 'Junio',
+                '07' => 'Julio',
+                '08' => 'Agosto',
+                '09' => 'Septiembre',
+                '10' => 'Octubre',
+                '11' => 'Noviembre',
+                '12' => 'Diciembre',
             ];
-            $formatted_date = $date_parts[2].' de '.$month_map[$date_parts[1]].' de '.$date_parts[0];
+            $formatted_date = $date_parts[2] . ' de ' . $month_map[$date_parts[1]] . ' de ' . $date_parts[0];
 
-            // 3. Establecer el tipo de contenido y el nombre del archivo
-            $filename = 'reporte_invitados_'.date('d/m/Y').'.csv';
+            $filename = 'reporte_invitados_' . date('d/m/Y') . '.csv';
 
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Pragma: no-cache');
             header('Expires: 0');
 
-            // 4. Crear el flujo de salida y escribir los datos
             $output = fopen('php://output', 'w');
 
-            // Escribir el BOM para UTF-8 (necesario para acentos)
-            fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+            fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
 
             fputcsv($output, ['Calidad Financiera'], ';');
 
-            fputcsv($output, ['Fecha de Generación: '.$formatted_date], ';');
+            fputcsv($output, ['Fecha de Generación: ' . $formatted_date], ';');
 
             fputcsv($output, [''], ';');
 
@@ -265,7 +272,7 @@ class GuestsController extends Controller
 
             fclose($output);
             exit;
-    }
+        }
     }
 
     public function create()
@@ -302,19 +309,41 @@ class GuestsController extends Controller
          location.href = "./guest"
          </script>';
         }
-        $status = '';
-        if (isset($_POST['status'])) {
-            $status = 1;
-        } else {
-            $status = 0;
+        
+
+
+        $post = [
+            'name' => trim($_POST['name'] ?? ''),
+            'lastname' => trim($_POST['lastname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'user' => trim($_POST['user'] ?? ''),
+            'password' => trim($_POST['password'] ?? ''),
+            'confirm_password' => trim($_POST['confirm_password'] ?? '')
+        ];
+
+        $rules = [
+            'name' => ['required:Nombre', 'regex:name'],
+            'lastname' => ['required:Apellido', 'regex:lastname'],
+            'email' => ['required:Correo electrónico', 'regex:email'],
+            'user' => ['required:Usuario', 'regex:user'],
+            'password' => [
+                'nullable',
+                'confirmed',
+            ],
+            'confirm_password' => ['nullable']
+        ];
+        $userStoreRequest = Validation::request($post, $rules);
+        if ($userStoreRequest != '') {
+            $this->sessionCreation('alert-danger', $userStoreRequest);
+            return header('Location: ./guest/' . $_POST['id_user'] . '/modify');
         }
+
         if ($_POST['user'] == '' || $_POST['name'] == '' || $_POST['lastname'] == '' || $_POST['email'] == '') {
             $this->sessionCreation(
                 'alert-danger',
                 'Por favor, rellene lo(s) campo(s)'
             );
-
-            return header('location: ./guest/'.$_POST['id_user'].'/modify', true, 302);
+            return header('location: ./guest/' . $_POST['id_user'] . '/modify', true, 302);
 
         }
 
@@ -327,8 +356,10 @@ class GuestsController extends Controller
             'lastname' => trim($_POST['lastname']),
             'email' => trim($_POST['email']) ?? null,
             'password' => $_POST['password'] ?? '',
-            'estado' => $status,
+            'estado' => $_POST['status'],
         ]);
+
+      
         if ($add_data_guest->status == true) {
             $this->sessionCreation(
                 'alert-success',
@@ -336,15 +367,42 @@ class GuestsController extends Controller
             );
             header('location: ./guests/1', true, 302);
         } else {
-
-            $this->sessionCreation(
-                'alert-danger',
-                $add_data_guest->msg ?? 'Error: No se pudo completar la operación.'
-            );
-            header('location: ./guest/'.$_POST['id_user'].'/modify', true, 302);
+            if ($add_data_guest->msg != 'Nada que modificar') {
+                $this->sessionCreation(
+                    'alert-danger',
+                    $add_data_guest->msg
+                );     }
+                header('location: ./guest/' . $_POST['id_user'] . '/modify', true, 302);
+       
         }
     }
 
+    public function changeState(){
+
+       
+        $change_state_user = new GuestModel;
+        $change_state_user->changeStateGuest([
+            'id_user' => trim($_POST['id_usuario_guest']),
+            'state' => intval(trim($_POST['new_status'])),
+        ]);
+
+      
+        if ($change_state_user->status == true) {
+            $this->sessionCreation(
+                'alert-success',
+                'El cambio de estado se ha actualizado correctamente.'
+            );
+            header('location: ../guests/1', true, 302);
+        } else {
+            if ($change_state_user->msg != 'Nada que modificar') {
+                $this->sessionCreation(
+                    'alert-danger',
+                    $change_state_user->msg
+                );     }
+                header('location: ../guests/1', true, 302);
+       
+        }
+    }
     public function showData($id)
     {
 
@@ -378,7 +436,31 @@ class GuestsController extends Controller
             $status = 0;
         }
 
-         
+        $post = [
+            'name' => trim($_POST['name'] ?? ''),
+            'lastname' => trim($_POST['lastname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'user' => trim($_POST['user'] ?? ''),
+            'password' => trim($_POST['password'] ?? ''),
+            'confirm_password' => trim($_POST['confirm_password'] ?? '')
+        ];
+
+        $rules = [
+            'name' => ['required:Nombre', 'regex:name'],
+            'lastname' => ['required:Apellido', 'regex:lastname'],
+            'email' => ['required:Correo electrónico', 'regex:email'],
+            'user' => ['required:Usuario', 'regex:user'],
+            'password' => ['required:Contraseña', 'confirmed'],
+            'confirm_password' => ['required:Confirma Contraseña']
+        ];
+
+        $userStoreRequest = Validation::request($post, $rules);
+
+        if ($userStoreRequest != '') {
+            $this->sessionCreation('alert-danger', $userStoreRequest);
+            return header('Location: ./guest/add');
+        }
+
         $add_data_guest = new GuestModel;
         $add_data_guest->AddData([
             'user' => trim($_POST['user']),
@@ -400,7 +482,7 @@ class GuestsController extends Controller
                 'alert-danger',
                 $add_data_guest->msg
             );
-            header('location: ../guest/add', true, 302);
+            return header('location: ./guest/add', true, 302);
         }
 
     }
@@ -424,7 +506,7 @@ class GuestsController extends Controller
                 'alert-danger',
                 $guest->msg
             );
-            header('location: ../guest/add', true, 302);
+            header('location: ../guests/1', true, 302);
         }
     }
 }

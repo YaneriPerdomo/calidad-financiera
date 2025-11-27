@@ -111,7 +111,9 @@ class DashboardModel extends Database
                                 FROM 
                                   `transacciones` 
                                 WHERE
-                                  year(fecha) = :year_ AND id_ingreso is not null AND id_persona = :id_person ';
+                                  year(fecha) = :year_ 
+                                  AND anulado = 0
+                                  AND id_ingreso is not null AND id_persona = :id_person ';
     $get_total_annual_expenses_stmt = $this->pdo->prepare($get_total_annual_income_query);
     $get_total_annual_expenses_stmt->bindParam('year_', $year, PDO::PARAM_INT);
     $get_total_annual_expenses_stmt->bindParam('id_person', $id_person, PDO::PARAM_INT);
@@ -141,6 +143,7 @@ class DashboardModel extends Database
                                 FROM 
                                   `transacciones` 
                                 WHERE
+                                   anulado = 0  AND 
                                   year(fecha) = :year_ AND id_egreso is not null AND id_persona = :id_person ';
     $get_total_annual_income_stmt = $this->pdo->prepare($get_total_annual_expenses_query);
     $get_total_annual_income_stmt->bindParam('year_', $year, PDO::PARAM_INT);
@@ -173,7 +176,10 @@ class DashboardModel extends Database
                                          ON 
                                             transacciones.id_ingreso = ingresos.id_ingreso 
                                          WHERE 
-                                            id_persona = :id_person AND  YEAR(fecha) = :year_ AND  month(fecha) = :month_ AND ingresos.id_ingreso is not null 
+                                         
+                                            id_persona = :id_person AND
+                                             anulado = 0 AND
+                                              YEAR(fecha) = :year_ AND  month(fecha) = :month_ AND ingresos.id_ingreso is not null 
                                          GROUP BY 
                                             ingresos.id_ingreso';
     $get_all_income_name_value_stmt = $this->pdo->prepare($get_all_income_name_value_query);
@@ -209,6 +215,7 @@ class DashboardModel extends Database
                                          ON 
                                             transacciones.id_egreso = egresos.id_egreso 
                                          WHERE 
+                                          anulado = 0 AND
                                             id_persona = :id_person AND  YEAR(fecha) = :year_ AND  month(fecha) = :month_ AND egresos.id_egreso is not null 
                                          GROUP BY 
                                             egresos.id_egreso';
@@ -282,6 +289,7 @@ class DashboardModel extends Database
                                                 id_persona = :id_person
                                               AND 
                                                 YEAR(fecha) = :_year
+                                              AND anulado = 0
                                               GROUP BY 
                                                 mes 
                                               ORDER BY 
@@ -363,7 +371,10 @@ class DashboardModel extends Database
                             AND 
                             year(fecha) = :_year
                             AND 
-                            id_persona = :id_person';
+                            id_persona = :id_person
+                            AND anulado = 0
+                            '
+                            ;
     $GetTotalIncomeStmt = $this->pdo->prepare($GetTotalIncomeQuery);
     $GetTotalIncomeStmt->bindParam('_month', $month, PDO::PARAM_INT);
     $GetTotalIncomeStmt->bindParam('_year', $year, PDO::PARAM_INT);
@@ -402,7 +413,9 @@ class DashboardModel extends Database
                             AND 
                             year(fecha) = :_year
                             AND 
-                            id_persona = :id_person';
+                            id_persona = :id_person
+                            AND anulado = 0
+                            ';
     $get_total_graduation_stmt = $this->pdo->prepare($get_total_graduation_query);
     $get_total_graduation_stmt->bindParam('_month', $month, PDO::PARAM_INT);
     $get_total_graduation_stmt->bindParam('_year', $year, PDO::PARAM_INT);

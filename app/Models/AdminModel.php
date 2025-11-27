@@ -46,6 +46,8 @@ class AdminModel extends Database
             $this->users = $get_persons_stmt->fetchAll(PDO::FETCH_ASSOC);
 
             return $this->status = true;
+        }else{
+            return $this->users = '';
         }
     }
 
@@ -117,11 +119,14 @@ class AdminModel extends Database
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>
-                        <a href='../../../user/".$row['id_usuario']."/progress'>
-                            <button class='button--progress'>
-                              <i class='bi bi-bar-chart-line'></i>
-                            </button>
-                        </a>";
+                         >";
+                                 $estado = $row['estado'];
+
+                $this->HTML .= "        <button class='  button--azul'  style='padding:0.5rem'
+                              data-model='js_change_state_guest' 
+                              data-id-user='" . $row['id_usuario'] . "' data-state='$estado' >
+                               <i class='bi bi-person-fill-gear'></i> 
+                      </button>";
                 $this->HTML .= '</td>';
                 $this->HTML .= '</tr>';
             }
@@ -252,11 +257,15 @@ class AdminModel extends Database
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>
-                        <a href='../../user/".$row['id_usuario']."/progress'>
-                            <button class='button--progress'>
-                              <i class='bi bi-bar-chart-line'></i>
-                            </button>
-                        </a>";
+                        ";
+                          $estado = $row['estado'];
+        $this->HTML .= "
+        
+                      <button class='  button--azul'  style='padding:0.5rem'
+                              data-model='js_change_state_guest' 
+                              data-id-user='" . $row['id_usuario'] . "' data-state='$estado' >
+                               <i class='bi bi-person-fill-gear'></i> 
+                      </button>";
                 $this->HTML .= '</td>';
                 $this->HTML .= '</tr>';
             }

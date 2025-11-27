@@ -98,7 +98,8 @@ class GuestModel extends Database
 
   function UpdateData($POST = [])
   {
-    $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` WHERE usuario = :user AND id_usuario != :id_usuario';
+    $search_name_user_not_you_query = 'SELECT * FROM `usuarios_cf` 
+                                        WHERE usuario = :user AND id_usuario != :id_usuario';
     $search_name_user_not_you_stmt = $this->pdo->prepare($search_name_user_not_you_query);
     $search_name_user_not_you_stmt->bindParam('user', $POST['user'], PDO::PARAM_STR);
     $search_name_user_not_you_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
@@ -109,7 +110,7 @@ class GuestModel extends Database
     }
 
     try {
-            $this->pdo->beginTransaction();
+      $this->pdo->beginTransaction();
 
       $update_data_guest_query = 'UPDATE 
                                     invitados 
@@ -125,7 +126,7 @@ class GuestModel extends Database
       $update_data_guest_stmt->bindParam('correo_electronico', $POST['email'], PDO::PARAM_STR);
 
       $update_data_guest_stmt->execute();
- 
+
       $update_data_user_query = 'UPDATE usuarios_cf SET usuario = :usuario, estado = :status_ WHERE id_usuario = :id_usuario';
       $update_data_user_stmt = $this->pdo->prepare($update_data_user_query);
       $update_data_user_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
@@ -141,17 +142,20 @@ class GuestModel extends Database
         $update_password_stmt->bindParam('clave', $hash, PDO::PARAM_STR);
         $update_password_stmt->bindParam('id_usuario', $POST['id_user'], PDO::PARAM_INT);
         $update_password_stmt->execute();
-        if($update_password_stmt->rowCount() > 0){
+        if ($update_password_stmt->rowCount() > 0) {
           $upd_pass = true;
         }
       }
 
-      if($update_data_guest_stmt->rowCount() > 0 || $update_data_user_stmt->rowCount() > 0 ||  $upd_pass == true){
+      if ($update_data_guest_stmt->rowCount() > 0 || $update_data_user_stmt->rowCount() > 0 || $upd_pass == true) {
         $this->pdo->commit();
-              return $this->status = true;
+        return $this->status = true;
+      } else {
+        $this->status = false;
+        return $this->msg = 'Nada que modificar';
       }
-    } catch (PDOException $exh) {
-      return $this->msg =  $exh->getMessage();
+    } catch (PDOException $ex) {
+      return $this->msg = $ex->getMessage();
     }
   }
   public function showData($id_user)
@@ -233,8 +237,8 @@ class GuestModel extends Database
         $this->HTML .= "<td class='operations'>";
         $this->HTML .= "
                       
-                      <button class='  button--delete' data-model='js_delete_guest' data-id-user='".$row['id_usuario']."' 
-        data-id-guest='".$row['id_invitado']."'>
+                      <button class='  button--delete' data-model='js_delete_guest' data-id-user='" . $row['id_usuario'] . "' 
+        data-id-guest='" . $row['id_invitado'] . "'>
                                 <i class='bi bi-trash ' ></i> 
                               </button>
                        
@@ -244,6 +248,15 @@ class GuestModel extends Database
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>";
+        $estado = $row['estado'];
+        $this->HTML .= "
+        
+                      <button class='  button--azul'  style='padding:0.5rem'
+                              data-model='js_change_state_guest' 
+                              data-id-user='" . $row['id_usuario'] . "' data-state='$estado' >
+                               <i class='bi bi-person-fill-gear'></i> 
+                      </button>
+        ";
         $this->HTML .= "</td>";
         $this->HTML .= "</tr>";
       }
@@ -369,8 +382,8 @@ class GuestModel extends Database
         $this->HTML .= "<td> " . $created_at ?? '' . "</td>";
         $this->HTML .= "<td class='operations'>";
         $this->HTML .= "
-                        <button class='  button--delete' data-model='js_delete_guest' data-id-user='".$row['id_usuario']."' 
-        data-id-guest='".$row['id_invitado']."'>
+                        <button class='  button--delete' data-model='js_delete_guest' data-id-user='" . $row['id_usuario'] . "' 
+        data-id-guest='" . $row['id_invitado'] . "'>
                                 <i class='bi bi-trash ' ></i> 
                               </button> ";
         $this->HTML .= "<a href='../../guest/" . $row['id_usuario'] . "/modify'>
@@ -378,6 +391,14 @@ class GuestModel extends Database
                               <i class='bi bi-person-lines-fill'></i>
                             </button>
                         </a>";
+                         $estado = $row['estado'];
+        $this->HTML .= "
+        
+                      <button class='  button--azul'  style='padding:0.5rem'
+                              data-model='js_change_state_guest' 
+                              data-id-user='" . $row['id_usuario'] . "' data-state='$estado' >
+                               <i class='bi bi-person-fill-gear'></i> 
+                      </button>";
         $this->HTML .= "</td>";
         $this->HTML .= "</tr>";
       }
@@ -434,6 +455,27 @@ class GuestModel extends Database
     }
   }
 
+  public function changeStateGuest($POST)
+  {
+    try {
+      $delete_guest_query = 'UPDATE usuarios_cf SET estado = :state_
+          WHERE id_usuario = :id';
+
+      $delete_guest_stmt = $this->pdo->prepare($delete_guest_query);
+      $delete_guest_stmt->bindParam('id', $POST['id_user'], PDO::PARAM_INT);
+      $delete_guest_stmt->bindParam('state_', $POST['state'], PDO::PARAM_INT);
+      $delete_guest_stmt->execute();
+ 
+
+      if ($delete_guest_stmt->rowCount() > 0  ) {
+        return $this->status = true;
+      } else {
+        return $this->msg = 'Nada que modificar';
+      }
+    } catch (PDOException $th) {
+      return $this->msg = $th->getMessage();
+    }
+  }
   public function destroy($id_user, $id_guest)
   {
 

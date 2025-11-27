@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Perfil | Calidad financiera</title>
+    <title>Perfil | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../../public/css/components/_buttons.css">
     <link rel="stylesheet" href="../../public/css/components/_footer.css">
@@ -45,7 +45,7 @@
                     <div class="form__data form__data--profile">
                         <div class="form__row form__row--personal-data row">
                             <div class="form__col form__col--title col-lg-4 col-12">
-                                <span class="form__subtitle">Datos personales: </span>
+                                <span class="form__subtitle">Datos Personales: </span>
                             </div>
                             <div class="form__col form__col--inputs col-lg-8 col-12">
                                 <label for="name" class="form__label form__label--required">Nombre</label><br>
@@ -62,7 +62,7 @@
                                         disabled value="<?php echo $data['apellido'] ?? '' ?>">
                                 </div>
                                 <label for="email" class="form__label form__label--required">Correo
-                                    electrónico</label><br>
+                                    Electrónico</label><br>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text form__icon"><i class="bi bi-envelope-fill"></i></span>
                                     <input type="text" name="email" class="form-control form__input form__input--item"
@@ -76,7 +76,7 @@
                         <hr class="form__separator">
                         <div class="form__row form__row--account-data row ">
                             <div class="form__col form__col--title col-lg-4 col-12">
-                                <span class="form__subtitle">Datos de la cuenta: </span>
+                                <span class="form__subtitle">Datos de la Cuenta: </span>
                             </div>
                             <div class="form__col form__col--inputs col-lg-8 col-12">
                                 <label for="username" class="form__label form__label--required ">Usuario</label><br>
@@ -86,10 +86,11 @@
                                         aria-label="Usuario" disabled value="<?php echo $_SESSION['usuario'] ?? '' ?>">
                                 </div>
                                 <label for="account-type" class="form__label ">Tipo de
-                                    cuenta</label><br>
+                                    Cuenta</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon"><i
-                                            class="bi bi-person-lines-fill"></i></span>
+                                    <span class="input-group-text form__icon">
+                                        <i class="bi bi-person-rolodex"></i>
+                                    </span>
                                     <input type="text" name="lastname"
                                         class="form-control form__input form__input--item" aria-label="Tipo de cuenta"
                                         value="Invitado(a)" disabled>
@@ -110,11 +111,7 @@
     <?php
     include '../resources/views/components/footer.php';
     ?>
-    <?php
-    include '../resources/views/components/presentation.php';
-    ?>
-
-    <script src="../js/components/presentation_system_web.js" type="module"></script>
+ 
     <script src="../js/components/location_guest.js" type="module"></script>
     <script src="../js/cdn.js" type="module"></script>
 

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> Indicador | Calidad financiera</title>
+    <title><?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> Indicador | Calidad Financiera</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_buttons.css">
     <link rel="stylesheet" href="<?php echo isset($indicator) ? '../../../' : '../../' ?>css/components/_footer.css">
@@ -58,10 +58,12 @@
         }
 ?>">
                 <legend class="form__title">
-                    <b> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> indicador</b>
+                    <b> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> Indicador</b>
                 </legend>
-                <p class="form__description"> Controla tu información protegiendo tu privacidad y recuerda que puedes
-                    actualizar tu perfil en cualquier momento. </p>
+                <p class="form__description">
+                    Define los parámetros de la métrica que se debe monitorear. Recuerda que un indicador
+    es clave para medir el rendimiento (ingresos) o la eficiencia (egresos) de tus usuarios.
+                </p>
                      <?php
                     if (isset($_SESSION['alert-danger'])) {
                         echo '
@@ -87,7 +89,7 @@
                             <span class="form__subtitle">Indicador </span>
                         </div>
                         <div class="col-12 col-lg-8 form__col form__col--inputs">
-                            <label for="name" class="form__label form__label--required">Tipo de indicador</label><br>
+                            <label for="name" class="form__label form__label--required">Tipo de Indicador</label><br>
                             <div class="input-group mb-3">
                                 <span class="input-group-text form__icon" id="basic-addon1"><i
                                         class="bi bi-tag"></i></span>
@@ -112,10 +114,11 @@
                             </div>
                             <div class="graduation-group hidden">
                                 <label for="name" class="form__label form__label--required">Categoría de
-                                    egreso</label><br>
+                                    Egreso</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text form__icon" id="basic-addon1"><i
-                                            class="bi bi-cash-stack"></i></span>
+                                    <span class="input-group-text form__icon" id="basic-addon1">
+                                        <i class="bi bi-tags"></i>
+                                    </span>
                                     <select id="id_graduation-category" name="id_graduation-category"
                                         class="form-control form__select" required>
                                         <?php
@@ -139,8 +142,9 @@ foreach ($data as $value) {
                                 </div>
                                 <label for="graduation" class="form__label form__label--required">Egreso</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="form__icon input-group-text" id="basic-addon1"><i
-                                            class="bi bi-cash-coin"></i></span>
+                                    <span class="form__icon input-group-text" id="basic-addon1">
+                                        <i class="bi bi-fonts"></i>
+                                    </span>
                                     <input type="text" name="graduation"
                                         class="form__input form__input--item form-control"
                                         placeholder="Nombre del egreso (ej. Pago de alquiler de oficina)"
@@ -151,8 +155,9 @@ foreach ($data as $value) {
                             <div class="income hidden">
                                 <label for="income" class="form__label form__label--required">Ingreso</label><br>
                                 <div class="input-group mb-3">
-                                    <span class="form__icon input-group-text" id="basic-addon1"><i
-                                            class="bi bi-currency-dollar"></i></span>
+                                    <span class="form__icon input-group-text" id="basic-addon1">
+                                        <i class="bi bi-fonts"></i>
+                                    </span>
                                     <input type="text" name="income" class="form__input form__input--item form-control"
                                         placeholder="Nombre del ingreso (ej. Sueldo)" aria-label="Indicador de ingreso"
                                         aria-describedby="basic-addon1"
@@ -166,10 +171,13 @@ foreach ($data as $value) {
                 <div class="flex-center-full form__actions gap-3">
                     <button class="form__button button--back" type="button">
                         <a href="<?php echo $jump_indicators ?>indicators/1/1" class="text-black text-decoration-none">
-                            <i class="bi bi-arrow-left-square-fill"></i> Regresar</a>
+                            <i class="bi bi-arrow-left-square"></i>
+                            Regresar
+                        </a>
                     </button>
                     <button class="form__button form__button--submit" type="submit">
-                        <i class="bi bi-check-circle-fill"></i> Actualizar datos</button>
+                         <i class="<?php echo  empty($indicator)  ? 'bi bi-plus-circle' : 'bi bi-arrow-clockwise'?>"></i> <?php echo isset($indicator) ? 'Modificar' : 'Agregar' ?> Indicador
+                    </button>
                 </div>
             </form>
         </div>
@@ -205,11 +213,8 @@ foreach ($data as $value) {
             type_indicator($TYPE_INDICATOR_SELECT.value);
         })
     </script>
-    <?php
-include '../resources/views/components/admin/presentation.php';
-?>
+   
 
-    <script src="<?php echo $js_jump ?>js/components/presentation_system_web.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/components/location_admin.js" type="module"></script>
     <script src="<?php echo $js_jump ?>js/cdn.js" type="module"></script>
  

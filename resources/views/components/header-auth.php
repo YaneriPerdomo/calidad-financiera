@@ -6,7 +6,7 @@
         <div class="btn-group dropstart">
             <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown"
                 data-bs-display="static" aria-expanded="false">
-                <img src=" " class="header-img img-fluid" alt="">
+                <img src=" "  draggable="false" class="header-img img-fluid" alt="">
             </button>
             <ul class="dropdown-menu p-3">
                 <li class="flex-center-full flex-column dropdown-menu__information">
@@ -19,7 +19,7 @@
                 </li>
                 <li clasS="text-center">
                     <button class="dropdown-item" type="button">
-                        <a href="../signOut" class="text-decoration-none text__grey">Cerrar sesion</a>
+                        <a href="../signOut" class="text-decoration-none text__grey">Cerrar Sesión</a>
                     </button>
                 </li>
             </ul>
