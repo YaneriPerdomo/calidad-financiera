@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-11-2025 a las 17:46:45
+-- Tiempo de generación: 28-11-2025 a las 00:56:48
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -105,7 +105,25 @@ CREATE TABLE `egresos` (
 INSERT INTO `egresos` (`id_egreso`, `id_categoria_egreso`, `egreso`) VALUES
 (17, 4, 'Otros gastos'),
 (32, 3, 'Comida Rapida'),
-(33, 6, 'Cuentas por pagar');
+(33, 6, 'Cuentas por pagar'),
+(36, 6, 'Deuda Financiera a Corto Plazo'),
+(37, 6, 'Deuda de Vivienda'),
+(46, 2, 'Costos de internet'),
+(47, 2, 'Facturas de luz'),
+(48, 2, 'Suscripciones a servicios de streaming'),
+(49, 2, 'Seguros de vehículo'),
+(50, 2, 'Costos de matrícula'),
+(51, 2, 'Pagos de alquiler'),
+(52, 2, 'Pagos de préstamos'),
+(53, 2, 'Materiales de oficina'),
+(54, 1, 'Alquiler'),
+(55, 5, 'Netflix'),
+(56, 5, 'Videojuegos'),
+(57, 5, 'Entradas a cines'),
+(58, 5, 'Salidas a restaurantes'),
+(59, 5, 'Gimnasio'),
+(60, 5, 'Compras de libros'),
+(61, 3, 'Comida del mes');
 
 --
 -- Disparadores `egresos`
@@ -138,7 +156,11 @@ CREATE TABLE `ingresos` (
 
 INSERT INTO `ingresos` (`id_ingreso`, `ingreso`) VALUES
 (7, 'Otros'),
-(37, 'Bancos');
+(37, 'Bancos'),
+(40, 'Cuentas por cobrar '),
+(41, 'Documentos por cobrar'),
+(42, 'Efectivo '),
+(49, 'Caja');
 
 --
 -- Disparadores `ingresos`
@@ -185,6 +207,13 @@ CREATE TABLE `personas` (
   `correo_electronico` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `personas`
+--
+
+INSERT INTO `personas` (`id_persona`, `id_actividad`, `id_usuario`, `nombre`, `apellido`, `correo_electronico`) VALUES
+(1, 1, 2, 'Yaneri', 'Perdomo', 'perdomopaolabarrios@gmail.com');
+
 -- --------------------------------------------------------
 
 --
@@ -199,6 +228,20 @@ CREATE TABLE `presupuestos_ahorros` (
   `porcentaje_ahorro` int(11) NOT NULL DEFAULT 0,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `presupuestos_ahorros`
+--
+
+INSERT INTO `presupuestos_ahorros` (`id_presupuesto_ahorro`, `id_persona`, `monto_total`, `porcentaje_ahorro`, `fecha`) VALUES
+(1, 1, 5292.000, 15, '2025-01-15'),
+(2, 1, 99.000, 10, '2025-03-06'),
+(3, 1, 222.000, 0, '2025-07-03'),
+(4, 1, 2848.000, 0, '2025-08-06'),
+(5, 1, 6297.000, 0, '2025-10-01'),
+(6, 1, 20177.000, 50, '2025-09-02'),
+(7, 1, 5499.000, 65, '2025-06-05'),
+(8, 1, 8873.000, 73, '2025-02-06');
 
 -- --------------------------------------------------------
 
@@ -239,6 +282,45 @@ CREATE TABLE `transacciones` (
   `anulado` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `transacciones`
+--
+
+INSERT INTO `transacciones` (`id_transaccion`, `id_persona`, `id_egreso`, `id_ingreso`, `fecha`, `valor_bs`, `notas`, `anulado`) VALUES
+(1, 1, NULL, 37, '2025-01-06 18:10:31', 1323.320, '', 0),
+(2, 1, NULL, 37, '2025-01-08 18:10:39', 1323.320, '', 0),
+(3, 1, NULL, 42, '2025-01-16 18:14:04', 1323.320, '', 0),
+(4, 1, NULL, 7, '2025-01-22 18:14:15', 1323.320, '', 0),
+(5, 1, NULL, 42, '2025-03-05 18:55:04', 123.320, '', 0),
+(6, 1, 36, NULL, '2025-03-20 18:55:18', 23.320, '', 0),
+(7, 1, NULL, 42, '2025-07-02 19:02:26', 1323.340, '', 0),
+(8, 1, NULL, 37, '2025-07-17 19:02:35', 2232.000, 'Ingresos que obtuve gracias a mi emprendimiento', 0),
+(9, 1, 50, NULL, '2025-07-18 19:03:00', 3332.330, 'Pago cancelado para acceder a las clases de verano universitarias', 0),
+(10, 1, NULL, 42, '2025-08-01 19:13:25', 3000.000, NULL, 0),
+(11, 1, 55, NULL, '2025-08-08 19:13:52', 500.530, '', 1),
+(12, 1, 60, NULL, '2025-08-16 19:14:21', 150.320, 'Me compre un libro de programación PHP', 0),
+(13, 1, NULL, 41, '2025-10-01 19:17:46', 2323.320, '', 0),
+(14, 1, NULL, 49, '2025-10-02 19:17:52', 150.320, '', 0),
+(15, 1, 58, NULL, '2025-10-03 19:18:08', 1323.320, '', 0),
+(16, 1, 54, NULL, '2025-10-16 19:18:18', 500.530, '', 0),
+(17, 1, 48, NULL, '2025-10-17 19:18:49', 500.530, '', 0),
+(18, 1, NULL, 37, '2025-10-18 19:19:13', 22443.760, '', 0),
+(19, 1, 61, NULL, '2025-10-22 19:20:08', 10645.650, '', 0),
+(20, 1, 49, NULL, '2025-10-24 19:23:09', 5645.540, '', 0),
+(21, 1, NULL, 42, '2025-09-03 19:23:28', 500.530, '', 1),
+(22, 1, NULL, 40, '2025-09-04 19:25:46', 2746.740, 'Cerrado', 0),
+(23, 1, NULL, 37, '2025-09-06 19:25:58', 3332.330, 'Primera cuota cobrada del cliente Abraham', 0),
+(24, 1, NULL, 37, '2025-09-11 19:26:13', 15423.430, 'Pago movil del cliente de Abraham', 0),
+(25, 1, 53, NULL, '2025-09-19 19:27:36', 1323.320, 'Limpieza pagada para mi oficina de trabajo remoto', 0),
+(26, 1, NULL, 37, '2025-06-05 19:39:21', 6000.000, '', 0),
+(27, 1, 57, NULL, '2025-06-12 19:41:08', 500.530, 'Lunes a precio medio en Metrosol con mis amigos', 0),
+(28, 1, NULL, 37, '2025-02-08 19:49:59', 2232.000, '', 0),
+(29, 1, NULL, 37, '2025-02-05 19:50:07', 6493.480, '', 0),
+(30, 1, NULL, 42, '2025-02-08 19:50:14', 500.530, '', 0),
+(31, 1, NULL, 37, '2025-02-09 19:50:25', 150.320, '', 0),
+(32, 1, 32, NULL, '2025-02-12 19:50:36', 500.530, '', 0),
+(33, 1, 59, NULL, '2025-02-21 19:50:53', 1323.340, 'Cancelada porque me voy a cambiar de gimnasio.', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -261,7 +343,8 @@ CREATE TABLE `usuarios_cf` (
 --
 
 INSERT INTO `usuarios_cf` (`id_usuario`, `id_rol`, `usuario`, `clave`, `fecha_creacion`, `ultimo_acceso`, `estado`) VALUES
-(1, 2, 'admin', '$2y$10$u6kqmLq.I6.FlwcXlMDJ/.dpAmaKZAZwMKpkXRYxHrRWzla1cycvq', '2025-11-27 12:44:27', '2025-11-27 12:44:53', b'1');
+(1, 2, 'admin', '$2y$10$u6kqmLq.I6.FlwcXlMDJ/.dpAmaKZAZwMKpkXRYxHrRWzla1cycvq', '2025-11-27 12:44:27', '2025-11-27 19:45:41', b'1'),
+(2, 1, 'yaneri2020', '$2y$10$S5YFh6PKIObVCS5QOM6ur.1qaGknaKbxwF6WRpF56A.QkKXOm6W9O', '2025-11-27 17:52:06', '2025-11-27 19:45:50', b'1');
 
 --
 -- Índices para tablas volcadas
@@ -361,13 +444,13 @@ ALTER TABLE `categorias_egreso`
 -- AUTO_INCREMENT de la tabla `egresos`
 --
 ALTER TABLE `egresos`
-  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_egreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `id_ingreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_ingreso` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `invitados`
@@ -379,13 +462,13 @@ ALTER TABLE `invitados`
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `presupuestos_ahorros`
 --
 ALTER TABLE `presupuestos_ahorros`
-  MODIFY `id_presupuesto_ahorro` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_presupuesto_ahorro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -397,13 +480,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
-  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transaccion` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_cf`
 --
 ALTER TABLE `usuarios_cf`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas

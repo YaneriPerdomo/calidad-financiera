@@ -180,8 +180,9 @@ class DataController extends Controller
 
     public function Annulment(){
         $test = new dataModel();
-        $test->Annulment([
+         $test->Annulment([
             'tipo' => $_POST['tipo'],
+            'observations' => $_POST['observations'] ?? '',
             'id' => $_POST['id_transaccion'],
         ]);
 

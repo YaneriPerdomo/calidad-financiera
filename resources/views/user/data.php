@@ -43,7 +43,7 @@
                         <div class="button-pdf">
                             <button type="button" class="button--orange m-2" title="Descargar un reporte en PDF"
                                 data-model='js_report'>
-                                  <i class="bi bi-file-earmark-text"></i>
+                                <i class="bi bi-file-earmark-text"></i>
                                 Generar Reporte
                             </button>
                             <button type="button" class="button--azul" title="Agregar persona invitada">
@@ -154,19 +154,20 @@
 
                 <div class="data-range-report" style="display:none;">
                     <label for="fecha-inicio" class="form__label mt-3">Fecha de Inicio</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text form__icon" id="fecha-inicio-icon"><i
-                            class="bi bi-calendar-check"></i></span> <input type="date" name="fecha_inicio"
-                        id="fecha-inicio" class="form-control form__input form__input--item"
-                        aria-label="Fecha de Inicio" value="">
-                </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text form__icon" id="fecha-inicio-icon"><i
+                                class="bi bi-calendar-check"></i></span> <input type="date" name="fecha_inicio"
+                            id="fecha-inicio" class="form-control form__input form__input--item"
+                            aria-label="Fecha de Inicio" value="">
+                    </div>
 
-                <label for="fecha-fin" class="form__label">Fecha de Fin</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text form__icon" id="fecha-fin-icon"><i
-                            class="bi bi-calendar-check"></i></span> <input type="date" name="fecha_fin" id="fecha-fin"
-                        class="form-control form__input form__input--item" aria-label="Fecha de Fin" value="">
-                </div>
+                    <label for="fecha-fin" class="form__label">Fecha de Fin</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text form__icon" id="fecha-fin-icon"><i
+                                class="bi bi-calendar-check"></i></span> <input type="date" name="fecha_fin"
+                            id="fecha-fin" class="form-control form__input form__input--item" aria-label="Fecha de Fin"
+                            value="">
+                    </div>
                 </div>
 
 
@@ -178,7 +179,7 @@
                 </button>
 
                 <button type="submit" class="model__submit button--orange">
-                       <i class="bi bi-file-earmark-text"></i>
+                    <i class="bi bi-file-earmark-text"></i>
                     Generar y Descargar
                 </button>
             </div>
@@ -186,7 +187,7 @@
     </div>
 
     <script type="module" src="../../js/components/periodo_selecion.js"></script>
-   
+
     <script>
         let modalReport = document.querySelector(".model--selection-report");
 
@@ -220,6 +221,16 @@
                     financiero, por lo que el monto dejará de verse reflejado en sus movimientos y saldos. La
                     transacción se mantendrá en el historial como registro de anulación.
                 </p>
+                <div class="observations" style="  text-align: left;">
+                    <label for="observations" class="form__label ">Motivo (Opcional)</label><br>
+                    <div class="input-group mb-3">
+                        <span class="form__icon input-group-text" id="basic-addon1"><i
+                                class="bi bi-journal-text"></i></span>
+                        <textarea type="text" name="observations" class="form__input form__input--item form-control"
+                            placeholder="Añade el motivo de la anulación de la transacción." aria-label="Observaciones"
+                            aria-describedby="basic-addon1" value=""></textarea>
+                    </div>
+                </div>
             </div>
             <div class="model__buttons">
                 <button class="model_exit button__exit btn-exit button--cancel" type="button">

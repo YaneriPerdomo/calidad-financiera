@@ -91,7 +91,7 @@ class dataModel extends Database
         return $this->status = false;
       }
       if ($POST['type_indicator'] == 2) {
-        if ($value_total_insome['total_ingreso'] <= $value) {
+        if ($value_total_insome['total_ingreso'] <= $value - 1) {
           $this->msg = 'No tienes suficiente saldo disponible para registrar este egreso.';
 
           return $this->status = false;
@@ -494,7 +494,8 @@ class dataModel extends Database
       $buscarMontoStmt->execute();
       $rowMonto = $buscarMontoStmt->fetch(PDO::FETCH_ASSOC);
       $id_person = $rowMonto['id_persona'];
-      $actualizarMontoConsultar = 'UPDATE 
+      if($POST['observations'] == ''){
+          $actualizarMontoConsultar = 'UPDATE 
                                       transacciones 
                                     SET 
                                       anulado = 1 
@@ -503,6 +504,19 @@ class dataModel extends Database
       $actualizarMontoStmt = $this->pdo->prepare($actualizarMontoConsultar);
       $actualizarMontoStmt->bindParam('id', $POST['id'], PDO::PARAM_INT);
       $actualizarMontoStmt->execute();
+      }else{
+          $actualizarMontoConsultar = 'UPDATE 
+                                      transacciones 
+                                    SET 
+                                      anulado = 1 , notas = :observations
+                                    WHERE 
+                                      id_transaccion = :id';
+      $actualizarMontoStmt = $this->pdo->prepare($actualizarMontoConsultar);
+      $actualizarMontoStmt->bindParam('id', $POST['id'], PDO::PARAM_INT);
+      $actualizarMontoStmt->bindParam('observations', $POST['observations'], PDO::PARAM_STR);
+      $actualizarMontoStmt->execute();
+      }
+    
 
 
       if ($actualizarMontoStmt->rowCount() > 0) {
@@ -522,8 +536,13 @@ class dataModel extends Database
         $is_there_a_budget_stmt->bindParam('year_', $transaction_date, PDO::PARAM_STR);
         $is_there_a_budget_stmt->bindParam('_month', $transaction_date, PDO::PARAM_STR);
         $is_there_a_budget_stmt->execute();
+         
         if ($is_there_a_budget_stmt->rowCount() > 0) {
           $row_is_there_a_budget = $is_there_a_budget_stmt->fetch(PDO::FETCH_ASSOC);
+           
+          if($row_is_there_a_budget['monto_total'] == 0.000){
+            return $this->status = true; 
+          }
           $update_budget_query = 'UPDATE 
                                   presupuestos_ahorros 
                                 SET 
